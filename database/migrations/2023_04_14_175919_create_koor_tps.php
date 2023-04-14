@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dpts', function (Blueprint $table) {
+        Schema::create('koor_tps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('desa_id');
-            $table->unsignedBigInteger('tps_id')->nullable();
-            $table->string('name');
-            $table->string('indentity_number');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('koor_desa_id');
+            $table->unsignedBigInteger('total_dpt_by_tps');
+            $table->integer('name');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->string('phone_number');
-            $table->boolean('is_voters')->default(false);
             $table->timestamps();
-            $table->foreign('desa_id')->references('id')->on('koor_desa');
-            $table->foreign('tps_id')->references('id')->on('koor_tps');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('koor_desa_id')->references('id')->on('koor_desas');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dpts');
+        Schema::dropIfExists('koor_tps');
     }
 };
