@@ -11,27 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('dpts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('desa_id');
+            $table->unsignedBigInteger('tps_id')->nullable();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone_number');
-            $table->string('photo');
+            $table->string('indentity_number');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->enum('level', ['general', 'koor_kab_kota', 'koor_kecamatan', 'koor_desa', 'koor_tps']);
-            $table->boolean('is_active')->default(false);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('phone_number');
+            $table->boolean('is_voters')->default(false);
             $table->timestamps();
+            $table->foreign('desa_id')->references('id')->on('koor_desa');
+            $table->foreign('tps_id')->references('id')->on('koor_tps');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('dpts');
     }
 };

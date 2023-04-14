@@ -11,27 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('koor_tps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone_number');
-            $table->string('photo');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('koor_desa_id');
+            $table->unsignedBigInteger('total_dpt_by_tps');
+            $table->integer('name');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->enum('level', ['general', 'koor_kab_kota', 'koor_kecamatan', 'koor_desa', 'koor_tps']);
-            $table->boolean('is_active')->default(false);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('koor_desa_id')->references('id')->on('koor_desa');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
     }
 
+
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('koor_tps');
     }
 };
