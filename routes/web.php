@@ -14,9 +14,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Auth::routes();
+// Route::get('/kelolakabupaten', function () {
+//     return view('KelolaKabupaten');
+// });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('kota', \App\Http\Controllers\KoorKotaController::class)->except('show');
+
+// Route::get('/kelolakabupaten', function () {
+//     return view('KelolaKabupaten');
+// });
+
+
+Route::resource('kota', \App\Http\Controllers\KoorKotaController::class)->except('show');
