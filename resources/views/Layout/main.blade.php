@@ -6,7 +6,6 @@
     <meta name="description" content="Menarra Finance Dashboard Page" />
     <meta name="keywords" content="HTML, CSS, JavaScript, Bootstrap, Chart JS" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="Rachma | @rachmadzii" />
 
     <title>Pemilu App</title>
 
@@ -22,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }} " type="text/css" media="screen" />
 
     <!-- CDN Fontawesome -->
-    <script src="https://kit.fontawesome.com/32f82e1dca.js" crossorigin="anonymous"></script>
+    <script src=" {{ asset('https://kit.fontawesome.com/32f82e1dca.js') }}" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
 </head>
@@ -36,24 +35,25 @@
             </button>
         </div>
         <div class="d-flex justify-content-center mt-md-5 mb-2">
-            {{-- <h2 class="text-black">Pemilu APP</h2> --}}
+            <h2 class="text-black">Voters APP</h2>
         </div>
         <div class="pt-2 d-flex flex-column gap-5">
             <div class="menu p-0">
                 <p>Daily Use</p>
-                <a href="#" class="item-menu active">
+                <a href="/" class="item-menu active">
                     <i class="icon ic-stats"></i>
                     Dashboard
                 </a>
                 <a href="{{ route('kota.index') }}" class="item-menu">
                     <i class="icon ic-city"></i>
-                    Kelola Kab/Kota
+                    Kelola Data
                 </a>
 
-                <a href="kabupten.html" class="item-menu">
+                <a href="" class="item-menu">
                     <i class="icon ic-user"></i>
                     Kelola Pengguna
                 </a>
+
             </div>
             <div class="menu">
                 <p>Others</p>
@@ -62,6 +62,18 @@
                     Logout
                 </a>
             </div>
+
+            {{-- <div class="menu">
+                <p>Settings</p>
+                <div class="item-menu">
+                    <button id="myButton" class="p-2 btn btn-outline-primary rounded-0 btn-sm">
+                        <i class="bi bi-fullscreen"></i> Full Screen
+                    </button>
+                </div>
+            </div> --}}
+
+
+
         </div>
     </nav>
 
@@ -83,7 +95,11 @@
                     <button class="btn btn-search d-flex justify-content-center align-items-center p-0" type="button">
                         <img src="assets/images/ic_search.svg" width="20px" height="20px" />
                     </button> --}}
+                    <small class="fw-semibold">Admin</small>
                     <img src="assets/images/avatar.jpg" alt="Photo Profile" class="avatar" />
+
+                    <i class="bi bi-fullscreen" id="myButton"></i>
+
                 </div>
             </div>
         </nav>
@@ -105,7 +121,7 @@
     <script src="assets/js/donut_chart.js"></script>
     <script src="assets/js/line_chart.js"></script>
 
-    <script src="assets/js/custom.js"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
 </body>
 
 </html>

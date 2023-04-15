@@ -14,6 +14,7 @@ body {
   .information .card {
     width: 100%;
   }
+
   #chart-revenue {
     width: 100% !important;
     height: auto !important;
@@ -24,10 +25,12 @@ body {
   .sidebar {
     overflow-y: scroll;
   }
+
   .content {
     padding: 40px 16px;
-    width: fit-content;
+    /* width: fit-content; */
   }
+
   .search {
     width: 250px;
   }

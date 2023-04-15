@@ -9,9 +9,6 @@
 
         <img src="d.png" width="100%" height="300px" class="mt-2 mb-4 rounded-3"
             style="object-fit: cover; aspect-ratio: 16/9" alt="" />
-        <button id="myButton" class="btn-full-screen p-2 btn btn-outline-primary rounded-0 btn-sm">
-            <i class="bi bi-fullscreen"></i> Full Screen
-        </button>
 
         <div class="mt-4">
             <div class="row">
