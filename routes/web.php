@@ -23,3 +23,10 @@ Route::get('/', function () {
 
 
 Route::resource('kota', \App\Http\Controllers\KoorKotaController::class)->except('show');
+
+// Route::get('/kelolakabupaten', function () {
+//     return view('KelolaKabupaten');
+// });
+
+
+Route::resource('kota', \App\Http\Controllers\KoorKotaController::class)->except('show');
