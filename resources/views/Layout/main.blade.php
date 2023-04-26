@@ -56,10 +56,14 @@
             </div>
             <div class="menu">
                 <p>Others</p>
-                <a href="#" class="item-menu">
-                    <i class="icon ic-logout"></i>
-                    Logout
-                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
+                    @csrf
+                    <button class="item-menu bg-transparent border-0">
+                        <i class="icon ic-logout"></i>
+                        Logout
+                    </button>
+                </form>
             </div>
 
         </div>

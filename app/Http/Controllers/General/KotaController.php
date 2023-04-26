@@ -14,8 +14,12 @@ class KotaController extends Controller
 
     public function index()
     {
-        $kota = KoorKota::all();
-        return view('general.kota.index', compact('kota'));
+        if (request()->user()->can('isGeneral')) {
+            $kota = KoorKota::all();
+            return view('general.kota.index', compact('kota'));
+        } else {
+            abort(403);
+        }
     }
 
     public function create()
