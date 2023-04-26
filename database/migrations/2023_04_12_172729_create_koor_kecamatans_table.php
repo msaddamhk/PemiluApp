@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('koor_kecamatans', function (Blueprint $table) {
+        Schema::create('koor_kecamatan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('koor_kota_id');
+            $table->string('slug');
             $table->string('name');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('koor_kota_id')->references('id')->on('koor_kotas');
+            $table->foreign('koor_kota_id')->references('id')->on('koor_kota');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });

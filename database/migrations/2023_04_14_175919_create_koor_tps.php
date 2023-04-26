@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('koor_desa_id');
-            $table->unsignedBigInteger('total_dpt_by_tps');
-            $table->integer('name');
+            $table->string('slug');
+            $table->string('name');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('koor_desa_id')->references('id')->on('koor_desas');
+            $table->foreign('koor_desa_id')->references('id')->on('koor_desa');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });

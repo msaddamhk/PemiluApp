@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class koor_desa extends Model
+class KoorDesa extends Model
 {
     use HasFactory;
-    protected $table = 'koor_desas';
+    protected $table = 'koor_desa';
 
     protected $fillable = [
         'user_id',
         'koor_kecamatan_id',
         'name',
+        'slug',
         'total_dpt',
         'created_by',
         'updated_by',
@@ -34,8 +35,23 @@ class koor_desa extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function Kecamatan()
+    public function kecamatan()
     {
-        return $this->belongsTo(koor_kecamatan::class, 'koor_kecamatan_id');
+        return $this->belongsTo(KoorKecamatan::class, 'koor_kecamatan_id');
+    }
+
+    public function dpt()
+    {
+        return $this->hasMany(Dpt::class, 'desa_id');
+    }
+
+    public function getDptCountIsVotersAttribute()
+    {
+        return $this->dpt()->where('is_voters', true)->count();
+    }
+
+    public function tps()
+    {
+        return $this->hasMany(KoorTps::class);
     }
 }

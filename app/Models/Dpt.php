@@ -9,14 +9,30 @@ class Dpt extends Model
 {
     use HasFactory;
 
+    protected $table = 'dpt';
     protected $fillable = [
         "desa_id",
         "tps_id",
         "name",
-        "identity number",
+        "indentity_number",
         "phone_number",
         "is_voters",
         "created_by",
         "updated_by",
     ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function koorDesa()
+    {
+        return $this->belongsTo(KoorDesa::class);
+    }
 }

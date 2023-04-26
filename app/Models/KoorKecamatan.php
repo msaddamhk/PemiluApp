@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class koor_kecamatan extends Model
+class KoorKecamatan extends Model
 {
     use HasFactory;
-    protected $table = 'koor_kecamatans';
+    protected $table = 'koor_kecamatan';
 
     protected $fillable = [
         'user_id',
         'koor_kota_id',
         'name',
+        'slug',
         'created_by',
         'updated_by',
     ];
@@ -33,13 +34,13 @@ class koor_kecamatan extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function KabupatenKota()
+    public function kota()
     {
-        return $this->belongsTo(koor_kota::class, 'koor_kota_id');
+        return $this->belongsTo(KoorKota::class, 'koor_kota_id');
     }
 
-    public function desa()
+    public function koor_desa()
     {
-        return $this->hasMany(koor_desa::class);
+        return $this->hasMany(KoorDesa::class);
     }
 }

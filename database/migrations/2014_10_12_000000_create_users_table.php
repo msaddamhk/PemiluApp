@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('photo');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->enum('level', ['general', 'koor_kab_kota', 'koor_kecamatan', 'koor_desa', 'koor_tps']);
+            $table->enum('level', ['GENERAL', 'KOOR_KAB_KOTA', 'KOOR_KECAMATAN', 'KOOR_DESA', 'KOOR_TPS']);
             $table->boolean('is_active')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

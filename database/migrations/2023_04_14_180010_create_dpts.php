@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dpts', function (Blueprint $table) {
+        Schema::create('dpt', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('desa_id');
             $table->unsignedBigInteger('tps_id')->nullable();
             $table->string('name');
-            $table->string('indentity_number');
+            $table->string('indentity_number')->unique();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->string('phone_number');
             $table->boolean('is_voters')->default(false);
             $table->timestamps();
-            $table->foreign('desa_id')->references('id')->on('koor_desas');
+            $table->foreign('desa_id')->references('id')->on('koor_desa');
             $table->foreign('tps_id')->references('id')->on('koor_tps');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');

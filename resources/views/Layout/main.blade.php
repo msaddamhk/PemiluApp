@@ -22,7 +22,6 @@
 
     <!-- CDN Fontawesome -->
     <script src=" {{ asset('https://kit.fontawesome.com/32f82e1dca.js') }}" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
 </head>
 
@@ -40,7 +39,7 @@
         <div class="pt-2 d-flex flex-column gap-5">
             <div class="menu p-0">
                 <p>Daily Use</p>
-                <a href="/" class="item-menu active">
+                <a href="/" class="item-menu activ">
                     <i class="icon ic-stats"></i>
                     Dashboard
                 </a>
@@ -63,34 +62,28 @@
                 </a>
             </div>
 
-            {{-- <div class="menu">
-                <p>Settings</p>
-                <div class="item-menu">
-                    <button id="myButton" class="p-2 btn btn-outline-primary rounded-0 btn-sm">
-                        <i class="bi bi-fullscreen"></i> Full Screen
-                    </button>
-                </div>
-            </div> --}}
-
-
-
         </div>
     </nav>
 
     <main class="content">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <div>
+                <div class="d-flex align-items-center justify-content-end gap-3">
+                    <i class="bi bi-arrow-left" onclick="window.history.back()"></i>
+
                     <button class="sidebarCollapseDefault btn p-0 border-0 d-none d-md-block"
                         aria-label="Hamburger Button">
                         <i class="fa-solid fa-bars"></i>
                     </button>
+
                     <button data-bs-toggle="offcanvas" data-bs-target=".sidebar" aria-controls="sidebar"
                         aria-label="Hamburger Button" class="sidebarCollapseMobile btn p-0 border-0 d-block d-md-none">
                         <i class="fa-solid fa-bars"></i>
                     </button>
+
                 </div>
                 <div class="d-flex align-items-center justify-content-end gap-4">
+
                     {{-- <input type="text" placeholder="Search report or product" class="search form-control" />
                     <button class="btn btn-search d-flex justify-content-center align-items-center p-0" type="button">
                         <img src="assets/images/ic_search.svg" width="20px" height="20px" />
@@ -104,11 +97,10 @@
             </div>
         </nav>
 
-
         @yield('content')
     </main>
 
-    <!-- Bootstrap JS -->
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
@@ -122,6 +114,20 @@
     <script src="assets/js/line_chart.js"></script>
 
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    <script>
+        document.querySelector('form.needs-validation').addEventListener('submit', function(event) {
+            if (!event.target.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            event.target.classList.add('was-validated');
+            if (!event.target.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, false);
+    </script>
 </body>
 
 </html>

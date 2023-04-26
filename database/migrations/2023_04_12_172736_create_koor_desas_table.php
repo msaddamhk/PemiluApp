@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('koor_desas', function (Blueprint $table) {
+        Schema::create('koor_desa', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('koor_kecamatan_id');
+            $table->string('slug');
             $table->string('name');
-            $table->integer('total_dpt');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('koor_kecamatan_id')->references('id')->on('koor_kecamatans');
+            $table->foreign('koor_kecamatan_id')->references('id')->on('koor_kecamatan');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('updated_by')->references('id')->on('users');
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('koor_desas');
+        Schema::dropIfExists('koor_desa');
     }
 };
