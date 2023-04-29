@@ -15,6 +15,9 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama</th>
+                    <th scope="col">Total DPT</th>
+                    <th scope="col">Total DPT Memilih</th>
+                    <th scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +33,18 @@
                     <tr>
                         <th scope="row">{{ $counter }}</th>
                         <td>{{ $data->name }}</td>
+                        <td>{{ $data->dpt_count }}</td>
+                        <td>{{ $data->dpt_is_voters_count }}</td>
+                        <td> <a href="{{ route('tps.dpt.index', [
+                            'slug_kota' => $desa->kecamatan->kota->slug,
+                            'slug_kecamatan' => $desa->kecamatan->slug,
+                            'slug_desa' => $desa->slug,
+                            'slug_tps' => $data->slug,
+                        ]) }}"
+                                class="btn btn-primary mb-2 mt-2 btn-sm">
+                                Kelola DPT
+                            </a>
+                        </td>
                     </tr>
                     @php
                         $counter++;

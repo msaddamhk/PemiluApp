@@ -38,4 +38,24 @@ class KoorTps extends Model
     {
         return $this->belongsTo(KoorDesa::class);
     }
+
+    public function dpt()
+    {
+        return $this->hasMany(Dpt::class, 'tps_id');
+    }
+
+    public function dptIsVoters()
+    {
+        return $this->dpt()->where('is_voters', true);
+    }
+
+    public function getDptCountAttribute()
+    {
+        return $this->dpt()->count();
+    }
+
+    public function getDptIsVotersCountAttribute()
+    {
+        return $this->dptIsVoters()->count();
+    }
 }

@@ -45,7 +45,12 @@ class KoorDesa extends Model
         return $this->hasMany(Dpt::class, 'desa_id');
     }
 
-    public function getDptCountIsVotersAttribute()
+    public function getDptCountAttribute()
+    {
+        return $this->dpt()->count();
+    }
+
+    public function getDptIsVotersCountAttribute()
     {
         return $this->dpt()->where('is_voters', true)->count();
     }

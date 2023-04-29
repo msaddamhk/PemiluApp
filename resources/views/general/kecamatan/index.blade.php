@@ -47,6 +47,7 @@
             </tbody>
         </table>
     </section>
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -64,7 +65,27 @@
                             @error('name')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
+                            <div>
+                                <label for="user" class="col-form-label">Pengelola</label>
+                                <div>
+                                    <select id="user" class="form-control @error('user') is-invalid @enderror"
+                                        name="user" required>
+                                        <option value="">Pilih Level</option>
+                                        @foreach ($user as $data)
+                                            <option value="{{ $data->id }}"
+                                                {{ old('user') == $data->id ? 'selected' : '' }}>{{ $data->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('user')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </section>
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>

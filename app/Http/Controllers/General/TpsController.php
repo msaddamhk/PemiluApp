@@ -13,7 +13,14 @@ class TpsController extends Controller
 {
     public function index($slug_kota, $slug_kecamatan, $slug_desa)
     {
-        $desa = KoorDesa::with('tps')->where('slug', $slug_desa)->firstOrFail();
+        $desa = KoorDesa::with([
+            'tps' => function ($query) {
+                $query->withCount('dpt');
+                $query->withCount(['dptIsVoters' => function ($query) {
+                    $query->where('is_voters', true);
+                }]);
+            }
+        ])->where('slug', $slug_desa)->firstOrFail();
         return view('general.tps.index', compact('desa'));
     }
 

@@ -16,6 +16,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Nama Desa</th>
                     <th scope="col">Total DPT</th>
+                    <th scope="col">Total DPT Memilih</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>
@@ -25,14 +26,15 @@
                 @endphp
                 @if ($kecamatan->koor_desa->isEmpty())
                     <tr>
-                        <td colspan="4" style="text-align: center;">Tidak ada Data</td>
+                        <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                     </tr>
                 @endif
                 @foreach ($kecamatan->koor_desa as $data)
                     <tr>
                         <th scope="row">{{ $counter }}</th>
                         <td>{{ $data->name }}</td>
-                        <td>{{ $data->dpt_count_is_voters }}</td>
+                        <td>{{ $data->dpt_count }}</td>
+                        <td>{{ $data->dpt_is_voters_count }}</td>
                         <td>
                             @if (env('SHOW_ADD_DATA_TPS', false))
                                 <a href="{{ route('tps.index', [
@@ -76,6 +78,26 @@
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div>
+                                <label for="user" class="col-form-label">Pengelola</label>
+                                <div>
+                                    <select id="user" class="form-control @error('user') is-invalid @enderror"
+                                        name="user" required>
+                                        <option value="">Pilih Level</option>
+                                        @foreach ($user as $data)
+                                            <option value="{{ $data->id }}"
+                                                {{ old('user') == $data->id ? 'selected' : '' }}>{{ $data->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('user')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                         </section>
                     </div>

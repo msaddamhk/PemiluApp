@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,13 @@ class DesaController extends Controller
 {
     public function index($slug_kota, $slug_kecamatan)
     {
+        $user = User::where('level', 'KOOR_DESA')->get();
         $kecamatan = KoorKecamatan::with(['koor_desa' => function ($query) {
-            $query->withCount(['dpt' => function ($query) {
+            $query->withCount(['dpt', 'dpt as dpt_is_voters_count' => function ($query) {
                 $query->where('is_voters', true);
             }]);
         }])->where('slug', $slug_kecamatan)->firstOrFail();
-        return view('general.desa.index', compact('kecamatan'));
+        return view('general.desa.index', compact('kecamatan', 'user'));
     }
 
     public function create($slug_kota, $slug_kecamatan)

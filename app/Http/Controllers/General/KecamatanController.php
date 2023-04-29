@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,9 @@ class KecamatanController extends Controller
 {
     public function index($slug_kota)
     {
+        $user = User::where('level', 'KOOR_KECAMATAN')->get();
         $kota = KoorKota::with('KoorKecamatan')->where('slug', $slug_kota)->firstOrFail();
-        return view('general.kecamatan.index', compact('kota'));
+        return view('general.kecamatan.index', compact('kota', 'user'));
     }
 
     public function create_kecamatan($slug_kota)
@@ -33,7 +35,7 @@ class KecamatanController extends Controller
         ]);
 
         KoorKecamatan::create([
-            "user_id" => 1,
+            "user_id" => $request->user,
             "koor_kota_id" => $id_kota,
             "name" => $request->name,
             'slug' => Str::slug($request->name),

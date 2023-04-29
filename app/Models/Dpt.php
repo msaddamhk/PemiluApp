@@ -35,4 +35,9 @@ class Dpt extends Model
     {
         return $this->belongsTo(KoorDesa::class);
     }
+
+    public function koorTps()
+    {
+        return $this->belongsTo(KoorTps::class);
+    }
 }

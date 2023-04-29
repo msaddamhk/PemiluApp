@@ -48,11 +48,10 @@
                     Kelola Data
                 </a>
 
-                <a href="" class="item-menu">
+                <a href="{{ route('users.index') }}" class="item-menu">
                     <i class="icon ic-user"></i>
                     Kelola Pengguna
                 </a>
-
             </div>
             <div class="menu">
                 <p>Others</p>

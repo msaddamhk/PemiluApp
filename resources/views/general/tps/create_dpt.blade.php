@@ -2,7 +2,12 @@
 
 @section('content')
     <section class="p-3">
-        <form action="{{ route('dpt.store', ['id_desa' => $desa->id]) }}" method="POST">
+        <form
+            action="{{ route('tps.dpt.store', [
+                'id_desa' => $tps->KoorDesa->id,
+                'id_tps' => $tps->id,
+            ]) }}"
+            method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Nama</label>
@@ -26,14 +31,14 @@
                         <input class="form-check-input" type="radio" name="is_voters" id="is_voters_yes" value="1"
                             required>
                         <label class="form-check-label" for="is_voters_yes">
-                            Memilih
+                            Ya
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="is_voters" id="is_voters_no" value="0"
                             required>
                         <label class="form-check-label" for="is_voters_no">
-                            Tidak Memilih
+                            Tidak
                         </label>
                     </div>
                 </div>
