@@ -38,7 +38,7 @@
                         <th scope="row">{{ $counter }}</th>
                         <td>{{ $data->name }}</td>
                         <td>
-                            <a href="{{ route('koor.desa.index', [
+                            <a href="{{ route('koor.kecamatan.desa.index', [
                                 'slug_kecamatan' => $data->slug,
                             ]) }}"
                                 class="btn btn-primary btn-sm">Lihat Desa</a>

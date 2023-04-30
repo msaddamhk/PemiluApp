@@ -107,9 +107,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/kecamatan', [KoorKecamatanController::class, 'index'])
         ->name('koor.kecamatan.index');
     Route::get('/kecamatan/{slug_kecamatan}/desa', [KoorDesaController::class, 'index'])
-        ->name('koor.desa.index');
+        ->name('koor.kecamatan.desa.index');
     Route::post('kecamatan/desa/store/{id_kecamatan}', [KoorDesaController::class, 'store'])
-        ->name('koor.desa.store');
+        ->name('koor.kecamatan.desa.store');
 
     Route::get('kecamatan/{slug_kecamatan}/desa/{slug_desa}/dpt', [DptKoorKecamatanController::class, 'index'])
         ->name('koor.kecamatan.dpt.index');

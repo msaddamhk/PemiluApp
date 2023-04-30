@@ -45,6 +45,6 @@ class KoorDesaController extends Controller
         ]);
 
         $kecamatan = KoorKecamatan::findOrFail($id_kecamatan);
-        return redirect()->route('koor.desa.index', ['slug_kecamatan' => $kecamatan->slug]);
+        return redirect()->route('koor.kecamatan.desa.index', ['slug_kecamatan' => $kecamatan->slug]);
     }
 }

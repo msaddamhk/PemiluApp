@@ -18,10 +18,6 @@
                             </button>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        + Tambah Data
-                    </button>
                 </div>
             </div>
         </div>

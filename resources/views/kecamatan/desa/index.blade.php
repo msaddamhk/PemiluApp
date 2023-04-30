@@ -9,7 +9,7 @@
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
                     <form
-                        action="{{ route('koor.desa.index', [
+                        action="{{ route('koor.kecamatan.desa.index', [
                             'slug_kecamatan' => $kecamatan->slug,
                         ]) }}"
                         method="GET">
@@ -89,7 +89,11 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('koor.desa.store', ['id_kecamatan' => $kecamatan->id]) }}" method="POST">
+                <form
+                    action="{{ route('koor.kecamatan.desa.store', [
+                        'id_kecamatan' => $kecamatan->id,
+                    ]) }}"
+                    method="POST">
                     <div class="modal-body">
                         @csrf
                         <section class="p-3">
