@@ -2,11 +2,28 @@
 
 @section('content')
     <section class="p-3">
-        <div class="d-flex justify-content-between">
-            <h2 class="fw-semibold">Kecamatan di seluruh {{ $kota->name }}</h2>
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                + Tambah Data
-            </button>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="fw-semibold">Kecamatan di seluruh {{ $kota->name }}</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-end">
+                    <form action="{{ route('kecamatan.index', ['slug_kota' => $kota->slug]) }}" method="GET">
+                        <div class="d-flex me-2">
+                            <input type="text" name="cari"
+                                placeholder="Cari Kecamatan..."class="search form-control me-2" />
+                            <button class="btn btn-search d-flex justify-content-center align-items-center p-0"
+                                type="submit">
+                                <img src="{{ asset('assets/images/ic_search.svg') }}" width="20px" height="20px" />
+                            </button>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        + Tambah Data
+                    </button>
+                </div>
+            </div>
         </div>
         <hr />
 
@@ -20,17 +37,15 @@
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $counter = 1;
-                @endphp
                 @if ($kota->KoorKecamatan->isEmpty())
                     <tr>
                         <td colspan="3" style="text-align: center;">Tidak ada Data</td>
                     </tr>
                 @endif
+
                 @foreach ($kota->KoorKecamatan as $data)
                     <tr>
-                        <th scope="row">{{ $counter }}</th>
+                        <td>{{ $loop->iteration }}</td>
                         <td>{{ $data->name }}</td>
                         <td>
                             <a href="{{ route('desa.index', [
@@ -40,9 +55,6 @@
                                 class="btn btn-primary btn-sm">Lihat Desa</a>
                         </td>
                     </tr>
-                    @php
-                        $counter++;
-                    @endphp
                 @endforeach
             </tbody>
         </table>

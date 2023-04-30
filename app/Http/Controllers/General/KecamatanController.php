@@ -12,11 +12,17 @@ use Illuminate\Http\Request;
 
 class KecamatanController extends Controller
 {
-    public function index($slug_kota)
+    public function index(Request $request, $slug_kota)
     {
         $user = User::where('level', 'KOOR_KECAMATAN')->get();
-        $kota = KoorKota::with('KoorKecamatan')->where('slug', $slug_kota)->firstOrFail();
-        return view('general.kecamatan.index', compact('kota', 'user'));
+        $kota = KoorKota::with(['KoorKecamatan' => function ($query) use ($request) {
+            if ($request->has('cari')) {
+                $query->where('name', 'like', '%' . $request->query('cari') . '%');
+            }
+        }])
+            ->where('slug', $slug_kota)
+            ->firstOrFail();
+        return view('general.kecamatan.index', compact('kota',  'user'));
     }
 
     public function create_kecamatan($slug_kota)

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\kecamatan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dpt;
 use App\Models\KoorTps;
 use Illuminate\Http\Request;
 
-class DptTpsController extends Controller
+class DptTpsKoorKecamatanController extends Controller
 {
-    public function index(Request $request, $slug_kota, $slug_kecamatan, $slug_desa, $slug_tps)
+    public function index(Request $request, $slug_kecamatan, $slug_desa, $slug_tps)
     {
         $tps = KoorTps::with(['dpt' => function ($query) use ($request) {
             if ($request->has('cari')) {
@@ -18,13 +18,13 @@ class DptTpsController extends Controller
         }])
             ->where('slug', $slug_tps)
             ->firstOrFail();
-        return view('general.tps.dpt', compact('tps'));
+        return view('kecamatan.tps.dpt', compact('tps'));
     }
 
-    public function create($slug_kota, $slug_kecamatan, $slug_desa, $slug_tps)
+    public function create($slug_kecamatan, $slug_desa, $slug_tps)
     {
         $tps = KoorTps::where('slug', $slug_tps)->first();
-        return view('general.tps.create_dpt', compact('tps'));
+        return view('kecamatan.tps.create_dpt', compact('tps'));
     }
 
     public function store(Request $request, $id_desa, $id_tps)
@@ -50,17 +50,16 @@ class DptTpsController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
+        return redirect()->route('koor.kecamatan.tps.dpt.index', [
             'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
             'slug_desa' => $tps->KoorDesa->slug,
             'slug_tps' => $tps->slug
         ]);
     }
-    public function edit($slug_kota, $slug_kecamatan, $slug_desa, $slug_tps, $id_dpt)
+    public function edit($slug_kecamatan, $slug_desa, $slug_tps, $id_dpt)
     {
         $dpt = Dpt::where('id', $id_dpt)->first();
-        return view('general.tps.edit_dpt', compact('dpt'));
+        return view('kecamatan.tps.edit_dpt', compact('dpt'));
     }
 
     public function update(Request $request, $id_dpt)
@@ -86,8 +85,7 @@ class DptTpsController extends Controller
 
         $tps = KoorTps::findOrFail($id_tps);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
+        return redirect()->route('koor.kecamatan.tps.dpt.index', [
             'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
             'slug_desa' => $tps->KoorDesa->slug,
             'slug_tps' => $tps->slug
@@ -103,8 +101,7 @@ class DptTpsController extends Controller
         $id_tps = $dpt->tps_id;
         $tps = KoorTps::findOrFail($id_tps);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
+        return redirect()->route('koor.kecamatan.tps.dpt.index', [
             'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
             'slug_desa' => $tps->KoorDesa->slug,
             'slug_tps' => $tps->slug

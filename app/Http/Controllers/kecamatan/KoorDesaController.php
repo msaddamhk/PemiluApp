@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\kecamatan;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class DesaController extends Controller
+class KoorDesaController extends Controller
 {
-    public function index(Request $request, $slug_kota, $slug_kecamatan)
+    public function index(Request $request, $slug_kecamatan)
     {
         $user = User::where('level', 'KOOR_DESA')->get();
         $kecamatan = KoorKecamatan::with(['koor_desa' => function ($query) use ($request) {
@@ -23,9 +22,9 @@ class DesaController extends Controller
                 $query->where('is_voters', true);
             }]);
         }])->where('slug', $slug_kecamatan)->firstOrFail();
-
-        return view('general.desa.index', compact('kecamatan', 'user'));
+        return view('kecamatan.desa.index', compact('kecamatan', 'user'));
     }
+
 
     public function store(Request $request, $id_kecamatan)
     {
@@ -46,7 +45,6 @@ class DesaController extends Controller
         ]);
 
         $kecamatan = KoorKecamatan::findOrFail($id_kecamatan);
-        return redirect()->route('desa.index', ['slug_kota'
-        => $kecamatan->kota->slug, 'slug_kecamatan' => $kecamatan->slug]);
+        return redirect()->route('koor.desa.index', ['slug_kecamatan' => $kecamatan->slug]);
     }
 }

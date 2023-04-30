@@ -10,9 +10,16 @@ use Illuminate\Http\Request;
 
 class DptController extends Controller
 {
-    public function index($slug_kota, $slug_kecamatan, $slug_desa)
+    public function index(Request $request, $slug_kota, $slug_kecamatan, $slug_desa)
     {
-        $desa = KoorDesa::with('dpt')->where('slug', $slug_desa)->firstOrFail();
+        $desa = KoorDesa::with(['dpt' => function ($query) use ($request) {
+            if ($request->has('cari')) {
+                $query->where('name', 'like', '%' . $request->query('cari') . '%');
+            }
+        }])
+            ->where('slug', $slug_desa)
+            ->firstOrFail();
+
         return view('general.dpt.index', compact('desa'));
     }
 

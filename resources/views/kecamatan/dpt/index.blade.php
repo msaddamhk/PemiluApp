@@ -10,8 +10,7 @@
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
                     <form
-                        action="{{ route('dpt.index', [
-                            'slug_kota' => $desa->kecamatan->kota->slug,
+                        action="{{ route('koor.kecamatan.dpt.index', [
                             'slug_kecamatan' => $desa->kecamatan->slug,
                             'slug_desa' => $desa->slug,
                         ]) }}"
@@ -26,8 +25,7 @@
                         </div>
                     </form>
 
-                    <a href="{{ route('dpt.create', [
-                        'slug_kota' => $desa->kecamatan->kota->slug,
+                    <a href="{{ route('koor.kecamatan.dpt.create', [
                         'slug_kecamatan' => $desa->kecamatan->slug,
                         'slug_desa' => $desa->slug,
                     ]) }}"
@@ -65,8 +63,7 @@
                             <td>{{ $data->name }}</td>
                             <td>{{ $data->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
                             <td class="d-flex">
-                                <a href="{{ route('dpt.edit', [
-                                    'slug_kota' => $desa->kecamatan->kota->slug,
+                                <a href="{{ route('koor.kecamatan.dpt.edit', [
                                     'slug_kecamatan' => $desa->kecamatan->slug,
                                     'slug_desa' => $desa->slug,
                                     'id_dpt' => $data->id,
@@ -74,9 +71,12 @@
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
                                     <small>Update Data</small>
                                 </a>
-
                                 <div class="ms-3 my-auto">
-                                    <form action="{{ route('dpt.update_voters', ['id_dpt' => $data->id]) }}" method="POST">
+                                    <form
+                                        action="{{ route('koor.kecamatan.dpt.update_voters', [
+                                            'id_dpt' => $data->id,
+                                        ]) }}"
+                                        method="POST">
                                         @csrf
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" name="is_voters"

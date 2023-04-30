@@ -28,7 +28,7 @@
   width: 40px;
   height: 40px;
   color: #000000;
-  position: absolute;
+  /* position: absolute; */
   border-radius: 50px;
   background-color: #dce2f4;
 }

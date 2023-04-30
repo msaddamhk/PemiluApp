@@ -9,8 +9,7 @@
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
                     <form
-                        action="{{ route('desa.index', [
-                            'slug_kota' => $kecamatan->kota->slug,
+                        action="{{ route('koor.desa.index', [
                             'slug_kecamatan' => $kecamatan->slug,
                         ]) }}"
                         method="GET">
@@ -60,15 +59,13 @@
                             <td>{{ $data->dpt_is_voters_count }}</td>
                             <td>
                                 @if (env('SHOW_ADD_DATA_TPS', false))
-                                    <a href="{{ route('tps.index', [
-                                        'slug_kota' => $kecamatan->kota->slug,
+                                    <a href="{{ route('koor.kecamatan.tps.index', [
                                         'slug_kecamatan' => $kecamatan->slug,
                                         'slug_desa' => $data->slug,
                                     ]) }}"
                                         class="btn btn-primary btn-sm">Kelola TPS</a>
                                 @else
-                                    <a href="{{ route('dpt.index', [
-                                        'slug_kota' => $kecamatan->kota->slug,
+                                    <a href="{{ route('koor.kecamatan.dpt.index', [
                                         'slug_kecamatan' => $kecamatan->slug,
                                         'slug_desa' => $data->slug,
                                     ]) }}"
@@ -92,7 +89,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('desa.store', ['id_kecamatan' => $kecamatan->id]) }}" method="POST">
+                <form action="{{ route('koor.desa.store', ['id_kecamatan' => $kecamatan->id]) }}" method="POST">
                     <div class="modal-body">
                         @csrf
                         <section class="p-3">

@@ -5,7 +5,6 @@
     <div class="container">
         <form method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
             @csrf
-
             <div class="form-group">
                 <label for="name" class="col-form-label">Nama</label>
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"

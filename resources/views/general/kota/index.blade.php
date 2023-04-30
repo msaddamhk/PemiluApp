@@ -2,13 +2,31 @@
 
 @section('content')
     <section class="p-3">
-        <div class="d-flex justify-content-between">
-            <h2 class="fw-semibold">Kabupaten/Kota</h2>
-            @if (auth()->user()->level == 'GENERAL')
-                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    + Tambah Data
-                </button>
-            @endif
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="fw-semibold">Kabupaten/Kota</h2>
+            </div>
+            <div class="col-md-6">
+                <div class="d-lg-flex justify-content-lg-end">
+                    <form action="{{ route('kota.index') }}" method="GET">
+                        <div class="d-flex me-2">
+                            <input type="text" name="cari"
+                                placeholder="Cari Kab/Kota..."class="search form-control me-2" />
+                            <button class="btn btn-search d-flex justify-content-center align-items-center p-0"
+                                type="submit">
+                                <img src="assets/images/ic_search.svg" width="20px" height="20px" />
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (auth()->user()->level == 'GENERAL')
+                        <button type="button" class="btn btn-primary btn-sm mt-3 mt-lg-0" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            + Tambah Data
+                        </button>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <hr />

@@ -15,10 +15,12 @@ class KotaController extends Controller
     public function index()
     {
         if (auth()->user()->level == 'KOOR_KAB_KOTA') {
-            $kota = KoorKota::where('user_id', auth()->user()->id)->get();
+            $kota = KoorKota::where('user_id', auth()->user()->id)
+                ->where('name', 'like', '%' . (request('cari') ?? '') . '%')
+                ->get();
             return view('general.kota.index', compact('kota'));
         } elseif (request()->user()->can('isGeneral')) {
-            $kota = KoorKota::all();
+            $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->get();
             $user = User::where('level', 'KOOR_KAB_KOTA')->get();
             return view('general.kota.index', compact('kota', 'user'));
         } else {
@@ -42,8 +44,8 @@ class KotaController extends Controller
             "user_id" => $request->user,
             "name" => $request->name,
             'slug' => Str::slug($request->name),
-            "created_by" => 1,
-            "updated_by" => 1,
+            "created_by" => auth()->user()->id,
+            "updated_by" => auth()->user()->id,
         ]);
 
         return redirect()->route('kota.index');

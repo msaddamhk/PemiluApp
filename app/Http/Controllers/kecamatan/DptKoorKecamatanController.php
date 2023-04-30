@@ -1,35 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\kecamatan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dpt;
-use App\Models\KoorTps;
+use App\Models\KoorDesa;
 use Illuminate\Http\Request;
 
-class DptTpsController extends Controller
+class DptKoorKecamatanController extends Controller
 {
-    public function index(Request $request, $slug_kota, $slug_kecamatan, $slug_desa, $slug_tps)
+    public function index(Request $request, $slug_kecamatan, $slug_desa)
     {
-        $tps = KoorTps::with(['dpt' => function ($query) use ($request) {
+        $desa = KoorDesa::with(['dpt' => function ($query) use ($request) {
             if ($request->has('cari')) {
                 $query->where('name', 'like', '%' . $request->query('cari') . '%');
             }
         }])
-            ->where('slug', $slug_tps)
+            ->where('slug', $slug_desa)
             ->firstOrFail();
-        return view('general.tps.dpt', compact('tps'));
+
+        return view('kecamatan.dpt.index', compact('desa'));
     }
 
-    public function create($slug_kota, $slug_kecamatan, $slug_desa, $slug_tps)
+    public function create($slug_kecamatan, $slug_desa)
     {
-        $tps = KoorTps::where('slug', $slug_tps)->first();
-        return view('general.tps.create_dpt', compact('tps'));
+        $desa = KoorDesa::where('slug', $slug_desa)->first();
+        return view('kecamatan.dpt.create', compact('desa'));
     }
 
-    public function store(Request $request, $id_desa, $id_tps)
+    public function store(Request $request, $id_desa)
     {
-        $tps = KoorTps::findOrFail($id_tps);
+        $desa = KoorDesa::findOrFail($id_desa);
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
@@ -41,7 +42,6 @@ class DptTpsController extends Controller
 
         Dpt::create([
             "desa_id" => $id_desa,
-            "tps_id" => $id_tps,
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
@@ -50,27 +50,27 @@ class DptTpsController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
+        return redirect()->route('koor.kecamatan.dpt.index', [
+            'slug_kecamatan' => $desa->kecamatan->slug,
+            'slug_desa' => $desa->slug
         ]);
     }
-    public function edit($slug_kota, $slug_kecamatan, $slug_desa, $slug_tps, $id_dpt)
+
+    public function edit($slug_kecamatan, $slug_desa, $id_dpt)
     {
         $dpt = Dpt::where('id', $id_dpt)->first();
-        return view('general.tps.edit_dpt', compact('dpt'));
+        return view('kecamatan.dpt.edit', compact('dpt'));
     }
 
     public function update(Request $request, $id_dpt)
     {
         $dpt = Dpt::findOrFail($id_dpt);
-        $id_tps = $dpt->tps_id;
+        $id_desa = $dpt->desa_id;
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
             'is_voters' => 'required',
+            // 'indentity_number' => 'required|unique:dpt,indentity_number,' . $id_desa,
             'indentity_number' => 'required|unique:dpt,indentity_number,' . $id_dpt . ',id',
 
         ], [
@@ -84,13 +84,11 @@ class DptTpsController extends Controller
         $dpt->updated_by = auth()->user()->id;
         $dpt->save();
 
-        $tps = KoorTps::findOrFail($id_tps);
+        $desa = KoorDesa::findOrFail($id_desa);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
+        return redirect()->route('koor.kecamatan.dpt.index', [
+            'slug_kecamatan' => $desa->kecamatan->slug,
+            'slug_desa' => $desa->slug
         ]);
     }
 
@@ -100,14 +98,12 @@ class DptTpsController extends Controller
         $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
-        $id_tps = $dpt->tps_id;
-        $tps = KoorTps::findOrFail($id_tps);
+        $id_desa = $dpt->desa_id;
+        $desa = KoorDesa::findOrFail($id_desa);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
+        return redirect()->route('koor.kecamatan.dpt.index', [
+            'slug_kecamatan' => $desa->kecamatan->slug,
+            'slug_desa' => $desa->slug
         ]);
     }
 }

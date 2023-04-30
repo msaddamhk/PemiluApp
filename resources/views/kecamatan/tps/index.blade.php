@@ -10,8 +10,7 @@
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
                     <form
-                        action="{{ route('tps.index', [
-                            'slug_kota' => $desa->kecamatan->kota->slug,
+                        action="{{ route('koor.kecamatan.tps.index', [
                             'slug_kecamatan' => $desa->kecamatan->slug,
                             'slug_desa' => $desa->slug,
                         ]) }}"
@@ -58,8 +57,7 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->dpt_count }}</td>
                         <td>{{ $data->dpt_is_voters_count }}</td>
-                        <td> <a href="{{ route('tps.dpt.index', [
-                            'slug_kota' => $desa->kecamatan->kota->slug,
+                        <td> <a href="{{ route('koor.kecamatan.tps.dpt.index', [
                             'slug_kecamatan' => $desa->kecamatan->slug,
                             'slug_desa' => $desa->slug,
                             'slug_tps' => $data->slug,
@@ -85,7 +83,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('tps.store', ['id_desa' => $desa->id]) }}" method="POST">
+                <form action="{{ route('koor.kecamatan.tps.store', ['id_desa' => $desa->id]) }}" method="POST">
                     <div class="modal-body p-3">
                         @csrf
                         <div class="mb-2">

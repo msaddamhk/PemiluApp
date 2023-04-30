@@ -20,7 +20,7 @@ class LoginController extends Controller
             case 'KOOR_KAB_KOTA':
                 return redirect()->route('home');
             case 'KOOR_KECAMATAN':
-                return redirect()->route('/home2');
+                return redirect()->route('koor.kecamatan.index');
             case 'KOOR_DESA':
                 return redirect()->route('/home3');
             case 'KOOR_TPS':

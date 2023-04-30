@@ -11,10 +11,7 @@
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
                     <form
-                        action="{{ route('tps.dpt.index', [
-                            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-                            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-                            'slug_desa' => $tps->KoorDesa->slug,
+                        action="{{ route('koor.tps.dpt.index', [
                             'slug_tps' => $tps->slug,
                         ]) }}"
                         method="GET">
@@ -28,10 +25,7 @@
                         </div>
                     </form>
 
-                    <a href="{{ route('tps.dpt.create', [
-                        'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-                        'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-                        'slug_desa' => $tps->KoorDesa->slug,
+                    <a href="{{ route('koor.tps.dpt.create', [
                         'slug_tps' => $tps->slug,
                     ]) }}"
                         class="btn btn-primary mb-2 mt-2 btn-sm">
@@ -68,10 +62,7 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
                         <td class="d-flex">
-                            <a href="{{ route('tps.dpt.edit', [
-                                'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-                                'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-                                'slug_desa' => $tps->KoorDesa->slug,
+                            <a href="{{ route('koor.tps.dpt.edit', [
                                 'slug_tps' => $tps->slug,
                                 'id_dpt' => $data->id,
                             ]) }}"
@@ -80,7 +71,8 @@
                             </a>
 
                             <div class="ms-3 my-auto">
-                                <form action="{{ route('tps.dpt.update_voters', ['id_dpt' => $data->id]) }}" method="POST">
+                                <form action="{{ route('koor.tps.dpt.update_voters', ['id_dpt' => $data->id]) }}"
+                                    method="POST">
                                     @csrf
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" name="is_voters"
