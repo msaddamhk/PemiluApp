@@ -33,48 +33,61 @@
         </div>
         <hr />
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Total DPT</th>
-                    <th scope="col">Total DPT Memilih</th>
-                    <th scope="col">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $counter = 1;
-                @endphp
-                @if ($desa->tps->isEmpty())
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                        <th scope="col">No</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Total DPT</th>
+                        <th scope="col">Total DPT Memilih</th>
+                        <th scope="col">Aksi</th>
                     </tr>
-                @endif
-                @foreach ($desa->tps as $data)
-                    <tr>
-                        <th scope="row">{{ $counter }}</th>
-                        <td>{{ $data->name }}</td>
-                        <td>{{ $data->dpt_count }}</td>
-                        <td>{{ $data->dpt_is_voters_count }}</td>
-                        <td> <a href="{{ route('tps.dpt.index', [
-                            'slug_kota' => $desa->kecamatan->kota->slug,
-                            'slug_kecamatan' => $desa->kecamatan->slug,
-                            'slug_desa' => $desa->slug,
-                            'slug_tps' => $data->slug,
-                        ]) }}"
-                                class="btn btn-primary mb-2 mt-2 btn-sm">
-                                Kelola DPT
-                            </a>
-                        </td>
-                    </tr>
+                </thead>
+                <tbody>
                     @php
-                        $counter++;
+                        $counter = 1;
                     @endphp
-                @endforeach
-            </tbody>
-        </table>
+                    @if ($desa->tps->isEmpty())
+                        <tr>
+                            <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                        </tr>
+                    @endif
+                    @foreach ($desa->tps as $data)
+                        <tr>
+                            <th scope="row">{{ $counter }}</th>
+                            <td>{{ $data->name }}</td>
+                            <td>{{ $data->dpt_count }}</td>
+                            <td>{{ $data->dpt_is_voters_count }}</td>
+                            <td>
+                                <a href="{{ route('tps.dpt.index', [
+                                    'slug_kota' => $desa->kecamatan->kota->slug,
+                                    'slug_kecamatan' => $desa->kecamatan->slug,
+                                    'slug_desa' => $desa->slug,
+                                    'slug_tps' => $data->slug,
+                                ]) }}"
+                                    class="btn btn-primary mb-2 mt-2 btn-sm">
+                                    Kelola DPT
+                                </a>
+
+                                <a href="{{ route('quick_count.index', [
+                                    'slug_kota' => $desa->kecamatan->kota->slug,
+                                    'slug_kecamatan' => $desa->kecamatan->slug,
+                                    'slug_desa' => $desa->slug,
+                                    'slug_tps' => $data->slug,
+                                ]) }}"
+                                    class="btn btn-primary mb-2 mt-2 btn-sm">
+                                    Kelola Quick Count
+                                </a>
+                            </td>
+                        </tr>
+                        @php
+                            $counter++;
+                        @endphp
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </section>
 
 

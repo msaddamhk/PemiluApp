@@ -10,6 +10,7 @@ use App\Http\Controllers\General\DptTpsController;
 use App\Http\Controllers\General\KecamatanController;
 use App\Http\Controllers\General\TpsController;
 use App\Http\Controllers\General\KotaController;
+use App\Http\Controllers\General\QuickCountController;
 use App\Http\Controllers\kecamatan\DptKoorKecamatanController;
 use App\Http\Controllers\kecamatan\DptTpsKoorKecamatanController;
 use App\Http\Controllers\kecamatan\KoorDesaController;
@@ -92,14 +93,45 @@ Route::middleware('auth')->group(function () {
         [DptTpsController::class, 'store']
     )
         ->name('tps.dpt.store');
+
     Route::get(
         '/kabkota/{slug_kota}/kecamatan/{slug_kecamatan}/desa/{slug_desa}/tps/{slug_tps}/{id_dpt}/edit',
         [DptTpsController::class, 'edit']
     )->name('tps.dpt.edit');
+
     Route::post('/tps/dpt/update/{id_dpt}', [DptTpsController::class, 'update'])
         ->name('tps.dpt.update');
+
     Route::post('/tps/dpt/update.voters/{id_dpt}', [DptTpsController::class, 'update_voters'])
         ->name('tps.dpt.update_voters');
+
+
+    Route::get(
+        '/kabkota/{slug_kota}/kecamatan/{slug_kecamatan}/desa/{slug_desa}/tps/{slug_tps}/quick-count',
+        [QuickCountController::class, 'index']
+    )
+        ->name('quick_count.index');
+
+    Route::get(
+        '/kabkota/{slug_kota}/kecamatan/{slug_kecamatan}/desa/{slug_desa}/tps/{slug_tps}/quick-count/tambah',
+        [QuickCountController::class, 'create']
+    )
+        ->name('quick_count.create');
+
+    Route::post(
+        '/quick-count/store/{id_tps}',
+        [QuickCountController::class, 'store']
+    )
+        ->name('quick_count.store');
+
+    Route::get(
+        '/kabkota/{slug_kota}/kecamatan/{slug_kecamatan}/desa/{slug_desa}/tps/{slug_tps}/quick-count/{id_quick_count}',
+        [QuickCountController::class, 'edit']
+    )
+        ->name('quick_count.edit');
+
+    Route::post('/quick-count/update/{id_quick_count}', [QuickCountController::class, 'update'])
+        ->name('quick_count.update');
 
 
 

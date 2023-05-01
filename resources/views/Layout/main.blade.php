@@ -39,20 +39,68 @@
         <div class="pt-2 d-flex flex-column gap-5">
             <div class="menu p-0">
                 <p>Daily Use</p>
-                <a href="/" class="item-menu activ">
-                    <i class="icon ic-stats"></i>
-                    Dashboard
-                </a>
-                <a href="{{ route('kota.index') }}" class="item-menu">
-                    <i class="icon ic-city"></i>
-                    Kelola Data
-                </a>
 
-                <a href="{{ route('users.index') }}" class="item-menu">
-                    <i class="icon ic-user"></i>
-                    Kelola Pengguna
-                </a>
+                @if (Gate::any(['isKoorKota', 'isGeneral']))
+                    ;
+                    <a href="/" class="item-menu activ">
+                        <i class="icon ic-stats"></i>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('kota.index') }}" class="item-menu {{ Request::is('kabkota*') ? 'active' : '' }}">
+                        <i class="icon ic-city"></i>
+                        Kelola Data
+                    </a>
+                    <a href="{{ route('users.index') }}"
+                        class="item-menu {{ Request::is('data-admin*') ? 'active' : '' }}">
+                        <i class="icon ic-user"></i>
+                        Kelola Pengguna
+                    </a>
+                @endif
+                @if (Gate::allows('isKoorKecamatan'))
+                    <a href="/" class="item-menu activ">
+                        <i class="icon ic-stats"></i>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('koor.kecamatan.index') }}"
+                        class="item-menu  {{ Request::is('kecamatan*') ? 'active' : '' }}">
+                        <i class="icon ic-city"></i>
+                        Kelola Data
+                    </a>
+                    <a href="{{ route('users.index') }}"
+                        class="item-menu {{ Request::is('data-admin*') ? 'active' : '' }}">
+                        <i class="icon ic-user"></i>
+                        Kelola Pengguna
+                    </a>
+                @endif
+                @if (Gate::allows('isKoorDesa'))
+                    <a href="/" class="item-menu activ">
+                        <i class="icon ic-stats"></i>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('koor.desa.index') }}"
+                        class="item-menu {{ Request::is('desa*') ? 'active' : '' }}">
+                        <i class="icon ic-city"></i>
+                        Kelola Data
+                    </a>
+                    <a href="{{ route('users.index') }}"
+                        class="item-menu {{ Request::is('data-admin*') ? 'active' : '' }}">
+                        <i class="icon ic-user"></i>
+                        Kelola Pengguna
+                    </a>
+                @endif
+                @if (Gate::allows('isKoorTps'))
+                    <a href="/" class="item-menu">
+                        <i class="icon ic-stats"></i>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('koor.tps.index') }}"
+                        class="item-menu {{ Request::is('tps*') ? 'active' : '' }}">
+                        <i class="icon ic-city"></i>
+                        Kelola Data
+                    </a>
+                @endif
             </div>
+
             <div class="menu">
                 <p>Others</p>
 
@@ -87,10 +135,6 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-end gap-4">
 
-                    {{-- <input type="text" placeholder="Search report or product" class="search form-control" />
-                    <button class="btn btn-search d-flex justify-content-center align-items-center p-0" type="button">
-                        <img src="assets/images/ic_search.svg" width="20px" height="20px" />
-                    </button> --}}
                     <small class="fw-semibold">Admin</small>
                     <img src="assets/images/avatar.jpg" alt="Photo Profile" class="avatar" />
 

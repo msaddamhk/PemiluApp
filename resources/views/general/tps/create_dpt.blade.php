@@ -22,7 +22,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">No Handphone</label>
-                <input type="text" name="phone_number" class="form-control" required>
+                <input type="number" name="phone_number" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="is_voters">Apakah terdaftar sebagai Pemilih?</label>

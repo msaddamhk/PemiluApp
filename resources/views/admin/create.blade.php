@@ -35,7 +35,7 @@
                 <label for="phone_number" class="col-form-label">Nomor
                     Telepon</label>
                 <div>
-                    <input id="phone_number" type="text"
+                    <input id="phone_number" type="number"
                         class="form-control 
                     @error('phone_number') is-invalid @enderror"
                         name="phone_number" value="{{ old('phone_number') }}" required>
@@ -77,17 +77,29 @@
                     <select id="level" class="form-control @error('level') is-invalid @enderror" name="level"
                         required>
                         <option value="">Pilih Level</option>
-                        <option value="GENERAL" {{ old('level') == 'GENERAL' ? 'selected' : '' }}>General
-                        </option>
-                        <option value="KOOR_KAB_KOTA" {{ old('level') == 'KOOR_KAB_KOTA' ? 'selected' : '' }}>
-                            Koordinator Kab
-                        <option value="KOOR_KECAMATAN" {{ old('level') == 'KOOR_KECAMATAN' ? 'selected' : '' }}>
-                            Koordinator Kecamatan
-                        </option>
-                        <option value="KOOR_DESA" {{ old('level') == 'KOOR_DESA' ? 'selected' : '' }}>
-                            Koordinator Desa</option>
-                        <option value="KOOR_TPS" {{ old('level') == 'KOOR_TPS' ? 'selected' : '' }}>
-                            Koordinator TPS</option>
+                        @if (auth()->user()->level == 'GENERAL')
+                            <option value="GENERAL" {{ old('level') == 'GENERAL' ? 'selected' : '' }}>General
+                            </option>
+                            <option value="KOOR_KAB_KOTA" {{ old('level') == 'KOOR_KAB_KOTA' ? 'selected' : '' }}>
+                                Koordinator Kab
+                            <option value="KOOR_KECAMATAN" {{ old('level') == 'KOOR_KECAMATAN' ? 'selected' : '' }}>
+                                Koordinator Kecamatan
+                            </option>
+                            <option value="KOOR_DESA" {{ old('level') == 'KOOR_DESA' ? 'selected' : '' }}>
+                                Koordinator Desa</option>
+                            <option value="KOOR_TPS" {{ old('level') == 'KOOR_TPS' ? 'selected' : '' }}>
+                                Koordinator TPS</option>
+                        @elseif(auth()->user()->level == 'KOOR_KAB_KOTA')
+                            <option value="KOOR_KECAMATAN" {{ old('level') == 'KOOR_KECAMATAN' ? 'selected' : '' }}>
+                                Koordinator Kecamatan
+                            </option>
+                        @elseif(auth()->user()->level == 'KOOR_KECAMATAN')
+                            <option value="KOOR_DESA" {{ old('level') == 'KOOR_DESA' ? 'selected' : '' }}>
+                                Koordinator Desa</option>
+                        @elseif(auth()->user()->level == 'KOOR_DESA')
+                            <option value="KOOR_TPS" {{ old('level') == 'KOOR_TPS' ? 'selected' : '' }}>
+                                Koordinator TPS</option>
+                        @endif
                     </select>
 
                     @error('level')
@@ -138,7 +150,9 @@
                 <label for="password-confirm" class="col-form-label">Konfirmasi
                     Password</label>
                 <div>
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                    <input id="
+                    password-confirm" type="password" class="form-control"
+                        name="password_confirmation" required>
                 </div>
             </div>
 

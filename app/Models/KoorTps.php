@@ -58,4 +58,9 @@ class KoorTps extends Model
     {
         return $this->dptIsVoters()->count();
     }
+
+    public function quickCount()
+    {
+        return $this->hasMany(QuickCount::class);
+    }
 }

@@ -13,8 +13,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.index', compact('users'));
+        if (auth()->user()->level == 'GENERAL') {
+            $users = User::all();
+            return view('admin.index', compact('users'));
+        } elseif (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            $users = User::where('level', 'KOOR_KECAMATAN')->get();
+            return view('admin.index', compact('users'));
+        } elseif (auth()->user()->level == 'KOOR_KECAMATAN') {
+            $users = User::where('level', 'KOOR_DESA')->get();
+            return view('admin.index', compact('users'));
+        } elseif (auth()->user()->level == 'KOOR_DESA') {
+            $users = User::where('level', 'KOOR_TPS')->get();
+            return view('admin.index', compact('users'));
+        }
     }
 
     /**

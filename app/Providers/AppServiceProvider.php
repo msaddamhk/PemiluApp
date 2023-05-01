@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
             return $user->level == 'KOOR_DESA';
         });
 
-        Gate::define('isKoorKota', function ($user) {
+        Gate::define('isKoorTps', function ($user) {
             return $user->level == 'KOOR_TPS';
         });
     }
