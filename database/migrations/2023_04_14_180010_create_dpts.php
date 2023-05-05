@@ -22,10 +22,10 @@ return new class extends Migration
             $table->string('phone_number');
             $table->boolean('is_voters')->default(false);
             $table->timestamps();
-            $table->foreign('desa_id')->references('id')->on('koor_desa');
-            $table->foreign('tps_id')->references('id')->on('koor_tps');
-            $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('updated_by')->references('id')->on('users');
+            $table->foreign('desa_id')->references('id')->on('koor_desa')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('tps_id')->references('id')->on('koor_tps')->onUpdate('SET NULL')->onDelete('SET NULL');
+            $table->foreign('created_by')->references('id')->on('users')->onUpdate('SET NULL')->onDelete('SET NULL');
+            $table->foreign('updated_by')->references('id')->on('users')->onUpdate('SET NULL')->onDelete('SET NULL');
         });
     }
 
