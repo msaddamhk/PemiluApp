@@ -39,7 +39,7 @@ class KoorKecamatan extends Model
         return $this->belongsTo(KoorKota::class, 'koor_kota_id');
     }
 
-    public function koor_desa()
+    public function koorDesas()
     {
         return $this->hasMany(KoorDesa::class);
     }

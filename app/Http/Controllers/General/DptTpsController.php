@@ -4,32 +4,29 @@ namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dpt;
+use App\Models\KoorDesa;
+use App\Models\KoorKecamatan;
+use App\Models\KoorKota;
 use App\Models\KoorTps;
 use Illuminate\Http\Request;
 
 class DptTpsController extends Controller
 {
-    public function index(Request $request, $slug_kota, $slug_kecamatan, $slug_desa, $slug_tps)
+    public function index(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
     {
-        $tps = KoorTps::with(['dpt' => function ($query) use ($request) {
-            if ($request->has('cari')) {
-                $query->where('name', 'like', '%' . $request->query('cari') . '%');
-            }
-        }])
-            ->where('slug', $slug_tps)
-            ->firstOrFail();
-        return view('general.tps.dpt', compact('tps'));
+        $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
+            ->get();
+        return view('general.tps.dpt', compact('dpt', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps'));
     }
 
-    public function create($slug_kota, $slug_kecamatan, $slug_desa, $slug_tps)
+    public function create(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
     {
-        $tps = KoorTps::where('slug', $slug_tps)->first();
-        return view('general.tps.create_dpt', compact('tps'));
+        return view('general.tps.create_dpt', compact('koorkota', 'koorkecamatan', 'koordesa', 'koortps'));
     }
 
-    public function store(Request $request, $id_desa, $id_tps)
+    public function store(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
     {
-        $tps = KoorTps::findOrFail($id_tps);
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
@@ -40,8 +37,8 @@ class DptTpsController extends Controller
         ]);
 
         Dpt::create([
-            "desa_id" => $id_desa,
-            "tps_id" => $id_tps,
+            "desa_id" => $koordesa->id,
+            "tps_id" => $koortps->id,
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
@@ -50,28 +47,22 @@ class DptTpsController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
-        ]);
-    }
-    public function edit($slug_kota, $slug_kecamatan, $slug_desa, $slug_tps, $id_dpt)
-    {
-        $dpt = Dpt::where('id', $id_dpt)->first();
-        return view('general.tps.edit_dpt', compact('dpt'));
+        return redirect()->route('tps.dpt.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
     }
 
-    public function update(Request $request, $id_dpt)
+    public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
     {
-        $dpt = Dpt::findOrFail($id_dpt);
-        $id_tps = $dpt->tps_id;
+        return view('general.tps.edit_dpt', compact('dpt', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps'));
+    }
+
+    public function update(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
+    {
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
             'is_voters' => 'required',
-            'indentity_number' => 'required|unique:dpt,indentity_number,' . $id_dpt . ',id',
+            'indentity_number' => 'required|unique:dpt,indentity_number,' . $dpt->id . ',id',
 
         ], [
             'indentity_number.unique' => 'No identitas sudah terdaftar.',
@@ -84,30 +75,14 @@ class DptTpsController extends Controller
         $dpt->updated_by = auth()->user()->id;
         $dpt->save();
 
-        $tps = KoorTps::findOrFail($id_tps);
-
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
-        ]);
+        return redirect()->route('tps.dpt.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
     }
 
-    public function update_voters(Request $request, $id_dpt)
+    public function update_voters(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
     {
-        $dpt = Dpt::findOrFail($id_dpt);
         $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
-        $id_tps = $dpt->tps_id;
-        $tps = KoorTps::findOrFail($id_tps);
-
-        return redirect()->route('tps.dpt.index', [
-            'slug_kota' => $tps->KoorDesa->kecamatan->kota->slug,
-            'slug_kecamatan' => $tps->KoorDesa->kecamatan->slug,
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
-        ]);
+        return redirect()->route('tps.dpt.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
     }
 }

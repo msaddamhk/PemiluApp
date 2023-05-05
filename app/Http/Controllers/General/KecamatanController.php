@@ -12,17 +12,11 @@ use Illuminate\Http\Request;
 
 class KecamatanController extends Controller
 {
-    public function index(Request $request, $slug_kota)
+    public function index(Request $request, KoorKota $koorkota)
     {
         $user = User::where('level', 'KOOR_KECAMATAN')->get();
-        $kota = KoorKota::with(['KoorKecamatan' => function ($query) use ($request) {
-            if ($request->has('cari')) {
-                $query->where('name', 'like', '%' . $request->query('cari') . '%');
-            }
-        }])
-            ->where('slug', $slug_kota)
-            ->firstOrFail();
-        return view('general.kecamatan.index', compact('kota',  'user'));
+        $kecamatan = $koorkota->KoorKecamatans()->where('name', 'like', '%' . request('cari') . '%')->get();
+        return view('general.kecamatan.index', compact('koorkota', 'kecamatan',  'user'));
     }
 
     public function create_kecamatan($slug_kota)
@@ -31,25 +25,34 @@ class KecamatanController extends Controller
         return view('general.kecamatan.create_kecamatan', compact('kota'));
     }
 
-    public function store_kecamatan(Request $request, $id_kota)
+    public function store_kecamatan(Request $request, KoorKota $koorkota)
     {
+
         $request->validate([
-            'name' => 'required|unique:koor_kecamatan,name,NULL,id,koor_kota_id,' . $id_kota,
+            'name' => 'required|unique:koor_kecamatan,name,NULL,id,koor_kota_id,' . $koorkota->id,
         ], [
             'name.required' => 'Nama harus diisi.',
             'name.unique' => 'Kecamatan sudah ada untuk kota ini.',
         ]);
 
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorKecamatan::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
+
         KoorKecamatan::create([
             "user_id" => $request->user,
-            "koor_kota_id" => $id_kota,
+            "koor_kota_id" => $koorkota->id,
             "name" => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $slug,
             "created_by" => 1,
             "updated_by" => 1,
         ]);
 
-        $slug_kota = KoorKota::findOrFail($id_kota)->slug;
-        return redirect()->route('kecamatan.index', ['slug_kota' => $slug_kota]);
+
+        return redirect()->route('kecamatan.index', $koorkota);
     }
 }

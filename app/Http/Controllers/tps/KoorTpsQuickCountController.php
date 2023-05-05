@@ -1,57 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\tps;
 
 use App\Http\Controllers\Controller;
-use App\Models\KoorDesa;
-use App\Models\KoorKecamatan;
-use App\Models\KoorKota;
 use App\Models\KoorTps;
 use App\Models\QuickCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class QuickCountController extends Controller
+class KoorTpsQuickCountController extends Controller
 {
-
-    public function index(
-        Request $request,
-        KoorKota $koorkota,
-        KoorKecamatan $koorkecamatan,
-        KoorDesa $koordesa,
-        KoorTps $koortps
-    ) {
+    public function index(Request $request, KoorTps $koortps)
+    {
 
         $quick_count = $koortps->quickCount()->where('number_of_votes', 'like', '%' . request('cari') . '%')
             ->get();
 
         return view(
-            'general.quickcount.index',
-            compact('quick_count', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps')
+            'tps.quickcount.index',
+            compact('quick_count', 'koortps')
         );
     }
 
 
-    public function create(
-        KoorKota $koorkota,
-        KoorKecamatan $koorkecamatan,
-        KoorDesa $koordesa,
-        KoorTps $koortps
-    ) {
+    public function create(KoorTps $koortps)
+    {
         return view(
-            'general.quickcount.create',
-            compact('koorkota', 'koorkecamatan', 'koordesa', 'koortps')
+            'tps.quickcount.create',
+            compact('koortps')
         );
     }
 
 
-    public function store(
-        Request $request,
-        KoorKota $koorkota,
-        KoorKecamatan $koorkecamatan,
-        KoorDesa $koordesa,
-        KoorTps $koortps
-    ) {
+    public function store(Request $request, KoorTps $koortps)
+    {
 
         $request->validate([
             'number_of_votes' => 'required',
@@ -70,31 +52,20 @@ class QuickCountController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('quick_count.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
+        return redirect()->route('koor.tps.quick_count.index', [$koortps]);
     }
 
 
-    public function edit(
-        KoorKota $koorkota,
-        KoorKecamatan $koorkecamatan,
-        KoorDesa $koordesa,
-        KoorTps $koortps,
-        QuickCount $quickcount
-    ) {
+    public function edit(KoorTps $koortps, QuickCount $quickcount)
+    {
         return view(
-            'general.quickcount.edit',
-            compact('quickcount', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps')
+            'tps.quickcount.edit',
+            compact('quickcount', 'koortps')
         );
     }
 
-    public function update(
-        Request $request,
-        KoorKota $koorkota,
-        KoorKecamatan $koorkecamatan,
-        KoorDesa $koordesa,
-        KoorTps $koortps,
-        QuickCount $quickcount
-    ) {
+    public function update(Request $request, KoorTps $koortps, QuickCount $quickcount)
+    {
 
         $request->validate([
             'number_of_votes' => 'required',
@@ -114,6 +85,6 @@ class QuickCountController extends Controller
         $quickcount->updated_by = auth()->user()->id;
         $quickcount->save();
 
-        return redirect()->route('quick_count.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
+        return redirect()->route('koor.tps.quick_count.index', [$koortps]);
     }
 }

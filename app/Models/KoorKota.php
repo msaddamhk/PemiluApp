@@ -34,7 +34,7 @@ class KoorKota extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function KoorKecamatan()
+    public function koorKecamatans()
     {
         return $this->hasMany(KoorKecamatan::class);
     }

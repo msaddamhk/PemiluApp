@@ -40,23 +40,23 @@ class KoorDesa extends Model
         return $this->belongsTo(KoorKecamatan::class, 'koor_kecamatan_id');
     }
 
-    public function dpt()
+    public function dpts()
     {
         return $this->hasMany(Dpt::class, 'desa_id');
     }
 
     public function getDptCountAttribute()
     {
-        return $this->dpt()->count();
+        return $this->dpts()->count();
     }
 
     public function getDptIsVotersCountAttribute()
     {
-        return $this->dpt()->where('is_voters', true)->count();
+        return $this->dpts()->where('is_voters', true)->count();
     }
 
-    public function tps()
+    public function koortps()
     {
-        return $this->hasMany(KoorTps::class);
+        return $this->hasMany(KoorTps::class, 'koor_desa_id');
     }
 }

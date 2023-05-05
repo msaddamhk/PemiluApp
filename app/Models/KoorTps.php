@@ -34,7 +34,7 @@ class KoorTps extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function koorDesa()
+    public function koorDesas()
     {
         return $this->belongsTo(KoorDesa::class);
     }

@@ -62,7 +62,7 @@
                         Dashboard
                     </a>
                     <a href="{{ route('koor.kecamatan.index') }}"
-                        class="item-menu  {{ Request::is('kecamatan*') ? 'active' : '' }}">
+                        class="item-menu  {{ Request::routeis('koor*') ? 'active' : '' }}">
                         <i class="icon ic-city"></i>
                         Kelola Data
                     </a>
@@ -78,7 +78,7 @@
                         Dashboard
                     </a>
                     <a href="{{ route('koor.desa.index') }}"
-                        class="item-menu {{ Request::is('desa*') ? 'active' : '' }}">
+                        class="item-menu {{ Request::routeis('koor*') ? 'active' : '' }}">
                         <i class="icon ic-city"></i>
                         Kelola Data
                     </a>
@@ -94,7 +94,7 @@
                         Dashboard
                     </a>
                     <a href="{{ route('koor.tps.index') }}"
-                        class="item-menu {{ Request::is('tps*') ? 'active' : '' }}">
+                        class="item-menu {{ Request::routeis('koor*') ? 'active' : '' }}">
                         <i class="icon ic-city"></i>
                         Kelola Data
                     </a>

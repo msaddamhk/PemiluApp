@@ -8,8 +8,8 @@
             </div>
             <div class="col-md-6">
                 <div class="d-lg-flex justify-content-lg-end">
-                    <form action="{{ route('quick_count.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
-                        method="GET">
+                    <form action="
+                    {{ route('koor.tps.quick_count.index', [$koortps]) }}" method="GET">
                         <div class="d-flex me-2">
                             <input type="text" name="cari"
                                 placeholder="Cari Data..."class="search form-control me-2" />
@@ -21,7 +21,8 @@
                     </form>
 
                     @if ($quick_count->isEmpty())
-                        <a href="{{ route('quick_count.create', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
+                        <a href="
+                        {{ route('koor.tps.quick_count.create', [$koortps]) }}"
                             class="btn btn-primary mb-2 mt-2 btn-sm">
                             + Tambah Data
                         </a>
@@ -59,7 +60,7 @@
                         <td>{{ $item->total_votes }}</td>
                         <td>
                             <a href="
-                            {{ route('quick_count.edit', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
+                            {{ route('koor.tps.quick_count.edit', [$koortps, $item]) }}"
                                 class="btn btn-primary mb-2 mt-2 btn-sm">
                                 Update Data
                             </a>

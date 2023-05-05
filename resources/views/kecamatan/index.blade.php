@@ -33,15 +33,13 @@
                         <td colspan="3" style="text-align: center;">Tidak ada Data</td>
                     </tr>
                 @endif
-                @foreach ($kecamatan as $data)
+                @foreach ($kecamatan as $item)
                     <tr>
                         <th scope="row">{{ $counter }}</th>
-                        <td>{{ $data->name }}</td>
+                        <td>{{ $item->name }}</td>
                         <td>
-                            <a href="{{ route('koor.kecamatan.desa.index', [
-                                'slug_kecamatan' => $data->slug,
-                            ]) }}"
-                                class="btn btn-primary btn-sm">Lihat Desa</a>
+                            <a href="{{ route('koor.kecamatan.desa.index', [$item]) }}" class="btn btn-primary btn-sm">Lihat
+                                Desa</a>
                         </td>
                     </tr>
                     @php

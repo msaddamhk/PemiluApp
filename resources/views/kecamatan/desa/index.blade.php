@@ -4,15 +4,11 @@
     <section class="p-3">
         <div class="row">
             <div class="col-md-6">
-                <h2 class="fw-semibold">Seluruh Desa di {{ $kecamatan->name }}</h2>
+                <h2 class="fw-semibold">Seluruh Desa di {{ $koorkecamatan->name }}</h2>
             </div>
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
-                    <form
-                        action="{{ route('koor.kecamatan.desa.index', [
-                            'slug_kecamatan' => $kecamatan->slug,
-                        ]) }}"
-                        method="GET">
+                    <form action="{{ route('koor.kecamatan.desa.index', [$koorkecamatan]) }}" method="GET">
                         <div class="d-flex me-2">
                             <input type="text" name="cari"
                                 placeholder="Cari Desa..."class="search form-control me-2" />
@@ -45,30 +41,24 @@
                     @php
                         $counter = 1;
                     @endphp
-                    @if ($kecamatan->koor_desa->isEmpty())
+                    @if ($desa->isEmpty())
                         <tr>
                             <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                         </tr>
                     @endif
 
-                    @foreach ($kecamatan->koor_desa as $data)
+                    @foreach ($desa as $item)
                         <tr>
                             <th scope="row">{{ $counter }}</th>
-                            <td>{{ $data->name }}</td>
-                            <td>{{ $data->dpt_count }}</td>
-                            <td>{{ $data->dpt_is_voters_count }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->dpt_count }}</td>
+                            <td>{{ $item->dpt_is_voters_count }}</td>
                             <td>
                                 @if (env('SHOW_ADD_DATA_TPS', false))
-                                    <a href="{{ route('koor.kecamatan.tps.index', [
-                                        'slug_kecamatan' => $kecamatan->slug,
-                                        'slug_desa' => $data->slug,
-                                    ]) }}"
+                                    <a href="{{ route('koor.kecamatan.tps.index', [$koorkecamatan, $item]) }}"
                                         class="btn btn-primary btn-sm">Kelola TPS</a>
                                 @else
-                                    <a href="{{ route('koor.kecamatan.dpt.index', [
-                                        'slug_kecamatan' => $kecamatan->slug,
-                                        'slug_desa' => $data->slug,
-                                    ]) }}"
+                                    <a href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}"
                                         class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
                                 @endif
                             </td>
@@ -89,11 +79,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form
-                    action="{{ route('koor.kecamatan.desa.store', [
-                        'id_kecamatan' => $kecamatan->id,
-                    ]) }}"
-                    method="POST">
+                <form action="{{ route('koor.kecamatan.desa.store', $koorkecamatan) }}" method="POST">
                     <div class="modal-body">
                         @csrf
                         <section class="p-3">

@@ -2,12 +2,7 @@
 
 @section('content')
     <section class="p-3">
-        <form
-            action="{{ route('koor.tps.dpt.store', [
-                'id_desa' => $tps->KoorDesa->id,
-                'id_tps' => $tps->id,
-            ]) }}"
-            method="POST">
+        <form action="{{ route('koor.tps.dpt.store', [$koortps]) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Nama</label>

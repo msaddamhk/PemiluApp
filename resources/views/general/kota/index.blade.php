@@ -49,13 +49,13 @@
                         <td colspan="3" style="text-align: center;">Tidak ada Data</td>
                     </tr>
                 @endif
-                @foreach ($kota as $data)
+                @foreach ($kota as $item)
                     <tr>
                         <th scope="row">{{ $counter }}</th>
-                        <td>{{ $data->name }}</td>
+                        <td>{{ $item->name }}</td>
                         <td>
-                            <a href="{{ route('kecamatan.index', ['slug_kota' => $data->slug]) }}"
-                                class="btn btn-primary btn-sm">Lihat Kecamatan</a>
+                            <a href="{{ route('kecamatan.index', $item) }}" class="btn btn-primary btn-sm">Lihat
+                                Kecamatan</a>
                         </td>
                     </tr>
                     @php

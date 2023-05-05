@@ -11,40 +11,44 @@ use Illuminate\Http\Request;
 
 class KoorDesaController extends Controller
 {
-    public function index(Request $request, $slug_kecamatan)
+    public function index(Request $request, KoorKecamatan $koorkecamatan)
     {
+
         $user = User::where('level', 'KOOR_DESA')->get();
-        $kecamatan = KoorKecamatan::with(['koor_desa' => function ($query) use ($request) {
-            if ($request->has('cari')) {
-                $query->where('name', 'like', '%' . $request->query('cari') . '%');
-            }
-            $query->withCount(['dpt', 'dpt as dpt_is_voters_count' => function ($query) {
+        $desa = $koorkecamatan->koorDesas()->where('name', 'like', '%' . request('cari') . '%')
+            ->withCount(['dpts', 'dpts as dpt_is_voters_count' => function ($query) {
                 $query->where('is_voters', true);
-            }]);
-        }])->where('slug', $slug_kecamatan)->firstOrFail();
-        return view('kecamatan.desa.index', compact('kecamatan', 'user'));
+            }])->get();
+
+        return view('kecamatan.desa.index', compact('koorkecamatan', 'desa', 'user'));
     }
 
 
-    public function store(Request $request, $id_kecamatan)
+    public function store(Request $request, KoorKecamatan $koorkecamatan)
     {
+
         $request->validate([
-            'name' => 'required|unique:koor_desa,name,NULL,id,koor_kecamatan_id,' . $id_kecamatan,
+            'name' => 'required|unique:koor_desa,name,NULL,id,koor_kecamatan_id,' . $koorkecamatan->id,
         ], [
             'name.required' => 'Nama harus diisi.',
             'name.unique' => 'Desa sudah ada untuk Kecamatan ini.',
         ]);
 
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorDesa::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
         KoorDesa::create([
             "user_id" => $request->user,
-            "koor_kecamatan_id" => $id_kecamatan,
+            "koor_kecamatan_id" => $koorkecamatan->id,
             "name" => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $slug,
             "created_by" => auth()->user()->id,
             "updated_by" => auth()->user()->id,
         ]);
-
-        $kecamatan = KoorKecamatan::findOrFail($id_kecamatan);
-        return redirect()->route('koor.kecamatan.desa.index', ['slug_kecamatan' => $kecamatan->slug]);
+        return redirect()->route('koor.kecamatan.desa.index', [$koorkecamatan]);
     }
 }

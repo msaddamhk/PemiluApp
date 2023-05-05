@@ -42,17 +42,22 @@
                         <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                     </tr>
                 @endif
-                @foreach ($tps as $data)
+                @foreach ($tps as $item)
                     <tr>
                         <th scope="row">{{ $counter }}</th>
-                        <td>{{ $data->name }}</td>
-                        <td>{{ $data->dpt_count }}</td>
-                        <td>{{ $data->dpt_is_voters_count }}</td>
-                        <td> <a href="{{ route('koor.tps.dpt.index', [
-                            'slug_tps' => $data->slug,
-                        ]) }}"
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->dpt_count }}</td>
+                        <td>{{ $item->dpt_is_voters_count }}</td>
+                        <td>
+                            <a href="
+                            {{ route('koor.tps.dpt.index', [$item]) }}"
                                 class="btn btn-primary mb-2 mt-2 btn-sm">
                                 Kelola DPT
+                            </a>
+                            <a href="
+                                {{ route('koor.tps.quick_count.index', [$item]) }}"
+                                class="btn btn-primary mb-2 mt-2 btn-sm">
+                                Kelola Quick Count
                             </a>
                         </td>
                     </tr>

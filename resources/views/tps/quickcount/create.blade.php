@@ -2,22 +2,22 @@
 
 @section('content')
     <section class="p-3">
-        <form action="{{ route('quick_count.update', [$koorkota, $koorkecamatan, $koordesa, $koortps, $quickcount]) }}"
-            method="POST" enctype="multipart/form-data">
+        <form action="
+        {{ route('koor.tps.quick_count.store', [$koortps]) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Number Votes</label>
                 <input type="number" name="number_of_votes" class="
                 form-control"
-                    value="{{ $quickcount->number_of_votes }}" required>
+                    value="{{ old('number_of_votes') }}" required>
                 @error('number_of_votes')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Total Votes</label>
-                <input type="number" name="total_votes" class="form-control" value="{{ $quickcount->total_votes }}"
-                    required>
+                <input type="number" name="total_votes" class="form-control" value="{{ old('total_votes') }}" required>
                 @error('total_votes')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -32,11 +32,8 @@
 
                     <label for="result_photo">
                         <div class="card p-2 mt-2">
-                            <img id="frame"
-                                src="{{ $quickcount->result_photo
-                                    ? asset('storage/img/quick_count/' . $quickcount->result_photo)
-                                    : asset('upload-image.png') }}"
-                                class="img-fluid" style="max-height: 250px">
+                            <img id="frame" style="max-height: 250px" src="{{ asset('upload-image.png') }}"
+                                class="img-fluid">
                         </div>
                     </label>
 

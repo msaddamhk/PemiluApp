@@ -9,27 +9,21 @@ use Illuminate\Http\Request;
 
 class DptTpsKoorTpsController extends Controller
 {
-    public function index(Request $request, $slug_tps)
+    public function index(Request $request, KoorTps $koortps)
     {
-        $tps = KoorTps::with(['dpt' => function ($query) use ($request) {
-            if ($request->has('cari')) {
-                $query->where('name', 'like', '%' . $request->query('cari') . '%');
-            }
-        }])
-            ->where('slug', $slug_tps)
-            ->firstOrFail();
-        return view('tps.tps.dpt', compact('tps'));
+        $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
+            ->get();
+        return view('tps.tps.dpt', compact('dpt', 'koortps'));
     }
 
-    public function create($slug_tps)
+    public function create(KoorTps $koortps)
     {
-        $tps = KoorTps::where('slug', $slug_tps)->first();
-        return view('tps.tps.create_dpt', compact('tps'));
+        return view('tps.tps.create_dpt', compact('koortps'));
     }
 
-    public function store(Request $request, $id_desa, $id_tps)
+    public function store(Request $request, KoorTps $koortps)
     {
-        $tps = KoorTps::findOrFail($id_tps);
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
@@ -40,8 +34,8 @@ class DptTpsKoorTpsController extends Controller
         ]);
 
         Dpt::create([
-            "desa_id" => $id_desa,
-            "tps_id" => $id_tps,
+            "desa_id" => $koortps->koor_desa_id,
+            "tps_id" => $koortps->id,
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
@@ -50,25 +44,21 @@ class DptTpsKoorTpsController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('koor.tps.dpt.index', [
-            'slug_tps' => $tps->slug
-        ]);
-    }
-    public function edit($slug_tps, $id_dpt)
-    {
-        $dpt = Dpt::where('id', $id_dpt)->first();
-        return view('tps.tps.edit_dpt', compact('dpt'));
+        return redirect()->route('koor.tps.dpt.index', [$koortps]);
     }
 
-    public function update(Request $request, $id_dpt)
+    public function edit(KoorTps $koortps, Dpt $dpt)
     {
-        $dpt = Dpt::findOrFail($id_dpt);
-        $id_tps = $dpt->tps_id;
+        return view('tps.tps.edit_dpt', compact('dpt', 'koortps'));
+    }
+
+    public function update(Request $request, KoorTps $koortps, Dpt $dpt)
+    {
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
             'is_voters' => 'required',
-            'indentity_number' => 'required|unique:dpt,indentity_number,' . $id_dpt . ',id',
+            'indentity_number' => 'required|unique:dpt,indentity_number,' . $dpt->id . ',id',
 
         ], [
             'indentity_number.unique' => 'No identitas sudah terdaftar.',
@@ -81,24 +71,14 @@ class DptTpsKoorTpsController extends Controller
         $dpt->updated_by = auth()->user()->id;
         $dpt->save();
 
-        $tps = KoorTps::findOrFail($id_tps);
-
-        return redirect()->route('koor.tps.dpt.index', [
-            'slug_tps' => $tps->slug
-        ]);
+        return redirect()->route('koor.tps.dpt.index', [$koortps]);
     }
 
-    public function update_voters(Request $request, $id_dpt)
+    public function update_voters(Request $request, KoorTps $koortps, Dpt $dpt)
     {
-        $dpt = Dpt::findOrFail($id_dpt);
         $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
-        $id_tps = $dpt->tps_id;
-        $tps = KoorTps::findOrFail($id_tps);
-
-        return redirect()->route('koor.tps.dpt.index', [
-            'slug_tps' => $tps->slug
-        ]);
+        return redirect()->route('koor.tps.dpt.index', [$koortps]);
     }
 }

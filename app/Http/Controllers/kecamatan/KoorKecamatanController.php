@@ -11,7 +11,6 @@ class KoorKecamatanController extends Controller
 {
     public function index(Request $request)
     {
-
         $cari = $request->input('cari');
         $kecamatan = KoorKecamatan::where('user_id', auth()->user()->id)
             ->where('name', 'like', '%' . $cari . '%')

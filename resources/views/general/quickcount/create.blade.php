@@ -3,8 +3,8 @@
 @section('content')
     <section class="p-3">
         <form action="
-        {{ route('quick_count.store', ['id_tps' => $tps->id]) }}" method="POST"
-            enctype="multipart/form-data">
+        {{ route('quick_count.store', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Number Votes</label>

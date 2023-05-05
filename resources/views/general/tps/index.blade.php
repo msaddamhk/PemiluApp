@@ -5,17 +5,11 @@
 
         <div class="row">
             <div class="col-md-6">
-                <h2 class="fw-semibold">Data TPS di Desa {{ $desa->name }}</h2>
+                <h2 class="fw-semibold">Data TPS di Desa {{ $koordesa->name }}</h2>
             </div>
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
-                    <form
-                        action="{{ route('tps.index', [
-                            'slug_kota' => $desa->kecamatan->kota->slug,
-                            'slug_kecamatan' => $desa->kecamatan->slug,
-                            'slug_desa' => $desa->slug,
-                        ]) }}"
-                        method="GET">
+                    <form action="{{ route('tps.index', [$koorkota, $koorkecamatan, $koordesa]) }}" method="GET">
                         <div class="d-flex me-2">
                             <input type="text" name="cari" placeholder="Cari TPS..."class="search form-control me-2" />
                             <button class="btn btn-search d-flex justify-content-center align-items-center p-0"
@@ -48,34 +42,26 @@
                     @php
                         $counter = 1;
                     @endphp
-                    @if ($desa->tps->isEmpty())
+                    @if ($tps->isEmpty())
                         <tr>
                             <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                         </tr>
                     @endif
-                    @foreach ($desa->tps as $data)
+                    @foreach ($tps as $item)
                         <tr>
                             <th scope="row">{{ $counter }}</th>
-                            <td>{{ $data->name }}</td>
-                            <td>{{ $data->dpt_count }}</td>
-                            <td>{{ $data->dpt_is_voters_count }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->dpt_count }}</td>
+                            <td>{{ $item->dpt_is_voters_count }}</td>
                             <td>
-                                <a href="{{ route('tps.dpt.index', [
-                                    'slug_kota' => $desa->kecamatan->kota->slug,
-                                    'slug_kecamatan' => $desa->kecamatan->slug,
-                                    'slug_desa' => $desa->slug,
-                                    'slug_tps' => $data->slug,
-                                ]) }}"
+                                <a href="
+                                {{ route('tps.dpt.index', [$koorkota, $koorkecamatan, $koordesa, $item->slug]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
                                     Kelola DPT
                                 </a>
 
-                                <a href="{{ route('quick_count.index', [
-                                    'slug_kota' => $desa->kecamatan->kota->slug,
-                                    'slug_kecamatan' => $desa->kecamatan->slug,
-                                    'slug_desa' => $desa->slug,
-                                    'slug_tps' => $data->slug,
-                                ]) }}"
+                                <a href="
+                                {{ route('quick_count.index', [$koorkota, $koorkecamatan, $koordesa, $item->slug]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
                                     Kelola Quick Count
                                 </a>
@@ -98,7 +84,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('tps.store', ['id_desa' => $desa->id]) }}" method="POST">
+                <form action="{{ route('tps.store', [$koorkota, $koorkecamatan, $koordesa]) }}" method="POST">
                     <div class="modal-body p-3">
                         @csrf
                         <div class="mb-2">
@@ -116,7 +102,8 @@
                                     <option value="">Pilih Pengelola</option>
                                     @foreach ($user as $data)
                                         <option value="{{ $data->id }}"
-                                            {{ old('user') == $data->id ? 'selected' : '' }}>{{ $data->name }}
+                                            {{ old('user') == $data->id ? 'selected' : '' }}>
+                                            {{ $data->name }}
                                         </option>
                                     @endforeach
                                 </select>

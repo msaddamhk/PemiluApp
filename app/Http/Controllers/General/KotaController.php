@@ -18,12 +18,16 @@ class KotaController extends Controller
             $kota = KoorKota::where('user_id', auth()->user()->id)
                 ->where('name', 'like', '%' . (request('cari') ?? '') . '%')
                 ->get();
+
             return view('general.kota.index', compact('kota'));
         } elseif (request()->user()->can('isGeneral')) {
             $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->get();
+
             $user = User::where('level', 'KOOR_KAB_KOTA')->get();
+
             return view('general.kota.index', compact('kota', 'user'));
         } else {
+
             abort(403);
         }
     }
@@ -40,10 +44,17 @@ class KotaController extends Controller
             'user' => 'required',
         ]);
 
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorKota::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
         KoorKota::create([
             "user_id" => $request->user,
             "name" => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $slug,
             "created_by" => auth()->user()->id,
             "updated_by" => auth()->user()->id,
         ]);

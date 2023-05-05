@@ -4,32 +4,27 @@ namespace App\Http\Controllers\desa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dpt;
+use App\Models\KoorDesa;
 use App\Models\KoorTps;
 use Illuminate\Http\Request;
 
 class DptTpsKoorDesaController extends Controller
 {
-    public function index(Request $request, $slug_desa, $slug_tps)
+    public function index(Request $request, KoorDesa $koordesa, KoorTps $koortps)
     {
-        $tps = KoorTps::with(['dpt' => function ($query) use ($request) {
-            if ($request->has('cari')) {
-                $query->where('name', 'like', '%' . $request->query('cari') . '%');
-            }
-        }])
-            ->where('slug', $slug_tps)
-            ->firstOrFail();
-        return view('desa.tps.dpt', compact('tps'));
+        $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
+            ->get();
+        return view('desa.tps.dpt', compact('dpt', 'koordesa', 'koortps'));
     }
 
-    public function create($slug_desa, $slug_tps)
+    public function create(KoorDesa $koordesa, KoorTps $koortps)
     {
-        $tps = KoorTps::where('slug', $slug_tps)->first();
-        return view('desa.tps.create_dpt', compact('tps'));
+        return view('desa.tps.create_dpt', compact('koordesa', 'koortps'));
     }
 
-    public function store(Request $request, $id_desa, $id_tps)
+    public function store(Request $request, KoorDesa $koordesa, KoorTps $koortps)
     {
-        $tps = KoorTps::findOrFail($id_tps);
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
@@ -40,8 +35,8 @@ class DptTpsKoorDesaController extends Controller
         ]);
 
         Dpt::create([
-            "desa_id" => $id_desa,
-            "tps_id" => $id_tps,
+            "desa_id" => $koordesa->id,
+            "tps_id" => $koortps->id,
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
@@ -50,26 +45,22 @@ class DptTpsKoorDesaController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('koor.desa.tps.dpt.index', [
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
-        ]);
-    }
-    public function edit($slug_desa, $slug_tps, $id_dpt)
-    {
-        $dpt = Dpt::where('id', $id_dpt)->first();
-        return view('desa.tps.edit_dpt', compact('dpt'));
+        return redirect()->route('koor.desa.tps.dpt.index', [$koordesa, $koortps]);
     }
 
-    public function update(Request $request, $id_dpt)
+    public function edit(KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
     {
-        $dpt = Dpt::findOrFail($id_dpt);
-        $id_tps = $dpt->tps_id;
+        return view('desa.tps.edit_dpt', compact('dpt', 'koordesa', 'koortps'));
+    }
+
+    public function update(Request $request, KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
+    {
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'required',
             'is_voters' => 'required',
-            'indentity_number' => 'required|unique:dpt,indentity_number,' . $id_dpt . ',id',
+            'indentity_number' => 'required|unique:dpt,indentity_number,' . $dpt->id . ',id',
 
         ], [
             'indentity_number.unique' => 'No identitas sudah terdaftar.',
@@ -82,26 +73,14 @@ class DptTpsKoorDesaController extends Controller
         $dpt->updated_by = auth()->user()->id;
         $dpt->save();
 
-        $tps = KoorTps::findOrFail($id_tps);
-
-        return redirect()->route('koor.desa.tps.dpt.index', [
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
-        ]);
+        return redirect()->route('koor.desa.tps.dpt.index', [$koordesa, $koortps]);
     }
 
-    public function update_voters(Request $request, $id_dpt)
+    public function update_voters(Request $request, KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
     {
-        $dpt = Dpt::findOrFail($id_dpt);
         $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
-        $id_tps = $dpt->tps_id;
-        $tps = KoorTps::findOrFail($id_tps);
-
-        return redirect()->route('koor.desa.tps.dpt.index', [
-            'slug_desa' => $tps->KoorDesa->slug,
-            'slug_tps' => $tps->slug
-        ]);
+        return redirect()->route('koor.desa.tps.dpt.index', [$koordesa, $koortps]);
     }
 }

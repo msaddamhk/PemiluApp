@@ -4,6 +4,7 @@ namespace App\Http\Controllers\kecamatan;
 
 use App\Http\Controllers\Controller;
 use App\Models\KoorDesa;
+use App\Models\KoorKecamatan;
 use App\Models\KoorTps;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -11,46 +12,45 @@ use Illuminate\Http\Request;
 
 class TpsKoorKecamatanController extends Controller
 {
-    public function index(Request $request, $slug_kecamatan, $slug_desa)
+    public function index(Request $request, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
         $user = User::where('level', 'KOOR_TPS')->get();
-        $desa = KoorDesa::with([
-            'tps' => function ($query) use ($request) {
-                if ($request->has('cari')) {
-                    $query->where('name', 'like', '%' . $request->query('cari') . '%');
-                }
-                $query->withCount('dpt');
-                $query->withCount(['dptIsVoters' => function ($query) {
-                    $query->where('is_voters', true);
-                }]);
-            }
-        ])->where('slug', $slug_desa)->firstOrFail();
+        $tps = $koordesa->koortps()
+            ->where('name', 'like', '%' . request('cari') . '%')
+            ->withCount(['dpt', 'dptIsVoters' => function ($query) {
+                $query->where('is_voters', true);
+            }])
+            ->get();
 
-        return view('kecamatan.tps.index', compact('desa', 'user'));
+        return view('kecamatan.tps.index', compact('tps', 'koorkecamatan', 'koordesa', 'user'));
     }
 
-    public function store(Request $request, $id_desa)
+    public function store(Request $request, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
-        $desa = KoorDesa::findOrFail($id_desa);
+
         $request->validate([
-            'name' => 'required|unique:koor_tps,name,NULL,id,koor_desa_id,' . $id_desa,
+            'name' => 'required|unique:koor_tps,name,NULL,id,koor_desa_id,' . $koordesa->id,
         ], [
             'name.required' => 'Nama harus diisi.',
             'name.unique' => 'TPS sudah ada untuk Desa ini.',
         ]);
 
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorTps::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
         KoorTps::create([
             "user_id" => $request->user,
-            "koor_desa_id" => $id_desa,
-            'slug' => Str::slug($request->name),
+            "koor_desa_id" => $koordesa->id,
+            'slug' => $slug,
             "name" => $request->name,
             "created_by" => auth()->user()->id,
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('koor.kecamatan.tps.index', [
-            'slug_kecamatan' => $desa->kecamatan->slug,
-            'slug_desa' => $desa->slug
-        ]);
+        return redirect()->route('koor.kecamatan.tps.index', [$koorkecamatan, $koordesa]);
     }
 }

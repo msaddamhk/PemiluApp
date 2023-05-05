@@ -2,8 +2,8 @@
 
 @section('content')
     <section class="p-3">
-        <form action="{{ route('quick_count.update', [$koorkota, $koorkecamatan, $koordesa, $koortps, $quickcount]) }}"
-            method="POST" enctype="multipart/form-data">
+        <form action="{{ route('koor.tps.quick_count.update', [$koortps, $quickcount]) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Number Votes</label>

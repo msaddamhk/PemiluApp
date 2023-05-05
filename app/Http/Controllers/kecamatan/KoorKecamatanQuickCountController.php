@@ -1,22 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\kecamatan;
 
 use App\Http\Controllers\Controller;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
-use App\Models\KoorKota;
 use App\Models\KoorTps;
 use App\Models\QuickCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class QuickCountController extends Controller
-{
 
+class KoorKecamatanQuickCountController extends Controller
+{
     public function index(
         Request $request,
-        KoorKota $koorkota,
         KoorKecamatan $koorkecamatan,
         KoorDesa $koordesa,
         KoorTps $koortps
@@ -26,28 +24,26 @@ class QuickCountController extends Controller
             ->get();
 
         return view(
-            'general.quickcount.index',
-            compact('quick_count', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps')
+            'kecamatan.quickcount.index',
+            compact('quick_count', 'koorkecamatan', 'koordesa', 'koortps')
         );
     }
 
 
     public function create(
-        KoorKota $koorkota,
         KoorKecamatan $koorkecamatan,
         KoorDesa $koordesa,
         KoorTps $koortps
     ) {
         return view(
-            'general.quickcount.create',
-            compact('koorkota', 'koorkecamatan', 'koordesa', 'koortps')
+            'kecamatan.quickcount.create',
+            compact('koorkecamatan', 'koordesa', 'koortps')
         );
     }
 
 
     public function store(
         Request $request,
-        KoorKota $koorkota,
         KoorKecamatan $koorkecamatan,
         KoorDesa $koordesa,
         KoorTps $koortps
@@ -70,26 +66,24 @@ class QuickCountController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        return redirect()->route('quick_count.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
+        return redirect()->route('koor.kecamatan.quick_count.index', [$koorkecamatan, $koordesa, $koortps]);
     }
 
 
     public function edit(
-        KoorKota $koorkota,
         KoorKecamatan $koorkecamatan,
         KoorDesa $koordesa,
         KoorTps $koortps,
         QuickCount $quickcount
     ) {
         return view(
-            'general.quickcount.edit',
-            compact('quickcount', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps')
+            'kecamatan.quickcount.edit',
+            compact('quickcount', 'koorkecamatan', 'koordesa', 'koortps')
         );
     }
 
     public function update(
         Request $request,
-        KoorKota $koorkota,
         KoorKecamatan $koorkecamatan,
         KoorDesa $koordesa,
         KoorTps $koortps,
@@ -114,6 +108,6 @@ class QuickCountController extends Controller
         $quickcount->updated_by = auth()->user()->id;
         $quickcount->save();
 
-        return redirect()->route('quick_count.index', [$koorkota, $koorkecamatan, $koordesa, $koortps]);
+        return redirect()->route('koor.kecamatan.quick_count.index', [$koorkecamatan, $koordesa, $koortps]);
     }
 }

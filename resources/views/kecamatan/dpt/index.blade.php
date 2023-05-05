@@ -4,17 +4,12 @@
     <section class="p-3">
         <div class="row">
             <div class="col-md-6">
-                <h2 class="fw-semibold">Data pemilih Tetap di Desa {{ $desa->name }}</h2>
+                <h2 class="fw-semibold">Data pemilih Tetap di Desa {{ $koordesa->name }}</h2>
             </div>
 
             <div class="col-md-6">
                 <div class="d-flex justify-content-end">
-                    <form
-                        action="{{ route('koor.kecamatan.dpt.index', [
-                            'slug_kecamatan' => $desa->kecamatan->slug,
-                            'slug_desa' => $desa->slug,
-                        ]) }}"
-                        method="GET">
+                    <form action="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $koordesa]) }}" method="GET">
                         <div class="d-flex me-2">
                             <input type="text" name="cari"
                                 placeholder="Cari DPT...."class="search form-control me-2" />
@@ -25,10 +20,7 @@
                         </div>
                     </form>
 
-                    <a href="{{ route('koor.kecamatan.dpt.create', [
-                        'slug_kecamatan' => $desa->kecamatan->slug,
-                        'slug_desa' => $desa->slug,
-                    ]) }}"
+                    <a href="{{ route('koor.kecamatan.dpt.create', [$koorkecamatan, $koordesa]) }}"
                         class="btn btn-primary mb-2 mt-2 btn-sm">
                         + Tambah Data
                     </a>
@@ -52,37 +44,32 @@
                         $counter = 1;
                     @endphp
 
-                    @if ($desa->dpt->isEmpty())
+                    @if ($desa->isEmpty())
                         <tr>
                             <td colspan="4" style="text-align: center;">Tidak ada Data</td>
                         </tr>
                     @endif
-                    @foreach ($desa->dpt as $data)
+                    @foreach ($desa as $item)
                         <tr>
                             <th scope="row">{{ $counter }}</th>
-                            <td>{{ $data->name }}</td>
-                            <td>{{ $data->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
                             <td class="d-flex">
-                                <a href="{{ route('koor.kecamatan.dpt.edit', [
-                                    'slug_kecamatan' => $desa->kecamatan->slug,
-                                    'slug_desa' => $desa->slug,
-                                    'id_dpt' => $data->id,
-                                ]) }}"
+                                <a href="{{ route('koor.kecamatan.dpt.edit', [$koorkecamatan, $koordesa, $item]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
                                     <small>Update Data</small>
                                 </a>
                                 <div class="ms-3 my-auto">
                                     <form
-                                        action="{{ route('koor.kecamatan.dpt.update_voters', [
-                                            'id_dpt' => $data->id,
-                                        ]) }}"
+                                        action="
+                                        {{ route('koor.kecamatan.dpt.update_voters', [$koorkecamatan, $koordesa, $item]) }}"
                                         method="POST">
                                         @csrf
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" name="is_voters"
-                                                {{ $data->is_voters ? 'checked' : '' }} onchange="this.form.submit()">
+                                                {{ $item->is_voters ? 'checked' : '' }} onchange="this.form.submit()">
                                             <label class="form-check-label">
-                                                {{ $data->is_voters ? 'Memilih' : 'Tidak Memilih' }}</label>
+                                                {{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</label>
                                         </div>
                                     </form>
                                 </div>

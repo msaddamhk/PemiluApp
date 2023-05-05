@@ -43,22 +43,18 @@
                         </tr>
                     @endif
 
-                    @foreach ($desa as $data)
+                    @foreach ($desa as $item)
                         <tr>
                             <th scope="row">{{ $counter }}</th>
-                            <td>{{ $data->name }}</td>
-                            <td>{{ $data->dpt_count }}</td>
-                            <td>{{ $data->dpt_is_voters_count }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->dpt_count }}</td>
+                            <td>{{ $item->dpt_is_voters_count }}</td>
                             <td>
                                 @if (env('SHOW_ADD_DATA_TPS', false))
-                                    <a href="{{ route('koor.desa.tps.index', [
-                                        'slug_desa' => $data->slug,
-                                    ]) }}"
+                                    <a href="{{ route('koor.desa.tps.index', [$item]) }}"
                                         class="btn btn-primary btn-sm">Kelola TPS</a>
                                 @else
-                                    <a href="{{ route('koor.desa.dpt.index', [
-                                        'slug_desa' => $data->slug,
-                                    ]) }}"
+                                    <a href="{{ route('koor.desa.dpt.index', [$item->slug]) }}"
                                         class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
                                 @endif
                             </td>

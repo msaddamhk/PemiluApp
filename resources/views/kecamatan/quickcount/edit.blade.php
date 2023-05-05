@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="p-3">
-        <form action="{{ route('quick_count.update', [$koorkota, $koorkecamatan, $koordesa, $koortps, $quickcount]) }}"
+        <form action="{{ route('koor.kecamatan.quick_count.update', [$koorkecamatan, $koordesa, $koortps, $quickcount]) }}"
             method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">

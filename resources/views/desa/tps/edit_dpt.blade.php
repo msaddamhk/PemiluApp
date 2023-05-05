@@ -2,7 +2,8 @@
 
 @section('content')
     <section class="p-3">
-        <form action="{{ route('koor.desa.tps.dpt.update', ['id_dpt' => $dpt->id]) }}" method="POST">
+        <form action="
+        {{ route('koor.desa.tps.dpt.update', [$koordesa, $koortps, $dpt]) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Nama</label>

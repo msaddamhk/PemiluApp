@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="p-3">
-        <form action="{{ route('dpt.update', ['id_dpt' => $dpt->id]) }}" method="POST">
+        <form action="{{ route('dpt.update', [$koorkota, $koorkecamatan, $koordesa, $dpt]) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label class="form-label">Nama</label>
