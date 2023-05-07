@@ -19,6 +19,9 @@ class KoorKecamatanQuickCountController extends Controller
         KoorDesa $koordesa,
         KoorTps $koortps
     ) {
+        if ($koorkecamatan->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         $quick_count = $koortps->quickCount()->where('number_of_votes', 'like', '%' . request('cari') . '%')
             ->get();

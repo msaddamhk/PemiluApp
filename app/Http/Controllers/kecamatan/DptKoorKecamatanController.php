@@ -13,6 +13,9 @@ class DptKoorKecamatanController extends Controller
 
     public function index(Request $request, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
+        if ($koorkecamatan->user_id !== auth()->id()) {
+            abort(403);
+        }
         $desa = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
             ->get();
         return view('kecamatan.dpt.index', compact('desa', 'koorkecamatan', 'koordesa'));

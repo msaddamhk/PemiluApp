@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('slug');
             $table->string('name');
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('SET NULL')->onDelete('SET NULL');
-            $table->foreign('created_by')->references('id')->on('users')->onUpdate('SET NULL')->onDelete('SET NULL');
-            $table->foreign('updated_by')->references('id')->on('users')->onUpdate('SET NULL')->onDelete('SET NULL');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL');
         });
     }
 

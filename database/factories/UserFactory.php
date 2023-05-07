@@ -17,7 +17,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => 'saddam',
-            'email' => 'saddamhk5671@gmail.com',
+            'email' => 'saddamhk567@gmail.com',
             'phone_number' => $this->faker->phoneNumber(),
             'photo' => $this->faker->imageUrl(),
             'created_by' => '1',

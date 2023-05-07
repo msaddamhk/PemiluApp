@@ -11,8 +11,12 @@ use Illuminate\Http\Request;
 
 class KoorDesaController extends Controller
 {
+
     public function index(Request $request, KoorKecamatan $koorkecamatan)
     {
+        if ($koorkecamatan->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         $user = User::where('level', 'KOOR_DESA')->get();
         $desa = $koorkecamatan->koorDesas()->where('name', 'like', '%' . request('cari') . '%')
