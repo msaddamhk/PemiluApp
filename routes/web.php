@@ -41,7 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('/general')->group(function () {
 
         Route::get('/kabkota', [KotaController::class, 'index'])->name('kota.index');
+
         Route::post('/kabkota/store', [KotaController::class, 'store'])->name('kota.store');
+
+        Route::get('/kabkota/{koorkota:slug}/edit', [KotaController::class, 'edit'])->name('kota.edit');
+
+        Route::post('/kabkota/{koorkota:slug}/edit/update', [KotaController::class, 'update'])->name('kota.update');
+
+        Route::post('/kabkota/store_otomatis', [KotaController::class, 'store_kota'])->name('kota.store.otomatis');
 
         Route::get('/kabkota/{koorkota:slug}/kecamatan', [KecamatanController::class, 'index'])
             ->name('kecamatan.index');
@@ -49,11 +56,32 @@ Route::middleware('auth')->group(function () {
         Route::post('/kecamatan/store/{koorkota}', [KecamatanController::class, 'store_kecamatan'])
             ->name('kecamatan.store');
 
+        Route::get(
+            '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/edit',
+            [KecamatanController::class, 'edit']
+        )->name('kecamatan.edit');
+
+        Route::post(
+            '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/edit/update',
+            [KecamatanController::class, 'update']
+        )->name('kecamatan.update');
+
+
         Route::get('/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa', [DesaController::class, 'index'])
             ->name('desa.index');
 
         Route::post('/{koorkota}/{koorkecamatan}/desa/store', [DesaController::class, 'store'])
             ->name('desa.store');
+
+        Route::get(
+            '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/edit',
+            [DesaController::class, 'edit']
+        )->name('desa.edit');
+
+        Route::post(
+            '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/edit/update',
+            [DesaController::class, 'update']
+        )->name('desa.update');
 
         Route::get(
             '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt',
@@ -98,6 +126,16 @@ Route::middleware('auth')->group(function () {
             '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/store',
             [TpsController::class, 'store']
         )->name('tps.store');
+
+        Route::get(
+            '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit',
+            [TpsController::class, 'edit']
+        )->name('tps.edit');
+
+        Route::post(
+            '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit/update',
+            [TpsController::class, 'update']
+        )->name('tps.update');
 
         Route::get(
             '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}',
@@ -178,11 +216,31 @@ Route::middleware('auth')->group(function () {
         Route::get('/kecamatan', [KoorKecamatanController::class, 'index'])
             ->name('koor.kecamatan.index');
 
+        Route::get(
+            '/kecamatan/{koorkecamatan:slug}/edit',
+            [KoorKecamatanController::class, 'edit']
+        )->name('koor.kecamatan.edit');
+
+        Route::post(
+            '/kecamatan/{koorkecamatan:slug}/edit/update',
+            [KoorKecamatanController::class, 'update']
+        )->name('koor.kecamatan.update');
+
         Route::get('/kecamatan/{koorkecamatan:slug}/desa', [KoorDesaController::class, 'index'])
             ->name('koor.kecamatan.desa.index');
 
         Route::post('/kecamatan/{koorkecamatan:slug}/desa/store', [KoorDesaController::class, 'store'])
             ->name('koor.kecamatan.desa.store');
+
+        Route::get(
+            '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/edit',
+            [KoorDesaController::class, 'edit']
+        )->name('koor.kecamatan.desa.edit');
+
+        Route::post(
+            '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/edit/update',
+            [KoorDesaController::class, 'update']
+        )->name('koor.kecamatan.desa.update');
 
         Route::get(
             'kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt',
@@ -231,6 +289,16 @@ Route::middleware('auth')->group(function () {
             [TpsKoorKecamatanController::class, 'store']
         )
             ->name('koor.kecamatan.tps.store');
+
+        Route::get(
+            '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit',
+            [TpsKoorKecamatanController::class, 'edit']
+        )->name('koor.kecamatan.tps.edit');
+
+        Route::post(
+            '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit/update',
+            [TpsKoorKecamatanController::class, 'update']
+        )->name('koor.kecamatan.tps.update');
 
 
         Route::get(
@@ -306,6 +374,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/desa', [DesaKoorDesaController::class, 'index'])
             ->name('koor.desa.index');
 
+        Route::get(
+            '/desa/{koordesa:slug}/edit',
+            [DesaKoorDesaController::class, 'edit']
+        )->name('koor.desa.edit');
+
+        Route::post(
+            '/desa/{koordesa:slug}/edit/update',
+            [DesaKoorDesaController::class, 'update']
+        )->name('koor.desa.update');
+
         Route::get('/desa/{koordesa:slug}/dpt', [DptKoorDesaController::class, 'index'])
             ->name('koor.desa.dpt.index');
 
@@ -337,6 +415,16 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/desa/{koordesa:slug}/tps/store', [TpsKoorDesaController::class, 'store'])
             ->name('koor.desa.tps.store');
+
+        Route::get(
+            '/desa/{koordesa:slug}/tps/{koortps:slug}/edit',
+            [TpsKoorDesaController::class, 'edit']
+        )->name('koor.desa.tps.edit');
+
+        Route::post(
+            '/desa/{koordesa:slug}/tps/{koortps:slug}/edit/update',
+            [TpsKoorDesaController::class, 'update']
+        )->name('koor.desa.tps.update');
 
         Route::get(
             '/desa/{koordesa:slug}/tps/{koortps:slug}/dpt',
@@ -404,11 +492,22 @@ Route::middleware('auth')->group(function () {
             ->name('koor.desa.quick_count.update');
 
 
-
         // tps
 
         Route::get('/tps', [TpsKoorTpsController::class, 'index'])
             ->name('koor.tps.index');
+
+        Route::get(
+            '/tps/{koortps:slug}/edit',
+            [TpsKoorTpsController::class, 'edit']
+        )->name('koor.tps.edit');
+
+        Route::post(
+            '/tps/{koortps:slug}/edit/update',
+            [TpsKoorTpsController::class, 'update']
+        )->name('koor.tps.update');
+
+
         Route::get(
             '/tps/{koortps:slug}/dpt',
             [DptTpsKoorTpsController::class, 'index']

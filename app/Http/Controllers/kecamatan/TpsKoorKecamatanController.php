@@ -56,4 +56,33 @@ class TpsKoorKecamatanController extends Controller
 
         return redirect()->route('koor.kecamatan.tps.index', [$koorkecamatan, $koordesa]);
     }
+
+    public function edit(KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
+    {
+        $users = User::where('level', 'KOOR_TPS')->get();
+        return view('kecamatan.tps.edit', compact('koorkecamatan', 'users', 'koordesa', 'koortps'));
+    }
+
+    public function update(Request $request, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorTps::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
+        $koortps->update([
+            "user_id" => $request->user,
+            "name" => $request->name,
+            'slug' => $slug,
+            "updated_by" => auth()->user()->id,
+        ]);
+
+        return redirect()->route('koor.kecamatan.tps.index', [$koorkecamatan, $koordesa]);
+    }
 }

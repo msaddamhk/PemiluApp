@@ -35,6 +35,7 @@
                         <th scope="col">Nama</th>
                         <th scope="col">Total DPT</th>
                         <th scope="col">Total DPT Memilih</th>
+                        <th scope="col">Pengelola</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -44,7 +45,7 @@
                     @endphp
                     @if ($tps->isEmpty())
                         <tr>
-                            <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                            <td colspan="6" style="text-align: center;">Tidak ada Data</td>
                         </tr>
                     @endif
                     @foreach ($tps as $item)
@@ -53,6 +54,16 @@
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->dpt_count }}</td>
                             <td>{{ $item->dpt_is_voters_count }}</td>
+                            <td>
+                                @if ($item->user_id == null)
+                                    <span class="badge text-bg-warning">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Belum ada Pengelola
+                                    </span>
+                                @else
+                                    {{ $item->user->name }}
+                                @endif
+                            </td>
                             <td>
                                 <a href="
                                 {{ route('koor.kecamatan.tps.dpt.index', [$koorkecamatan, $koordesa, $item->slug]) }}"
@@ -64,6 +75,12 @@
                                 {{ route('koor.kecamatan.quick_count.index', [$koorkecamatan, $koordesa, $item->slug]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
                                     Kelola Quick Count
+                                </a>
+
+                                <a href="
+                                {{ route('koor.kecamatan.tps.edit', [$koorkecamatan, $koordesa, $item]) }}"
+                                    class="btn btn-primary mb-2 mt-2 btn-sm">
+                                    Update Data
                                 </a>
                             </td>
                         </tr>

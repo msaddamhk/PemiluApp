@@ -50,4 +50,33 @@ class DesaController extends Controller
 
         return redirect()->route('desa.index', [$koorkota, $koorkecamatan]);
     }
+
+    public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
+    {
+        $users = User::where('level', 'KOOR_DESA')->get();
+        return view('general.desa.edit', compact('koorkecamatan', 'users', 'koorkota', 'koordesa'));
+    }
+
+    public function update(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorDesa::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
+        $koordesa->update([
+            "user_id" => $request->user,
+            "name" => $request->name,
+            'slug' => $slug,
+            "updated_by" => auth()->user()->id,
+        ]);
+
+        return redirect()->route('desa.index', [$koorkota, $koorkecamatan]);
+    }
 }

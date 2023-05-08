@@ -20,6 +20,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama Kecamatan</th>
+                    <th scope="col">Pengelola</th>
                     <th scope="col">Aksi</th>
 
                 </tr>
@@ -38,8 +39,21 @@
                         <th scope="row">{{ $counter }}</th>
                         <td>{{ $item->name }}</td>
                         <td>
+                            @if ($item->user_id == null)
+                                <span class="badge text-bg-warning">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Belum ada Pengelola
+                                </span>
+                            @else
+                                {{ $item->user->name }}
+                            @endif
+                        </td>
+                        <td>
                             <a href="{{ route('koor.kecamatan.desa.index', [$item]) }}" class="btn btn-primary btn-sm">Lihat
                                 Desa</a>
+
+                            <a href="{{ route('koor.kecamatan.edit', [$item]) }}" class="btn btn-primary btn-sm">Update
+                                Data</a>
                         </td>
                     </tr>
                     @php

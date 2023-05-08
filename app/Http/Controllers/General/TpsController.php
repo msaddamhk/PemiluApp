@@ -56,4 +56,33 @@ class TpsController extends Controller
 
         return redirect()->route('tps.index', [$koorkota, $koorkecamatan, $koordesa]);
     }
+
+    public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
+    {
+        $users = User::where('level', 'KOOR_TPS')->get();
+        return view('general.tps.edit', compact('koorkecamatan', 'users', 'koorkota', 'koordesa', 'koortps'));
+    }
+
+    public function update(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorTps::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
+        $koortps->update([
+            "user_id" => $request->user,
+            "name" => $request->name,
+            'slug' => $slug,
+            "updated_by" => auth()->user()->id,
+        ]);
+
+        return redirect()->route('tps.index', [$koorkota, $koorkecamatan, $koordesa]);
+    }
 }

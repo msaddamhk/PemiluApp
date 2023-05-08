@@ -56,22 +56,19 @@
 }
 
 .card-dpt {
-  background-color: #f8f9fd;
   border: 0;
-  box-shadow: 0px 6px 20px 0px rgba(0, 31, 194, 0.08);
-  /* border-style: solid;
-  border-color: #272459;
-  border-width: 0px 0px 0px 10px; */
+  box-shadow: 0px 6px 20px 0px rgba(0, 31, 194, 0.06);
+  border-style: solid;
+  border-width: 0px 0px 4px 0px;
 }
 
 .card-dpt h6 {
-  color: #0d1458;
+  color: #000000;
   font-weight: 600;
 }
 
 .card-dpt h3 {
   margin: 0;
-
-  color: #3547ac;
+  color: #01030c;
   font-weight: 700;
 }

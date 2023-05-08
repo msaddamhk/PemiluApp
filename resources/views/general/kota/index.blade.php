@@ -3,10 +3,10 @@
 @section('content')
     <section class="p-3">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h2 class="fw-semibold">Kabupaten/Kota</h2>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="d-lg-flex justify-content-lg-end">
                     <form action="{{ route('kota.index') }}" method="GET">
                         <div class="d-flex me-2">
@@ -22,7 +22,12 @@
                     @if (auth()->user()->level == 'GENERAL')
                         <button type="button" class="btn btn-primary btn-sm mt-3 mt-lg-0" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
-                            + Tambah Data
+                            <small>+ Tambah Data</small>
+                        </button>
+
+                        <button type="button" class="btn ms-2 btn-primary btn-sm mt-3 mt-lg-0" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal1">
+                            <small> + Tambah Data Otomatis</small>
                         </button>
                     @endif
                 </div>
@@ -36,31 +41,39 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama Kabupaten/Kota</th>
+                    <th scope="col">Pengelola</th>
                     <th scope="col">Aksi</th>
 
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $counter = 1;
-                @endphp
                 @if ($kota->isEmpty())
                     <tr>
-                        <td colspan="3" style="text-align: center;">Tidak ada Data</td>
+                        <td colspan="4" style="text-align: center;">Tidak ada Data</td>
                     </tr>
                 @endif
                 @foreach ($kota as $item)
                     <tr>
-                        <th scope="row">{{ $counter }}</th>
+                        <th>{{ $loop->iteration }}</th>
                         <td>{{ $item->name }}</td>
+                        <td>
+                            @if ($item->user_id == null)
+                                <span class="badge text-bg-warning">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Belum ada Pengelola
+                                </span>
+                            @else
+                                {{ $item->user->name }}
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('kecamatan.index', $item) }}" class="btn btn-primary btn-sm">Lihat
                                 Kecamatan</a>
+
+                            <a href="{{ route('kota.edit', $item) }}" class="btn btn-primary btn-sm">Update Data</a>
                         </td>
+
                     </tr>
-                    @php
-                        $counter++;
-                    @endphp
                 @endforeach
             </tbody>
         </table>
@@ -105,6 +118,40 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="needs-validation" action="{{ route('kota.store.otomatis') }}" method="POST" novalidate>
+                        <div class="modal-body">
+                            @csrf
+                            <section class="p-3">
+                                <div>
+                                    <label for="level" class="col-form-label">Kabupaten/Kota</label>
+                                    <div>
+                                        <select id="api_kota" class="form-control @error('user') is-invalid @enderror"
+                                            name="api_kota" required>
+                                            <option value="">Pilih Pengelola</option>
+                                            @foreach ($api_kota as $item)
+                                                <option value="{{ $item['id'] }},{{ $item['nama'] }}">
+                                                    {{ $item['nama'] }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </section>

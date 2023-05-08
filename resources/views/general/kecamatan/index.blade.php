@@ -32,6 +32,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama Kecamatan</th>
+                    <th scope="col">Pengelola</th>
                     <th scope="col">Aksi</th>
 
                 </tr>
@@ -42,8 +43,20 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->name }}</td>
                         <td>
+                            @if ($item->user_id == null)
+                                <span class="badge text-bg-warning">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                    Belum ada Pengelola
+                                </span>
+                            @else
+                                {{ $item->user->name }}
+                            @endif
+                        </td>
+                        <td>
                             <a href="{{ route('desa.index', [$koorkota, $item]) }}" class="btn btn-primary btn-sm">Lihat
                                 Desa</a>
+                            <a href="{{ route('kecamatan.edit', [$koorkota, $item]) }}" class="btn btn-primary btn-sm">
+                                Update Data</a>
                         </td>
                     </tr>
                 @empty
@@ -75,7 +88,7 @@
                                 <label for="user" class="col-form-label">Pengelola</label>
                                 <div>
                                     <select id="user" class="form-control @error('user') is-invalid @enderror"
-                                        name="user" required>
+                                        name="user">
                                         <option value="">Pilih Level</option>
                                         @foreach ($user as $item)
                                             <option value="{{ $item->id }}"
@@ -83,11 +96,6 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('user')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                             </div>
                         </section>

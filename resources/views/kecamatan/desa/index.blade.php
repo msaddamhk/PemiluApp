@@ -34,6 +34,7 @@
                         <th scope="col">Nama Desa</th>
                         <th scope="col">Total DPT</th>
                         <th scope="col">Total DPT Memilih</th>
+                        <th scope="col">Pengelola</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -54,6 +55,16 @@
                             <td>{{ $item->dpt_count }}</td>
                             <td>{{ $item->dpt_is_voters_count }}</td>
                             <td>
+                                @if ($item->user_id == null)
+                                    <span class="badge text-bg-warning">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Belum ada Pengelola
+                                    </span>
+                                @else
+                                    {{ $item->user->name }}
+                                @endif
+                            </td>
+                            <td>
                                 @if (env('SHOW_ADD_DATA_TPS', false))
                                     <a href="{{ route('koor.kecamatan.tps.index', [$koorkecamatan, $item]) }}"
                                         class="btn btn-primary btn-sm">Kelola TPS</a>
@@ -61,6 +72,8 @@
                                     <a href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}"
                                         class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
                                 @endif
+                                <a href="{{ route('koor.kecamatan.desa.edit', [$koorkecamatan, $item]) }}"
+                                    class="btn btn-primary btn-sm">Update Data</a>
                             </td>
                         </tr>
                         @php

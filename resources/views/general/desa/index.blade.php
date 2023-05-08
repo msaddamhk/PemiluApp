@@ -35,6 +35,7 @@
                         <th scope="col">Nama Desa</th>
                         <th scope="col">Total DPT</th>
                         <th scope="col">Total DPT Memilih</th>
+                        <th scope="col">Pengelola</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -55,6 +56,16 @@
                             <td>{{ $item->dpt_count }}</td>
                             <td>{{ $item->dpt_is_voters_count }}</td>
                             <td>
+                                @if ($item->user_id == null)
+                                    <span class="badge text-bg-warning">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Belum ada Pengelola
+                                    </span>
+                                @else
+                                    {{ $item->user->name }}
+                                @endif
+                            </td>
+                            <td>
                                 @if (env('SHOW_ADD_DATA_TPS', false))
                                     <a href="{{ route('tps.index', [$koorkota, $koorkecamatan, $item->slug]) }}"
                                         class="btn btn-primary btn-sm">Kelola TPS</a>
@@ -62,6 +73,8 @@
                                     <a href="{{ route('dpt.index', [$koorkota, $koorkecamatan, $item->slug]) }}"
                                         class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
                                 @endif
+                                <a href="{{ route('desa.edit', [$koorkota, $koorkecamatan, $item]) }}"
+                                    class="btn btn-primary btn-sm"><small>Update Data</small></a>
                             </td>
                         </tr>
                         @php
@@ -96,7 +109,7 @@
                                 <label for="user" class="col-form-label">Pengelola</label>
                                 <div>
                                     <select id="user" class="form-control @error('user') is-invalid @enderror"
-                                        name="user" required>
+                                        name="user">
                                         <option value="">Pilih Pengelola</option>
                                         @foreach ($user as $data)
                                             <option value="{{ $data->id }}"
@@ -104,11 +117,6 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('user')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
                                 </div>
                             </div>
                         </section>

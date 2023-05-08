@@ -55,4 +55,33 @@ class KecamatanController extends Controller
 
         return redirect()->route('kecamatan.index', $koorkota);
     }
+
+    public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan)
+    {
+        $users = User::where('level', 'KOOR_KECAMATAN')->get();
+        return view('general.kecamatan.edit', compact('koorkecamatan', 'users', 'koorkota'));
+    }
+
+    public function update(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $slug = Str::slug($request->name);
+        $count = 2;
+        while (KoorKecamatan::where('slug', $slug)->first()) {
+            $slug = Str::slug($request->name) . '-' . $count;
+            $count++;
+        }
+
+        $koorkecamatan->update([
+            "user_id" => $request->user,
+            "name" => $request->name,
+            'slug' => $slug,
+            "updated_by" => auth()->user()->id,
+        ]);
+
+        return redirect()->route('kecamatan.index', $koorkota);
+    }
 }

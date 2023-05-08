@@ -35,6 +35,7 @@
                         <th scope="col">Nama</th>
                         <th scope="col">Total DPT</th>
                         <th scope="col">Total DPT Memilih</th>
+                        <th scope="col">Pengelola</th>
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
@@ -54,6 +55,16 @@
                             <td>{{ $item->dpt_count }}</td>
                             <td>{{ $item->dpt_is_voters_count }}</td>
                             <td>
+                                @if ($item->user_id == null)
+                                    <span class="badge text-bg-warning">
+                                        <i class="bi bi-exclamation-circle"></i>
+                                        Belum ada Pengelola
+                                    </span>
+                                @else
+                                    {{ $item->user->name }}
+                                @endif
+                            </td>
+                            <td>
                                 <a href="
                                 {{ route('koor.desa.tps.dpt.index', [$koordesa, $item]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
@@ -61,6 +72,11 @@
                                 </a>
                                 <a href="
                                 {{ route('koor.desa.quick_count.index', [$koordesa, $item]) }}"
+                                    class="btn btn-primary mb-2 mt-2 btn-sm">
+                                    Kelola Quick Count
+                                </a>
+                                <a href="
+                                {{ route('koor.desa.tps.edit', [$koordesa, $item]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
                                     Kelola Quick Count
                                 </a>
