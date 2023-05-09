@@ -57,7 +57,7 @@
                     </a>
                 @endif
                 @if (Gate::allows('isKoorKecamatan'))
-                    <a href="/" class="item-menu activ">
+                    <a href="/" class="item-menu active">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -136,7 +136,8 @@
                 <div class="d-flex align-items-center justify-content-end gap-4">
 
                     <small class="fw-semibold">Admin</small>
-                    <img src="assets/images/avatar.jpg" alt="Photo Profile" class="avatar" />
+                    <img src="{{ asset('storage/img/users/' . auth()->user()->photo) }}" alt="Photo Profile"
+                        class="avatar" />
 
                     <i class="bi bi-fullscreen" id="myButton"></i>
 

@@ -37,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('index');
     })->name('dashboard.index');
-    Route::resource('data-admin', \App\Http\Controllers\UserController::class)->names('users');
+    Route::resource('data-admin', \App\Http\Controllers\UserController::class)->names('users')->parameter('data-admin', 'user');
     Route::prefix('/general')->group(function () {
 
         Route::get('/kabkota', [KotaController::class, 'index'])->name('kota.index');

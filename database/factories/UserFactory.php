@@ -16,8 +16,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'saddam',
-            'email' => 'saddamhk567@gmail.com',
+            'name' => 'M Fadhil Muflih',
+            'email' => 'mfadhilm098@gmail.com',
             'phone_number' => $this->faker->phoneNumber(),
             'photo' => $this->faker->imageUrl(),
             'created_by' => '1',
