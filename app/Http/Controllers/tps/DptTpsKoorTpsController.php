@@ -11,6 +11,10 @@ class DptTpsKoorTpsController extends Controller
 {
     public function index(Request $request, KoorTps $koortps)
     {
+        if ($koortps->user_id !== auth()->id()) {
+            abort(403);
+        }
+
         $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
             ->get();
         return view('tps.tps.dpt', compact('dpt', 'koortps'));

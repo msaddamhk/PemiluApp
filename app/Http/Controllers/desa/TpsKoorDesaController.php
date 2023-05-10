@@ -13,6 +13,9 @@ class TpsKoorDesaController extends Controller
 {
     public function index(Request $request, KoorDesa $koordesa)
     {
+        if ($koordesa->user_id !== auth()->id()) {
+            abort(403);
+        }
         $user = User::where('level', 'KOOR_TPS')->get();
         $tps = $koordesa->koortps()
             ->where('name', 'like', '%' . request('cari') . '%')

@@ -11,6 +11,9 @@ class DptKoorDesaController extends Controller
 {
     public function index(Request $request, KoorDesa $koordesa)
     {
+        if ($koordesa->user_id !== auth()->id()) {
+            abort(403);
+        }
         $desa = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
             ->get();
         return view('desa.dpt.index', compact('desa', 'koordesa'));

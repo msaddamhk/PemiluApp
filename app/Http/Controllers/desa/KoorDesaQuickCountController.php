@@ -13,6 +13,9 @@ class KoorDesaQuickCountController extends Controller
 {
     public function index(Request $request, KoorDesa $koordesa, KoorTps $koortps)
     {
+        if ($koordesa->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         $quick_count = $koortps->quickCount()->where('number_of_votes', 'like', '%' . request('cari') . '%')
             ->get();
