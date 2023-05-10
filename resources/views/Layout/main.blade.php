@@ -23,6 +23,9 @@
     <!-- CDN Fontawesome -->
     <script src=" {{ asset('https://kit.fontawesome.com/32f82e1dca.js') }}" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
+
+
+    <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -136,7 +139,8 @@
                 <div class="d-flex align-items-center justify-content-end gap-4">
 
                     <small class="fw-semibold">Admin</small>
-                    <img src="assets/images/avatar.jpg" alt="Photo Profile" class="avatar" />
+                    <img src="{{ asset('storage/img/users/' . auth()->user()->photo) }}" alt="Photo Profile"
+                        class="avatar" />
 
                     <i class="bi bi-fullscreen" id="myButton"></i>
 
@@ -157,10 +161,10 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-    <script src="assets/js/donut_chart.js"></script>
-    <script src="assets/js/line_chart.js"></script>
 
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <script>
         document.querySelector('form.needs-validation').addEventListener('submit', function(event) {
@@ -174,6 +178,15 @@
                 event.stopPropagation();
             }
         }, false);
+    </script>
+
+    <script>
+        const choices = new Choices('#user', {
+            searchEnabled: true,
+            searchChoices: true,
+            placeholder: true,
+            placeholderValue: 'Pilih pengelola',
+        });
     </script>
 </body>
 

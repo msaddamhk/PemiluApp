@@ -78,7 +78,7 @@
                                 <a href="
                                 {{ route('koor.desa.tps.edit', [$koordesa, $item]) }}"
                                     class="btn btn-primary mb-2 mt-2 btn-sm">
-                                    Kelola Quick Count
+                                    Update Data
                                 </a>
                             </td>
                         </tr>
@@ -112,7 +112,7 @@
                         <div>
                             <label for="user" class="col-form-label">Pengelola</label>
                             <div>
-                                <select id="user" class="form-control @error('user') is-invalid @enderror"
+                                <select id="user" class="form-control choices @error('user') is-invalid @enderror"
                                     name="user" required>
                                     <option value="">Pilih Pengelola</option>
                                     @foreach ($user as $data)

@@ -35,7 +35,7 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->level }}</td>
                         <td>
-                            <a href="" class="btn btn-primary mb-2 mt-2 btn-sm">
+                            <a href="{{ route('users.edit', $data) }}" class="btn btn-primary mb-2 mt-2 btn-sm">
                                 Update Data
                             </a>
                         </td>

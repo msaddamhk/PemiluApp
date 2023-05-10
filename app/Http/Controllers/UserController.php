@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -13,19 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->level == 'GENERAL') {
-            $users = User::all();
-            return view('admin.index', compact('users'));
-        } elseif (auth()->user()->level == 'KOOR_KAB_KOTA') {
-            $users = User::where('level', 'KOOR_KECAMATAN')->get();
-            return view('admin.index', compact('users'));
-        } elseif (auth()->user()->level == 'KOOR_KECAMATAN') {
-            $users = User::where('level', 'KOOR_DESA')->get();
-            return view('admin.index', compact('users'));
-        } elseif (auth()->user()->level == 'KOOR_DESA') {
-            $users = User::where('level', 'KOOR_TPS')->get();
-            return view('admin.index', compact('users'));
-        }
+        $users = User::all();
+        return view('admin.index', compact('users'));
     }
 
     /**
@@ -80,9 +70,9 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.edit', compact('user'));
     }
 
     /**
@@ -90,7 +80,38 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone_number' => 'required',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:4048',
+            'level' => 'required',
+            'is_active' => 'required|boolean',
+            'password' => 'nullable|min:8',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        if ($request->hasFile('photo')) {
+            Storage::delete('public/img/users/' . $user->photo);
+            $request->photo->store('public/img/users');
+            $user->photo = $request->photo->hashName();
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->level = $request->level;
+        $user->is_active = $request->is_active;
+        $user->updated_by = auth()->user()->id;
+
+        if (!empty($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('users.index');
     }
 
     /**

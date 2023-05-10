@@ -13,7 +13,7 @@
             <div class="form-group mt-3">
                 <label for="user">User:</label>
 
-                <select id="user" class="form-control @error('user') is-invalid @enderror" name="user">
+                <select id="user" class="form-control choices @error('user') is-invalid @enderror" name="user">
                     <option value="">Pilih Pengelola</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}" {{ $koortps->user_id == $user->id ? 'selected' : '' }}>

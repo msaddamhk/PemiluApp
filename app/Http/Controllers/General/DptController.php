@@ -28,11 +28,17 @@ class DptController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'phone_number' => 'required',
-            'is_voters' => 'required',
-            'indentity_number' => 'required|unique:dpt,indentity_number,',
+            'phone_number' => 'nullable|numeric|unique:dpt,phone_number,',
+            'is_voters' => 'nullable',
+            'gender' => 'nullable',
+            'date_of_birth' => 'nullable|date',
+            'indentity_number' => 'nullable|numeric|unique:dpt,indentity_number,',
         ], [
             'indentity_number.unique' => 'No identitas sudah terdaftar.',
+            'phone_number.unique' => 'No HP sudah terdaftar.',
+            'phone_number.numeric' => 'No Hp Wajib Angka',
+            'date_of_birth.date' => 'Tanggal Lahir Format Tanggal',
+
         ]);
 
         Dpt::create([
@@ -41,6 +47,8 @@ class DptController extends Controller
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
             "is_voters" => $request->is_voters,
+            "date_of_birth" => $request->date_of_birth,
+            "gender" => $request->gender,
             "created_by" => auth()->user()->id,
             "updated_by" => auth()->user()->id,
         ]);
@@ -58,17 +66,24 @@ class DptController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'phone_number' => 'required',
-            'is_voters' => 'required',
-            'indentity_number' => 'required|unique:dpt,indentity_number,' . $dpt->id . ',id',
+            'phone_number' => 'nullable|numeric|unique:dpt,phone_number,' . $dpt->id . ',id',
+            'is_voters' => 'nullable',
+            'gender' => 'nullable',
+            'date_of_birth' => 'nullable|date',
+            'indentity_number' => 'nullable|numeric|unique:dpt,indentity_number,' . $dpt->id . ',id',
         ], [
             'indentity_number.unique' => 'No identitas sudah terdaftar.',
+            'phone_number.unique' => 'No HP sudah terdaftar.',
+            'phone_number.numeric' => 'No Hp Wajib Angka',
+            'date_of_birth.date' => 'Tanggal Lahir Format Tanggal',
         ]);
 
         $dpt->name = $request->name;
         $dpt->indentity_number = $request->indentity_number;
         $dpt->phone_number = $request->phone_number;
         $dpt->is_voters = $request->is_voters;
+        $dpt->date_of_birth = $request->date_of_birth;
+        $dpt->gender = $request->gender;
         $dpt->updated_by = auth()->user()->id;
         $dpt->save();
 

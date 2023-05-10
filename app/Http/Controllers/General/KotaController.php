@@ -63,7 +63,7 @@ class KotaController extends Controller
 
     public function edit(KoorKota $koorkota)
     {
-        $users = User::all();
+        $users = User::where('level', 'KOOR_KAB_KOTA')->get();
         return view('general.kota.edit', compact('koorkota', 'users'));
     }
 

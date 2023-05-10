@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
         return view('index');
     })->name('dashboard.index');
 
-    Route::resource('data-admin', \App\Http\Controllers\UserController::class)->names('users');
+    Route::resource('data-admin', \App\Http\Controllers\UserController::class)->names('users')->parameter('data-admin', 'user');
 
     Route::prefix('/general')->group(function () {
 

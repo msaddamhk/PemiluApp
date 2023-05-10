@@ -17,6 +17,8 @@ class Dpt extends Model
         "indentity_number",
         "phone_number",
         "is_voters",
+        "date_of_birth",
+        "gender",
         "created_by",
         "updated_by",
     ];

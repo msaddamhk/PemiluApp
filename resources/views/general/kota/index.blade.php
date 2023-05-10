@@ -14,7 +14,7 @@
                                 placeholder="Cari Kab/Kota..."class="search form-control me-2" />
                             <button class="btn btn-search d-flex justify-content-center align-items-center p-0"
                                 type="submit">
-                                <img src="assets/images/ic_search.svg" width="20px" height="20px" />
+                                <img src="{{ asset('assets/images/ic_search.svg') }}" width="20px" height="20px" />
                             </button>
                         </div>
                     </form>
@@ -99,9 +99,10 @@
                                 <div>
                                     <label for="level" class="col-form-label">Pengelola</label>
                                     <div>
-                                        <select id="user" class="form-control @error('user') is-invalid @enderror"
-                                            name="user" required>
-                                            <option value="">Pilih Level</option>
+                                        <select id="user"
+                                            class="form-control choices @error('user') is-invalid @enderror" name="user"
+                                            required>
+                                            <option value="">Pengelola</option>
                                             @foreach ($user as $data)
                                                 <option value="{{ $data->id }}"
                                                     {{ old('user') == $data->id ? 'selected' : '' }}>{{ $data->name }}
@@ -141,12 +142,37 @@
                         <div class="modal-body">
                             @csrf
                             <section class="p-3">
+                                <div class="mb-3">
+                                    <label for="level" class="col-form-label">Pengelola Kota</label>
+                                    <div>
+                                        <select id="user" class="form-control @error('user') is-invalid @enderror"
+                                            name="user" required>
+                                            <option value="" disabled selected>Pilih Pengelola</option>
+                                            @foreach ($user as $data)
+                                                <option value="{{ $data->id }}"
+                                                    {{ old('user') == $data->id ? 'selected' : '' }}>{{ $data->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <label for="exampleInputEmail1" class="form-label">Belum ada Data ?
+                                            <a href="{{ route('users.index') }}">Tambahkan
+                                                Sekarang </a>
+                                        </label>
+
+                                        @error('user')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div>
                                     <label for="level" class="col-form-label">Kabupaten/Kota</label>
                                     <div>
                                         <select id="api_kota" class="form-control @error('user') is-invalid @enderror"
                                             name="api_kota" required>
-                                            <option value="">Pilih Pengelola</option>
+                                            <option value="">Pilih Kab/Kota</option>
                                             @foreach ($api_kota as $item)
                                                 <option value="{{ $item['id'] }},{{ $item['nama'] }}">
                                                     {{ $item['nama'] }}</option>
