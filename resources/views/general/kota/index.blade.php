@@ -102,7 +102,7 @@
                                         <select id="user"
                                             class="form-control choices @error('user') is-invalid @enderror" name="user"
                                             required>
-                                            <option value="">Pengelola</option>
+                                            <option value="">Pilih Pengelola</option>
                                             @foreach ($user as $data)
                                                 <option value="{{ $data->id }}"
                                                     {{ old('user') == $data->id ? 'selected' : '' }}>{{ $data->name }}
