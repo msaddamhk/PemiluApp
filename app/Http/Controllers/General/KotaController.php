@@ -27,7 +27,7 @@ class KotaController extends Controller
             $data = json_decode(file_get_contents($url), true);
             $api_kota = $data['kota_kabupaten'];
 
-            $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->get();
+            $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
 
             $user = User::where('level', 'KOOR_KAB_KOTA')->get();
 
@@ -47,7 +47,7 @@ class KotaController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'user' => 'required',
+            'user_id' => 'nullable',
         ]);
 
         KoorKota::create([
@@ -72,7 +72,7 @@ class KotaController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'user' => 'required',
+            'user_id' => 'nullable',
         ]);
 
         $koorkota->update([

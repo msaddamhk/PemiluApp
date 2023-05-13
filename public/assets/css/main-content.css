@@ -7,13 +7,42 @@
   border-radius: 50px 0 0 50px;
 }
 
+input[type="text"] {
+  font-size: 12px;
+}
+
+input[type="date"] {
+  font-size: 12px;
+}
+
 .content.active {
   margin-left: 0px;
 }
 
+td {
+  font-size: 12px;
+}
+
+th {
+  font-size: 12px;
+}
+
+label {
+  font-size: 12px;
+}
+
+.btn-primary {
+  font-size: 10px;
+  margin: 0;
+}
+
+input::placeholder {
+  font-size: 12px;
+}
+
 .search {
-  width: 300px;
-  height: 40px;
+  /* width: 300px;
+  height: 40px; */
   border: none;
   font-size: 14px;
   padding: 0 20px;

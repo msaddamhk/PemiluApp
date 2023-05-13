@@ -2,70 +2,71 @@
 
 @section('content')
     <section class="p-3">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="fw-semibold">Kecamatan di seluruh {{ $koorkota->name }}</h2>
-            </div>
-            <div class="col-md-6">
-                <div class="d-flex justify-content-end">
-                    <form action="{{ route('kecamatan.index', $koorkota) }}" method="GET">
-                        <div class="d-flex me-2">
-                            <input type="text" name="cari" value="{{ request('cari') }}"
-                                placeholder="Cari Kecamatan..."class="search form-control me-2" />
-                            <button class="btn btn-search d-flex justify-content-center align-items-center p-0"
-                                type="submit">
-                                <img src="{{ asset('assets/images/ic_search.svg') }}" width="20px" height="20px" />
-                            </button>
-                        </div>
-                    </form>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        + Tambah Data
+
+        <div class="d-lg-flex justify-content-between">
+            <h5 class="fw-semibold">Kecamatan di seluruh {{ $koorkota->name }}</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                + Tambah Data
+            </button>
+        </div>
+
+        <div class="card p-3 mt-3">
+            <form action="{{ route('kecamatan.index', $koorkota) }}" method="GET">
+                <div class="d-flex me-2 mt-2 mb-2">
+                    <input type="text" name="cari" value="{{ request('cari') }}"
+                        placeholder="Cari Kecamatan..."class="form-control me-2" />
+                    <button class="btn btn-search d-flex justify-content-center align-items-center p-0" type="submit">
+                        <img src="{{ asset('assets/images/ic_search.svg') }}" width="20px" height="20px" />
                     </button>
                 </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama Kecamatan</th>
+                            <th scope="col">Pengelola</th>
+                            <th scope="col">Jumlah Desa</th>
+                            <th scope="col">Aksi</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($kecamatan as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>
+                                    @if ($item->user_id == null)
+                                        <span class="badge text-bg-warning">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Belum ada Pengelola
+                                        </span>
+                                    @else
+                                        {{ $item->user->name }}
+                                    @endif
+                                </td>
+                                <td>{{ $item->jumlahDesa() }} Desa</td>
+                                <td class="d-flex">
+                                    <a href="{{ route('desa.index', [$koorkota, $item]) }}"
+                                        class="btn btn-primary btn-sm me-2">Lihat
+                                        Desa</a>
+                                    <a href="{{ route('kecamatan.edit', [$koorkota, $item]) }}"
+                                        class="btn btn-primary btn-sm">
+                                        Update Data</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" style="text-align: center;">Tidak ada Data</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
+            {{ $kecamatan->links() }}
         </div>
-        <hr />
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama Kecamatan</th>
-                    <th scope="col">Pengelola</th>
-                    <th scope="col">Aksi</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($kecamatan as $item)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>
-                            @if ($item->user_id == null)
-                                <span class="badge text-bg-warning">
-                                    <i class="bi bi-exclamation-circle"></i>
-                                    Belum ada Pengelola
-                                </span>
-                            @else
-                                {{ $item->user->name }}
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('desa.index', [$koorkota, $item]) }}" class="btn btn-primary btn-sm">Lihat
-                                Desa</a>
-                            <a href="{{ route('kecamatan.edit', [$koorkota, $item]) }}" class="btn btn-primary btn-sm">
-                                Update Data</a>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" style="text-align: center;">Tidak ada Data</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
     </section>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,7 +76,8 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="needs-validation" action="{{ route('kecamatan.store', $koorkota) }}" method="POST" novalidate>
+                <form class="needs-validation" action="{{ route('kecamatan.store', $koorkota) }}" method="POST"
+                    novalidate>
                     <div class="modal-body">
                         @csrf
                         <section class="p-3">

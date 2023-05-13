@@ -14,8 +14,14 @@ class KecamatanController extends Controller
 {
     public function index(Request $request, KoorKota $koorkota)
     {
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            if ($koorkota->user_id !== auth()->id()) {
+                abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
+            }
+        }
+
         $user = User::where('level', 'KOOR_KECAMATAN')->get();
-        $kecamatan = $koorkota->KoorKecamatans()->where('name', 'like', '%' . request('cari') . '%')->get();
+        $kecamatan = $koorkota->KoorKecamatans()->where('name', 'like', '%' . request('cari') . '%')->paginate(15);
         return view('general.kecamatan.index', compact('koorkota', 'kecamatan',  'user'));
     }
 
@@ -30,6 +36,7 @@ class KecamatanController extends Controller
 
         $request->validate([
             'name' => 'required|unique:koor_kecamatan,name,NULL,id,koor_kota_id,' . $koorkota->id,
+            'user_id' => 'nullable',
         ], [
             'name.required' => 'Nama harus diisi.',
             'name.unique' => 'Kecamatan sudah ada untuk kota ini.',
@@ -66,6 +73,7 @@ class KecamatanController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'user_id' => 'nullable',
         ]);
 
         $slug = Str::slug($request->name);

@@ -22,6 +22,12 @@ class QuickCountController extends Controller
         KoorTps $koortps
     ) {
 
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            if ($koorkota->user_id !== auth()->id()) {
+                abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
+            }
+        }
+
         $quick_count = $koortps->quickCount()->where('number_of_votes', 'like', '%' . request('cari') . '%')
             ->get();
 

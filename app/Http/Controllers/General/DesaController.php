@@ -15,11 +15,17 @@ class DesaController extends Controller
 {
     public function index(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan)
     {
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            if ($koorkota->user_id !== auth()->id()) {
+                abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
+            }
+        }
+
         $user = User::where('level', 'KOOR_DESA')->get();
         $desa = $koorkecamatan->koorDesas()->where('name', 'like', '%' . request('cari') . '%')
             ->withCount(['dpts', 'dpts as dpt_is_voters_count' => function ($query) {
                 $query->where('is_voters', true);
-            }])->get();
+            }])->paginate(15);
         return view('general.desa.index', compact('koorkota', 'koorkecamatan', 'desa', 'user'));
     }
 

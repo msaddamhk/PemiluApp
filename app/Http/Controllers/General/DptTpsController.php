@@ -14,8 +14,13 @@ class DptTpsController extends Controller
 {
     public function index(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
     {
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            if ($koorkota->user_id !== auth()->id()) {
+                abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
+            }
+        }
         $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
-            ->get();
+            ->paginate(15);
         return view('general.tps.dpt', compact('dpt', 'koorkota', 'koorkecamatan', 'koordesa', 'koortps'));
     }
 

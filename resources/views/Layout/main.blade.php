@@ -180,6 +180,14 @@
         }, false);
     </script>
 
+    @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                $('#exampleModal').modal('show');
+            });
+        </script>
+    @endif
+
     <script>
         const choices = new Choices('#user', {
             searchEnabled: true,

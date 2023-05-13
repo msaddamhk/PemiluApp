@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,26 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Gate::define('hasAccessToKota', function ($user, $kotaSlug) {
-        //     $kota = KoorKota::where('user_id', $user->id)->where('slug', $kotaSlug)->first();
-        //     return !is_null($kota);
-        // });
-
-        // Gate::define('hasAccessToKecamatan', function ($user, $kecamatanSlug) {
-        //     $kecamatan = KoorKecamatan::where('user_id', $user->id)->where('slug', $kecamatanSlug)->first();
-        //     return !is_null($kecamatan);
-        // });
-
-
-        // Gate::define('hasAccessToKecamatan', function ($user, $kecamatanSlug) {
-        //     return $user->koorKecamatans()->where('slug', $kecamatanSlug)->exists();
-        // });
-
-        // Gate::define('hasAccessToKecamatan', function ($user) {
-        //     $kecamatan = KoorKecamatan::where('user_id', $user->id)->first();
-        //     return !is_null($kecamatan);
-        // });
-
+        Paginator::useBootstrapFive();
 
         Gate::define('isGeneral', function ($user) {
             return $user->level == 'GENERAL';

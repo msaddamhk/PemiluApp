@@ -16,6 +16,11 @@ class TpsController extends Controller
 {
     public function index(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            if ($koorkota->user_id !== auth()->id()) {
+                abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
+            }
+        }
         $user = User::where('level', 'KOOR_TPS')->get();
 
         $tps = $koordesa->koortps()
@@ -23,7 +28,7 @@ class TpsController extends Controller
             ->withCount(['dpt', 'dptIsVoters' => function ($query) {
                 $query->where('is_voters', true);
             }])
-            ->get();
+            ->paginate(15);
 
         return view('general.tps.index', compact('tps', 'koorkecamatan', 'koorkota', 'koordesa', 'user'));
     }

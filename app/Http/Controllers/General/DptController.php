@@ -14,9 +14,15 @@ class DptController extends Controller
 {
     public function index(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
-        $desa = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
-            ->get();
-        return view('general.dpt.index', compact('desa', 'koorkecamatan', 'koorkota', 'koordesa'));
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            if ($koorkota->user_id !== auth()->id()) {
+                abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
+            }
+        }
+
+        $dpt = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
+            ->paginate(15);
+        return view('general.dpt.index', compact('dpt', 'koorkecamatan', 'koorkota', 'koordesa'));
     }
 
     public function create(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
