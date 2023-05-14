@@ -16,7 +16,7 @@ class DptTpsKoorTpsController extends Controller
         }
 
         $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
-            ->get();
+            ->paginate(15);
         return view('tps.tps.dpt', compact('dpt', 'koortps'));
     }
 

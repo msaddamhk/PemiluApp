@@ -2,86 +2,84 @@
 
 @section('content')
     <section class="p-3">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="fw-semibold">Seluruh Desa di {{ $koorkecamatan->name }}</h2>
-            </div>
-            <div class="col-md-6">
-                <div class="d-flex justify-content-end">
-                    <form action="{{ route('koor.kecamatan.desa.index', [$koorkecamatan]) }}" method="GET">
-                        <div class="d-flex me-2">
-                            <input type="text" name="cari"
-                                placeholder="Cari Desa..."class="search form-control me-2" />
-                            <button class="btn btn-search d-flex justify-content-center align-items-center p-0"
-                                type="submit">
-                                <img src="{{ asset('assets/images/ic_search.svg') }}" width="20px" height="20px" />
-                            </button>
-                        </div>
-                    </form>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        + Tambah Data
+        <div class="d-flex justify-content-between">
+            <h5 class="fw-semibold">Seluruh Desa di {{ $koorkecamatan->name }}</h5>
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                + Tambah Data
+            </button>
+        </div>
+        <div class="card p-3 mt-3">
+            <form action="{{ route('koor.kecamatan.desa.index', [$koorkecamatan]) }}" method="GET">
+                <div class="d-flex me-2 mt-2 mb-2">
+                    <input type="text" name="cari" placeholder="Cari Desa..."class="form-control me-2" />
+                    <button class="btn btn-search d-flex justify-content-center align-items-center p-0" type="submit">
+                        <img src="{{ asset('assets/images/ic_search.svg') }}" width="20px" height="20px" />
                     </button>
                 </div>
-            </div>
-        </div>
-        <hr />
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama Desa</th>
-                        <th scope="col">Total DPT</th>
-                        <th scope="col">Total DPT Memilih</th>
-                        <th scope="col">Pengelola</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $counter = 1;
-                    @endphp
-                    @if ($desa->isEmpty())
+            </form>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama Desa</th>
+                            <th scope="col">Total DPT</th>
+                            <th scope="col">Total DPT Memilih</th>
+                            <th scope="col">Pengelola</th>
+                            <th scope="col">Aksi</th>
                         </tr>
-                    @endif
-
-                    @foreach ($desa as $item)
-                        <tr>
-                            <th scope="row">{{ $counter }}</th>
-                            <td>{{ $item->name }}</td>
-                            <td>{{ $item->dpt_count }}</td>
-                            <td>{{ $item->dpt_is_voters_count }}</td>
-                            <td>
-                                @if ($item->user_id == null)
-                                    <span class="badge text-bg-warning">
-                                        <i class="bi bi-exclamation-circle"></i>
-                                        Belum ada Pengelola
-                                    </span>
-                                @else
-                                    {{ $item->user->name }}
-                                @endif
-                            </td>
-                            <td>
-                                @if (env('SHOW_ADD_DATA_TPS', false))
-                                    <a href="{{ route('koor.kecamatan.tps.index', [$koorkecamatan, $item]) }}"
-                                        class="btn btn-primary btn-sm">Kelola TPS</a>
-                                @else
-                                    <a href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}"
-                                        class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
-                                @endif
-                                <a href="{{ route('koor.kecamatan.desa.edit', [$koorkecamatan, $item]) }}"
-                                    class="btn btn-primary btn-sm">Update Data</a>
-                            </td>
-                        </tr>
+                    </thead>
+                    <tbody>
                         @php
-                            $counter++;
+                            $counter = 1;
                         @endphp
-                    @endforeach
-                </tbody>
-            </table>
+                        @if ($desa->isEmpty())
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                            </tr>
+                        @endif
+
+                        @foreach ($desa as $item)
+                            <tr>
+                                <th scope="row">{{ $counter }}</th>
+                                <td>
+                                    <a class="text-black"
+                                        href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}">
+                                        {{ $item->name }}
+                                    </a>
+                                </td>
+                                <td>{{ $item->dpt_count }} Orang</td>
+                                <td>{{ $item->dpt_is_voters_count }} Orang</td>
+                                <td>
+                                    @if ($item->user_id == null)
+                                        <span class="badge text-bg-warning">
+                                            <i class="bi bi-exclamation-circle"></i>
+                                            Belum ada Pengelola
+                                        </span>
+                                    @else
+                                        {{ $item->user->name }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if (env('SHOW_ADD_DATA_TPS', false))
+                                        <a href="{{ route('koor.kecamatan.tps.index', [$koorkecamatan, $item]) }}"
+                                            class="btn btn-primary btn-sm">Kelola TPS</a>
+                                    @else
+                                        <a href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}"
+                                            class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
+                                    @endif
+                                    <a href="{{ route('koor.kecamatan.desa.edit', [$koorkecamatan, $item]) }}"
+                                        class="btn btn-primary btn-sm">Update Data</a>
+                                </td>
+                            </tr>
+                            @php
+                                $counter++;
+                            @endphp
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            {{ $desa->links() }}
         </div>
     </section>
 

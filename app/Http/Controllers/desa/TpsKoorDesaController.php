@@ -22,7 +22,7 @@ class TpsKoorDesaController extends Controller
             ->withCount(['dpt', 'dptIsVoters' => function ($query) {
                 $query->where('is_voters', true);
             }])
-            ->get();
+            ->paginate(15);
 
         return view('desa.tps.index', compact('tps', 'koordesa', 'user'));
     }

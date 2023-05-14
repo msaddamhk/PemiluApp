@@ -16,7 +16,7 @@ class DptTpsKoorDesaController extends Controller
             abort(403);
         }
         $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
-            ->get();
+            ->paginate(15);
         return view('desa.tps.dpt', compact('dpt', 'koordesa', 'koortps'));
     }
 

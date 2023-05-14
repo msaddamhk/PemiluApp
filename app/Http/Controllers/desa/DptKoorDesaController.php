@@ -14,9 +14,9 @@ class DptKoorDesaController extends Controller
         if ($koordesa->user_id !== auth()->id()) {
             abort(403);
         }
-        $desa = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
-            ->get();
-        return view('desa.dpt.index', compact('desa', 'koordesa'));
+        $dpt = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
+            ->paginate(15);
+        return view('desa.dpt.index', compact('dpt', 'koordesa'));
     }
 
     public function create(KoorDesa $koordesa)

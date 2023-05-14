@@ -44,7 +44,12 @@
                         @foreach ($desa as $item)
                             <tr>
                                 <th scope="row">{{ $counter }}</th>
-                                <td>{{ $item->name }}</td>
+                                <td>
+                                    <a class="text-black"
+                                        href="{{ route('tps.index', [$koorkota, $koorkecamatan, $item->slug]) }}">
+                                        {{ $item->name }}
+                                    </a>
+                                </td>
                                 <td>{{ $item->dpt_count }} Orang</td>
                                 <td>{{ $item->dpt_is_voters_count }} Orang</td>
                                 <td>

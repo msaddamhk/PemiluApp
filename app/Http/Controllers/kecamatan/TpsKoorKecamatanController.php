@@ -23,7 +23,7 @@ class TpsKoorKecamatanController extends Controller
             ->withCount(['dpt', 'dptIsVoters' => function ($query) {
                 $query->where('is_voters', true);
             }])
-            ->get();
+            ->paginate(15);
 
         return view('kecamatan.tps.index', compact('tps', 'koorkecamatan', 'koordesa', 'user'));
     }

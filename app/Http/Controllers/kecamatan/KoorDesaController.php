@@ -22,7 +22,7 @@ class KoorDesaController extends Controller
         $desa = $koorkecamatan->koorDesas()->where('name', 'like', '%' . request('cari') . '%')
             ->withCount(['dpts', 'dpts as dpt_is_voters_count' => function ($query) {
                 $query->where('is_voters', true);
-            }])->get();
+            }])->paginate(15);
 
         return view('kecamatan.desa.index', compact('koorkecamatan', 'desa', 'user'));
     }

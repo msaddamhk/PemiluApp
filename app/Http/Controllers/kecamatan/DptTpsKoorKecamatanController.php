@@ -18,7 +18,7 @@ class DptTpsKoorKecamatanController extends Controller
             abort(403);
         }
         $dpt = $koortps->dpt()->where('name', 'like', '%' . request('cari') . '%')
-            ->get();
+            ->paginate(15);
         return view('kecamatan.tps.dpt', compact('dpt', 'koorkecamatan', 'koordesa', 'koortps'));
     }
 
