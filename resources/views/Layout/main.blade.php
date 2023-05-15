@@ -45,7 +45,7 @@
 
                 @if (Gate::any(['isKoorKota', 'isGeneral']))
                     ;
-                    <a href="/" class="item-menu activ">
+                    <a href="{{ route('dashboard.general.index') }}" class="item-menu activ">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -60,7 +60,7 @@
                     </a>
                 @endif
                 @if (Gate::allows('isKoorKecamatan'))
-                    <a href="/" class="item-menu activ">
+                    <a href="{{ route('dashboard.kecamatan.index') }}" class="item-menu activ">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -76,7 +76,7 @@
                     </a>
                 @endif
                 @if (Gate::allows('isKoorDesa'))
-                    <a href="/" class="item-menu activ">
+                    <a href="{{ route('dashboard.desa.index') }}" class="item-menu activ">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -92,7 +92,7 @@
                     </a>
                 @endif
                 @if (Gate::allows('isKoorTps'))
-                    <a href="/" class="item-menu">
+                    <a href="{{ route('dashboard.tps.index') }}" class="item-menu">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>

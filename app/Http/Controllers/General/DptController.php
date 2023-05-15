@@ -10,6 +10,7 @@ use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
 use Illuminate\Http\Request;
 
+
 class DptController extends Controller
 {
     public function index(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)

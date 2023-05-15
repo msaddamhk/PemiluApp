@@ -7,7 +7,8 @@
         <hr />
 
         <div class="">
-            <img src="gelora1.png" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;" alt="" />
+            <img src="{{ asset('gelora1.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
+                alt="" />
         </div>
 
         <div class="mt-4">

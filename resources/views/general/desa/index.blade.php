@@ -46,7 +46,7 @@
                                 <th scope="row">{{ $counter }}</th>
                                 <td>
                                     <a class="text-black"
-                                        href="{{ route('tps.index', [$koorkota, $koorkecamatan, $item->slug]) }}">
+                                        href="{{ route('dpt.index', [$koorkota, $koorkecamatan, $item->slug]) }}">
                                         {{ $item->name }}
                                     </a>
                                 </td>
