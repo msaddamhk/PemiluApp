@@ -21,7 +21,10 @@ class TpsController extends Controller
                 abort(403, "Anda tidak diizinkan untuk mengakses halaman ini");
             }
         }
-        $user = User::where('level', 'KOOR_TPS')->get();
+
+        $user = User::where('level', 'KOOR_TPS')
+            ->whereDoesntHave('tps')
+            ->get();
 
         $tps = $koordesa->koortps()
             ->where('name', 'like', '%' . request('cari') . '%')
@@ -53,6 +56,7 @@ class TpsController extends Controller
         KoorTps::create([
             "user_id" => $request->user,
             "koor_desa_id" => $koordesa->id,
+            "total_dpt_by_tps" => $request->total_dpt_by_tps,
             'slug' => $slug,
             "name" => $request->name,
             "created_by" => auth()->user()->id,
@@ -84,6 +88,7 @@ class TpsController extends Controller
         $koortps->update([
             "user_id" => $request->user,
             "name" => $request->name,
+            "total_dpt_by_tps" => $request->total_dpt_by_tps,
             'slug' => $slug,
             "updated_by" => auth()->user()->id,
         ]);

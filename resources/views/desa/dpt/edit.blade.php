@@ -4,10 +4,27 @@
     <section class="p-3">
         <form action="{{ route('koor.desa.dpt.update', [$koordesa, $dpt]) }}" method="POST">
             @csrf
-            <div class="mb-3">
+            <div class="mb-2">
                 <label class="form-label">Nama</label>
                 <input type="text" name="name" value="{{ $dpt->name }}" class="form-control">
             </div>
+
+            @if (env('SHOW_ADD_DATA_TPS', false))
+                <div class="mb-3">
+                    <label for="tps" class="col-form-label">TPS</label>
+                    <div>
+                        <select id="tps" class="form-control choices" name="tps" required>
+                            <option value="">Pilih TPS</option>
+                            @foreach ($koordesa->koortps as $data)
+                                <option value="{{ $data->id }}" @selected($data->id == $dpt->tps_id)>
+                                    {{ $data->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
 
             <div class="mb-3">
                 <label class="form-label">No Identitas</label>
@@ -51,25 +68,6 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="is_voters">Apakah terdaftar sebagai Pemilih?</label>
-                <div class="d-flex mt-1 mb-2">
-                    <div class="form-check me-5">
-                        <input class="form-check-input" type="radio" name="is_voters" id="is_voters_yes" value="1"
-                            {{ $dpt->is_voters == 1 ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_voters_yes">
-                            Ya
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_voters" id="is_voters_no" value="0"
-                            {{ $dpt->is_voters == 0 ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_voters_no">
-                            Tidak
-                        </label>
-                    </div>
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </section>

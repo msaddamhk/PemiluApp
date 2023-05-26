@@ -47,6 +47,7 @@ class TpsKoorDesaController extends Controller
         KoorTps::create([
             "user_id" => $request->user,
             "koor_desa_id" => $koordesa->id,
+            "total_dpt_by_tps" => $request->total_dpt_by_tps,
             'slug' => $slug,
             "name" => $request->name,
             "created_by" => auth()->user()->id,
@@ -79,6 +80,7 @@ class TpsKoorDesaController extends Controller
             "user_id" => $request->user,
             "name" => $request->name,
             'slug' => $slug,
+            "total_dpt_by_tps" => $request->total_dpt_by_tps,
             "updated_by" => auth()->user()->id,
         ]);
 

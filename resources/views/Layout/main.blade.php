@@ -26,6 +26,10 @@
 
 
     <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -125,7 +129,7 @@
                 <div class="d-flex align-items-center justify-content-end gap-3">
                     <i class="bi bi-arrow-left" onclick="window.history.back()"></i>
 
-                    <button class="sidebarCollapseDefault btn p-0 border-0 d-none d-md-block"
+                    <button class="sidebarCollapseDefault bg-transparent p-0 border-0 d-none d-md-block"
                         aria-label="Hamburger Button">
                         <i class="fa-solid fa-bars"></i>
                     </button>
@@ -139,8 +143,12 @@
                 <div class="d-flex align-items-center justify-content-end gap-4">
 
                     <small class="fw-semibold">Admin</small>
-                    <img src="{{ asset('storage/img/users/' . auth()->user()->photo) }}" alt="Photo Profile"
-                        class="avatar" />
+
+                    <a href="{{ route('users.edit', auth()->user()->id) }}">
+                        <img src="{{ asset('storage/img/users/' . auth()->user()->photo) }}" alt="Photo Profile"
+                            class="avatar" />
+                    </a>
+
 
                     <i class="bi bi-fullscreen" id="myButton"></i>
 
@@ -195,6 +203,24 @@
             placeholder: true,
             placeholderValue: 'Pilih pengelola',
         });
+    </script>
+
+    <script type="text/javascript">
+        var countDownDate = new Date("May 14, 2024 23:10:00").getTime();
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("countingDown").innerHTML = days + " Hari " + hours +
+                " Jam " + minutes + " Menit " + seconds + " Detik";
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countingDown").innerHTML = "Daftar Sekarang";
+            }
+        }, 1000);
     </script>
 </body>
 

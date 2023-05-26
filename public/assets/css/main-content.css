@@ -31,9 +31,13 @@ label {
   font-size: 12px;
 }
 
-.btn-primary {
-  font-size: 10px;
+a.btn {
+  font-size: 8px;
   margin: 0;
+}
+
+button.btn {
+  font-size: 8px;
 }
 
 input::placeholder {

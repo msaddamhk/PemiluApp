@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('koor_desa_id');
             $table->string('slug');
             $table->string('name');
+            $table->integer('total_dpt_by_tps')->nullable();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();

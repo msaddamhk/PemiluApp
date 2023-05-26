@@ -39,8 +39,21 @@
                             <tr>
                                 <th scope="row">{{ $counter }}</th>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->dpt_count }} Orang</td>
-                                <td>{{ $item->dpt_is_voters_count }} Orang</td>
+                                <td>
+                                    @if ($item->total_dpt_by_tps == null)
+                                        -
+                                    @else
+                                        {{ $item->total_dpt_by_tps }} Orang
+                                    @endif
+                                </td>
+
+                                <td>
+                                    @if ($item->dpt_is_voters_count == 0)
+                                        -
+                                    @else
+                                        {{ $item->dpt_is_voters_count }} Orang
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($item->user_id == null)
                                         <span class="badge text-bg-warning">
@@ -60,7 +73,7 @@
                                     <a href="
                                     {{ route('koor.tps.quick_count.index', [$item]) }}"
                                         class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Kelola Data Pasca Pemilu
+                                        Real Count
                                     </a>
                                     <a href="
                                 {{ route('koor.tps.edit', [$item]) }}"

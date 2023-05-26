@@ -44,8 +44,21 @@
                             <tr>
                                 <th scope="row">{{ $counter }}</th>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->dpt_count }} Orang</td>
-                                <td>{{ $item->dpt_is_voters_count }} Orang</td>
+                                <td>
+                                    @if ($item->total_dpt_by_tps == null)
+                                        -
+                                    @else
+                                        {{ $item->total_dpt_by_tps }} Orang
+                                    @endif
+                                </td>
+
+                                <td>
+                                    @if ($item->dpt_is_voters_count == 0)
+                                        -
+                                    @else
+                                        {{ $item->dpt_is_voters_count }} Orang
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($item->user_id == null)
                                         <span class="badge text-bg-warning">
@@ -66,7 +79,7 @@
                                     <a href="
                                     {{ route('koor.kecamatan.quick_count.index', [$koorkecamatan, $koordesa, $item->slug]) }}"
                                         class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Kelola Data Pasca Pemilu
+                                        Real Count
                                     </a>
 
                                     <a href="
@@ -96,7 +109,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('koor.kecamatan.tps.store', [$koorkecamatan, $koordesa]) }}" method="POST">
-                    <div class="modal-body p-3">
+                    <div class="modal-body p-4">
                         @csrf
                         <div class="mb-2">
                             <label class="form-label">Nama TPS</label>
@@ -105,11 +118,17 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div>
+                            <label class="form-label">Jumlah DPT</label>
+                            <input type="number" name="total_dpt_by_tps" class="form-control">
+                        </div>
+
                         <div>
                             <label for="user" class="col-form-label">Pengelola</label>
                             <div>
                                 <select id="user" class="form-control choices @error('user') is-invalid @enderror"
-                                    name="user" required>
+                                    name="user">
                                     <option value="">Pilih Pengelola</option>
                                     @foreach ($user as $data)
                                         <option value="{{ $data->id }}"

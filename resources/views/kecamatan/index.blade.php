@@ -59,6 +59,10 @@
                                     <a href="{{ route('koor.kecamatan.edit', [$item]) }}"
                                         class="btn btn-primary btn-sm">Update
                                         Data</a>
+
+                                    <a href="{{ route('grafik.koorkecamatan.index', [$item]) }}"
+                                        class="btn btn-primary btn-sm">Lihat Grafik
+                                    </a>
                                 </td>
                             </tr>
                             @php

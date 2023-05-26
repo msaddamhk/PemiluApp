@@ -46,11 +46,11 @@
                         @foreach ($dpt as $item)
                             <tr>
                                 <th scope="row">{{ $counter }}</th>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->date_of_birth }}</td>
-                                <td>{{ $item->gender }}</td>
-                                <td>{{ $item->indentity_number }}</td>
-                                <td>{{ $item->phone_number }}</td>
+                                <td>{{ $item->name ?? '-' }}</td>
+                                <td>{{ $item->date_of_birth ?? '-' }}</td>
+                                <td>{{ $item->gender ?? '-' }}</td>
+                                <td>{{ $item->indentity_number ?? '-' }}</td>
+                                <td>{{ $item->phone_number ?? '-' }}</td>
                                 <td>{{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
                                 <td class="d-flex">
                                     <a href="
@@ -58,21 +58,6 @@
                                         class="btn btn-primary mb-2 mt-2 btn-sm">
                                         Update Data
                                     </a>
-
-                                    <div class="ms-3 my-auto">
-                                        <form
-                                            action="
-                                        {{ route('koor.tps.dpt.update_voters', [$koortps, $item]) }}"
-                                            method="POST">
-                                            @csrf
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" name="is_voters"
-                                                    {{ $item->is_voters ? 'checked' : '' }} onchange="this.form.submit()">
-                                                <label class="form-check-label">
-                                                    {{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</label>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </td>
                             </tr>
                             @php

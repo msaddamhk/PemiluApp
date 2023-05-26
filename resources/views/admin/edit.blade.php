@@ -72,29 +72,36 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="level" class="col-form-label">Level</label>
-                <div>
-                    <select id="level" class="form-control @error('level') is-invalid @enderror" name="level"
-                        required>
-                        <option value="">Pilih Level</option>
-                        <option value="GENERAL" {{ $user->level == 'GENERAL' ? 'selected' : '' }}>General</option>
-                        <option value="KOOR_KAB_KOTA" {{ $user->level == 'KOOR_KAB_KOTA' ? 'selected' : '' }}>Koordinator
-                            Kab</option>
-                        <option value="KOOR_KECAMATAN" {{ $user->level == 'KOOR_KECAMATAN' ? 'selected' : '' }}>Koordinator
-                            Kecamatan</option>
-                        <option value="KOOR_DESA" {{ $user->level == 'KOOR_DESA' ? 'selected' : '' }}>Koordinator Desa
-                        </option>
-                        <option value="KOOR_TPS" {{ $user->level == 'KOOR_TPS' ? 'selected' : '' }}>Koordinator TPS
-                        </option>
-                    </select>
-                    @error('level')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+            @if (auth()->user()->level == 'GENERAL')
+                <div class="form-group row">
+                    <label for="level" class="col-form-label">Level</label>
+
+                    <div>
+                        <select id="level" class="form-control @error('level') is-invalid @enderror" name="level">
+                            <option value="">Pilih Level</option>
+                            <option value="GENERAL" {{ $user->level == 'GENERAL' ? 'selected' : '' }}>General
+                            </option>
+                            <option value="KOOR_KAB_KOTA" {{ $user->level == 'KOOR_KAB_KOTA' ? 'selected' : '' }}>
+                                Koordinator Kab
+                            <option value="KOOR_KECAMATAN" {{ $user->level == 'KOOR_KECAMATAN' ? 'selected' : '' }}>
+                                Koordinator Kecamatan
+                            </option>
+                            <option value="KOOR_DESA" {{ $user->level == 'KOOR_DESA' ? 'selected' : '' }}>
+                                Koordinator Desa</option>
+                            @if (env('SHOW_ADD_DATA_TPS', false))
+                                <option value="KOOR_TPS" {{ $user->level == 'KOOR_TPS' ? 'selected' : '' }}>
+                                    Koordinator TPS</option>
+                            @endif
+                        </select>
+
+                        @error('level')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="form-group">
                 <label class="col-form-label">Status</label>

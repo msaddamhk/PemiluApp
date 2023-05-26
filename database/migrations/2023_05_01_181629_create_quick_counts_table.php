@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('quick_count', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('koor_tps_id');
+            $table->unsignedBigInteger('koor_tps_id')->nullable();
+            $table->unsignedBigInteger('koor_desa_id')->nullable();
+            $table->string('name_tps')->nullable();
             $table->integer('number_of_votes');
             $table->integer('total_votes');
             $table->string('result_photo')->nullable();
@@ -21,6 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->foreign('koor_tps_id')->references('id')->on('koor_tps')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('koor_desa_id')->references('id')->on('koor_desa')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL');
         });

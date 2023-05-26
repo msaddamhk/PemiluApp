@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KoorKecamatan;
 use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
@@ -14,6 +15,26 @@ class UserController extends Controller
      */
     public function index()
     {
+
+        // $userLevel = auth()->user()->level;
+        // switch ($userLevel) {
+        //     case 'KOOR_KOTA':
+        //         $users = User::all();
+        //         return view('admin.index', compact('users'));
+        //     case 'KOOR_KECAMATAN':
+        //         $kecamatan = KoorKecamatan::where('user_id', auth()->user()->id)->first();
+        //         $users = User::whereHas('koorDesa', function ($query) use ($kecamatan) {
+        //             $query->where('koor_kecamatan_id', $kecamatan->id);
+        //         })->orWhereHas('tps', function ($query) use ($kecamatan) {
+        //             $query->whereIn('koor_desa_id', function ($subQuery) use ($kecamatan) {
+        //                 $subQuery->select('id')->from('koor_desa')->where('koor_kecamatan_id', $kecamatan->id);
+        //             });
+        //         })->get();
+
+
+        //         return view('admin.index', compact('users'));
+        // }
+
         $users = User::all();
         return view('admin.index', compact('users'));
     }
@@ -35,21 +56,36 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
             'phone_number' => 'required',
-            'photo' => 'required|image|mimes:jpeg,png,jpg|max:4048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'level' => 'required',
             'is_active' => 'required|boolean',
             'password' => 'required|min:8|confirmed',
         ]);
 
-
         $request->photo?->store('public/img/users');
+
+        $level = '';
+        switch (auth()->user()->level) {
+            case 'KOOR_KOTA':
+                $level = "KOOR_KECAMATAN";
+                break;
+            case 'KOOR_KECAMATAN':
+                $level = "KOOR_DESA";
+                break;
+            case 'KOOR_DESA':
+                $level = "KOOR_TPS";
+                break;
+            default:
+                $level = $request->level;
+                break;
+        }
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
-            'photo' => $request->photo?->hashName(),
-            'level' => $request->level,
+            'photo' => $request->photo ? $request->photo->hashName() : null,
+            'level' => $level,
             'is_active' => $request->is_active,
             'password' => bcrypt($request->password),
             'created_by' => auth()->user()->id,
@@ -101,13 +137,32 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
-        $user->level = $request->level;
         $user->is_active = $request->is_active;
         $user->updated_by = auth()->user()->id;
+
+        if ($user->level !== $request->level) {
+            $user->level = $request->level;
+            if ($user->koorKota()->exists()) {
+                $user->koorKota->update(['user_id' => null]);
+            }
+
+            if ($user->koorKecamatan()->exists()) {
+                $user->koorKecamatan->update(['user_id' => null]);
+            }
+
+            if ($user->koorDesa()->exists()) {
+                $user->koorDesa->update(['user_id' => null]);
+            }
+
+            if ($user->tps()->exists()) {
+                $user->tps->update(['user_id' => null]);
+            }
+        }
 
         if (!empty($request->password)) {
             $user->password = bcrypt($request->password);
         }
+
 
         $user->save();
 

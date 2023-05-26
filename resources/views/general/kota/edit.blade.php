@@ -12,8 +12,7 @@
 
             <div class="form-group mt-3">
                 <label for="user">User:</label>
-
-                <select id="user" class="form-control @error('user') is-invalid @enderror" name="user" required>
+                <select id="user" class="form-control @error('user') is-invalid @enderror" name="user">
                     <option value="">Pilih Pengelola</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}" {{ $koorkota->user_id == $user->id ? 'selected' : '' }}>

@@ -23,6 +23,7 @@ class DptController extends Controller
 
         $dpt = $koordesa->dpts()->where('name', 'like', '%' . request('cari') . '%')
             ->paginate(15);
+
         return view('general.dpt.index', compact('dpt', 'koorkecamatan', 'koorkota', 'koordesa'));
     }
 
@@ -50,15 +51,17 @@ class DptController extends Controller
 
         Dpt::create([
             "desa_id" => $koordesa->id,
+            "tps_id" => $request->tps,
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
-            "is_voters" => $request->is_voters,
+            "is_voters" => "1",
             "date_of_birth" => $request->date_of_birth,
             "gender" => $request->gender,
             "created_by" => auth()->user()->id,
             "updated_by" => auth()->user()->id,
         ]);
+
 
         return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
     }
@@ -85,21 +88,14 @@ class DptController extends Controller
             'date_of_birth.date' => 'Tanggal Lahir Format Tanggal',
         ]);
 
+
         $dpt->name = $request->name;
+        $dpt->tps_id = $request->tps;
         $dpt->indentity_number = $request->indentity_number;
         $dpt->phone_number = $request->phone_number;
-        $dpt->is_voters = $request->is_voters;
         $dpt->date_of_birth = $request->date_of_birth;
         $dpt->gender = $request->gender;
         $dpt->updated_by = auth()->user()->id;
-        $dpt->save();
-
-        return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
-    }
-
-    public function update_voters(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, Dpt $dpt)
-    {
-        $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
         return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);

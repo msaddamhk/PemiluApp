@@ -39,7 +39,6 @@ class DptTpsKoorTpsController extends Controller
             'phone_number.unique' => 'No HP sudah terdaftar.',
             'phone_number.numeric' => 'No Hp Wajib Angka',
             'date_of_birth.date' => 'Tanggal Lahir Format Tanggal',
-
         ]);
 
         Dpt::create([
@@ -48,7 +47,7 @@ class DptTpsKoorTpsController extends Controller
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
-            "is_voters" => $request->is_voters,
+            "is_voters" => "1",
             "date_of_birth" => $request->date_of_birth,
             "gender" => $request->gender,
             "created_by" => auth()->user()->id,
@@ -82,18 +81,9 @@ class DptTpsKoorTpsController extends Controller
         $dpt->name = $request->name;
         $dpt->indentity_number = $request->indentity_number;
         $dpt->phone_number = $request->phone_number;
-        $dpt->is_voters = $request->is_voters;
         $dpt->date_of_birth = $request->date_of_birth;
         $dpt->gender = $request->gender;
         $dpt->updated_by = auth()->user()->id;
-        $dpt->save();
-
-        return redirect()->route('koor.tps.dpt.index', [$koortps]);
-    }
-
-    public function update_voters(Request $request, KoorTps $koortps, Dpt $dpt)
-    {
-        $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
         return redirect()->route('koor.tps.dpt.index', [$koortps]);

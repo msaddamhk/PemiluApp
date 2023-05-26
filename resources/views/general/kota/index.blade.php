@@ -2,7 +2,6 @@
 
 @section('content')
     <section class="p-3">
-
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Kabupaten/Kota</h5>
             <div>
@@ -70,6 +69,9 @@
                                         Kecamatan</a>
 
                                     <a href="{{ route('kota.edit', $item) }}" class="btn btn-primary btn-sm">Update Data</a>
+
+                                    <a href="{{ route('grafik.kota.index', $item) }}" class="btn btn-primary btn-sm">Lihat
+                                        Grafik</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -82,7 +84,8 @@
         </div>
     </section>
     @if (auth()->user()->level == 'GENERAL')
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade modal1" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -95,8 +98,12 @@
                             <section class="p-3">
                                 <div>
                                     <label class="form-label">Nama Kota</label>
-                                    <input type="text" name="name" class="form-control"
-                                        @error('name') is-invalid @enderror required>
+                                    <input type="text" name="name" class="form-control" required>
+                                    @error('name')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
 
                                 <div>
@@ -133,7 +140,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade modal2" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -172,8 +180,7 @@
                                 <div>
                                     <label for="level" class="col-form-label">Kabupaten/Kota</label>
                                     <div>
-                                        <select id="api_kota" class="form-control @error('user') is-invalid @enderror"
-                                            name="api_kota" required>
+                                        <select id="api_kota" class="form-control" name="api_kota" required>
                                             <option value="">Pilih Kab/Kota</option>
                                             @foreach ($api_kota as $item)
                                                 <option value="{{ $item['id'] }},{{ $item['nama'] }}">
@@ -192,4 +199,16 @@
             </div>
         </div>
     @endif
+
+    {{-- @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                @if ($errors->has('modal1'))
+                    $('#exampleModal').modal('show');
+                @elseif ($errors->has('modal2'))
+                    $('#exampleModal1').modal('show');
+                @endif
+            });
+        </script>
+    @endif --}}
 @endsection

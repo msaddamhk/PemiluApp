@@ -40,6 +40,6 @@ class Dpt extends Model
 
     public function koorTps()
     {
-        return $this->belongsTo(KoorTps::class);
+        return $this->belongsTo(KoorTps::class, 'tps_id');
     }
 }

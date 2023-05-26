@@ -48,8 +48,20 @@
                                         {{ $item->name }}
                                     </a>
                                 </td>
-                                <td>{{ $item->dpt_count }} Orang</td>
-                                <td>{{ $item->dpt_is_voters_count }} Orang</td>
+                                <td>
+                                    @if ($item->total_dpt == null)
+                                        -
+                                    @else
+                                        {{ $item->total_dpt }} Orang
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->dpt_is_voters_count == 0)
+                                        -
+                                    @else
+                                        {{ $item->dpt_is_voters_count }} Orang
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($item->user_id == null)
                                         <span class="badge text-bg-warning">
@@ -64,9 +76,13 @@
                                     @if (env('SHOW_ADD_DATA_TPS', false))
                                         <a href="{{ route('koor.kecamatan.tps.index', [$koorkecamatan, $item]) }}"
                                             class="btn btn-primary btn-sm">Kelola TPS</a>
+                                        <a href="{{ route('grafik.koorkecamatan.desa.index', [$koorkecamatan, $item]) }}"
+                                            class="btn btn-primary btn-sm">Lihat Grafik</a>
                                     @else
                                         <a href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}"
                                             class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
+                                        <a href="{{ route('koor.kecamatan.desa.quick_count.index', [$koorkecamatan, $item]) }}"
+                                            class="btn btn-primary btn-sm"><small>Real Count</small></a>
                                     @endif
                                     <a href="{{ route('koor.kecamatan.desa.edit', [$koorkecamatan, $item]) }}"
                                         class="btn btn-primary btn-sm">Update Data</a>
@@ -94,9 +110,18 @@
                     <div class="modal-body">
                         @csrf
                         <section class="p-3">
-                            <div class="mb-3">
+
+                            <div class="mb-2">
                                 <label class="form-label">Nama Desa</label>
                                 <input type="text" name="name" class="form-control" required>
+                                @error('name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="form-label">Total DPT</label>
+                                <input type="number" name="total_dpt" class="form-control">
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -106,7 +131,7 @@
                                 <label for="user" class="col-form-label">Pengelola</label>
                                 <div>
                                     <select id="user" class="form-control choices @error('user') is-invalid @enderror"
-                                        name="user" required>
+                                        name="user">
                                         <option value="">Pilih Pengelola</option>
                                         @foreach ($user as $data)
                                             <option value="{{ $data->id }}"

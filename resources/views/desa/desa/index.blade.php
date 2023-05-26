@@ -43,8 +43,21 @@
                                         {{ $item->name }}
                                     </a>
                                 </td>
-                                <td>{{ $item->dpt_count }} Orang</td>
-                                <td>{{ $item->dpt_is_voters_count }} Orang</td>
+                                <td>
+                                    @if ($item->total_dpt == null)
+                                        -
+                                    @else
+                                        {{ $item->total_dpt }} Orang
+                                    @endif
+                                </td>
+
+                                <td>
+                                    @if ($item->dpt_is_voters_count == 0)
+                                        -
+                                    @else
+                                        {{ $item->dpt_is_voters_count }} Orang
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($item->user_id == null)
                                         <span class="badge text-bg-warning">
@@ -59,9 +72,13 @@
                                     @if (env('SHOW_ADD_DATA_TPS', false))
                                         <a href="{{ route('koor.desa.tps.index', [$item]) }}"
                                             class="btn btn-primary btn-sm">Kelola TPS</a>
+                                        <a href="{{ route('grafik.koodesa.index', [$item]) }}"
+                                            class="btn btn-primary btn-sm">Lihat Grafik</a>
                                     @else
                                         <a href="{{ route('koor.desa.dpt.index', [$item->slug]) }}"
                                             class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
+                                        <a href="{{ route('koor.desa.desa.quick_count.index', [$item]) }}"
+                                            class="btn btn-primary btn-sm">Real Count</a>
                                     @endif
                                     <a href="{{ route('koor.desa.edit', [$item]) }}"
                                         class="btn btn-primary btn-sm"><small>Update Data</small></a>

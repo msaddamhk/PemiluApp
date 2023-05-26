@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Dpt;
+use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KecamatanController extends Controller
 {
@@ -20,8 +22,12 @@ class KecamatanController extends Controller
             }
         }
 
-        $user = User::where('level', 'KOOR_KECAMATAN')->get();
         $kecamatan = $koorkota->KoorKecamatans()->where('name', 'like', '%' . request('cari') . '%')->paginate(15);
+
+        $user = User::where('level', 'KOOR_KECAMATAN')
+            ->whereDoesntHave('koorKecamatan')
+            ->get();
+
         return view('general.kecamatan.index', compact('koorkota', 'kecamatan',  'user'));
     }
 
@@ -49,7 +55,6 @@ class KecamatanController extends Controller
             $count++;
         }
 
-
         KoorKecamatan::create([
             "user_id" => $request->user,
             "koor_kota_id" => $koorkota->id,
@@ -59,13 +64,15 @@ class KecamatanController extends Controller
             "updated_by" => 1,
         ]);
 
-
         return redirect()->route('kecamatan.index', $koorkota);
     }
 
     public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan)
     {
-        $users = User::where('level', 'KOOR_KECAMATAN')->get();
+        $users = User::where('level', 'KOOR_KECAMATAN')
+            ->whereDoesntHave('koorKecamatan')
+            ->get();
+
         return view('general.kecamatan.edit', compact('koorkecamatan', 'users', 'koorkota'));
     }
 
@@ -91,5 +98,30 @@ class KecamatanController extends Controller
         ]);
 
         return redirect()->route('kecamatan.index', $koorkota);
+    }
+
+    public function grafik(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan)
+    {
+        $koorDesas = KoorDesa::where('koor_kecamatan_id', $koorkecamatan->id)->pluck('id');
+
+        $desaDptCounts = Dpt::whereIn('desa_id', $koorDesas)
+            ->select('desa_id', DB::raw('count(*) as total_dpt'))
+            ->groupBy('desa_id')
+            ->orderBy('total_dpt', 'desc')
+            ->take(10)
+            ->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($desaDptCounts as $desaDptCount) {
+            $desa = KoorDesa::find($desaDptCount->desa_id);
+            if ($desa) {
+                $labels[] = $desa->name;
+                $data[] = $desaDptCount->total_dpt;
+            }
+        }
+
+        return view('general.grafik.kecamatan.index', compact('labels', 'data'));
     }
 }

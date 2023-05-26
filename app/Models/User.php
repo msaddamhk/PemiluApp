@@ -39,8 +39,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function koorKecamatans()
+    public function koorKota()
     {
-        return $this->hasMany(KoorKecamatan::class);
+        return $this->hasOne(KoorKota::class);
+    }
+
+    public function koorKecamatan()
+    {
+        return $this->hasOne(KoorKecamatan::class);
+    }
+
+    public function koorDesa()
+    {
+        return $this->hasOne(KoorDesa::class);
+    }
+    public function tps()
+    {
+        return $this->hasOne(KoorTps::class);
     }
 }

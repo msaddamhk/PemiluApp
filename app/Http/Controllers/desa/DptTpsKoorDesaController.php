@@ -49,7 +49,7 @@ class DptTpsKoorDesaController extends Controller
             "name" => $request->name,
             "indentity_number" => $request->indentity_number,
             "phone_number" => $request->phone_number,
-            "is_voters" => $request->is_voters,
+            "is_voters" => "1",
             "date_of_birth" => $request->date_of_birth,
             "gender" => $request->gender,
             "created_by" => auth()->user()->id,
@@ -84,18 +84,9 @@ class DptTpsKoorDesaController extends Controller
         $dpt->name = $request->name;
         $dpt->indentity_number = $request->indentity_number;
         $dpt->phone_number = $request->phone_number;
-        $dpt->is_voters = $request->is_voters;
         $dpt->date_of_birth = $request->date_of_birth;
         $dpt->gender = $request->gender;
         $dpt->updated_by = auth()->user()->id;
-        $dpt->save();
-
-        return redirect()->route('koor.desa.tps.dpt.index', [$koordesa, $koortps]);
-    }
-
-    public function update_voters(Request $request, KoorDesa $koordesa, KoorTps $koortps, Dpt $dpt)
-    {
-        $dpt->is_voters = $request->has('is_voters');
         $dpt->save();
 
         return redirect()->route('koor.desa.tps.dpt.index', [$koordesa, $koortps]);

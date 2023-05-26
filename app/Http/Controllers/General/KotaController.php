@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dpt;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class KotaController extends Controller
@@ -29,24 +32,20 @@ class KotaController extends Controller
 
             $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
 
-            $user = User::where('level', 'KOOR_KAB_KOTA')->get();
+            $user = User::where('level', 'KOOR_KAB_KOTA')
+                ->whereDoesntHave('koorKota')
+                ->get();
 
             return view('general.kota.index', compact('api_kota', 'kota', 'user'));
         } else {
-
             abort(403);
         }
-    }
-
-    public function create()
-    {
-        return view('general.kota.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:koor_kota,name',
             'user_id' => 'nullable',
         ]);
 
@@ -63,7 +62,9 @@ class KotaController extends Controller
 
     public function edit(KoorKota $koorkota)
     {
-        $users = User::where('level', 'KOOR_KAB_KOTA')->get();
+        $users = User::where('level', 'KOOR_KAB_KOTA')
+            ->whereDoesntHave('koorKota')
+            ->get();
         return view('general.kota.edit', compact('koorkota', 'users'));
     }
 
@@ -71,7 +72,7 @@ class KotaController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:koor_kota,name,' . $koorkota->id . ',id',
             'user_id' => 'nullable',
         ]);
 
@@ -90,6 +91,14 @@ class KotaController extends Controller
     {
         $value = $request->input('api_kota');
         list($id, $name) = explode(',', $value);
+
+        $input = [
+            'name' =>  $name,
+        ];
+
+        Validator::make($input, [
+            'name' => 'required|unique:koor_kota,name',
+        ])->validate();
 
         $kota = KoorKota::create([
             "user_id" => $request->user,
@@ -141,5 +150,52 @@ class KotaController extends Controller
         }
 
         return redirect()->route('kota.index');
+    }
+
+
+    public function grafik(KoorKota $koorkota)
+    {
+
+        $kecamatans = KoorKecamatan::where('koor_kota_id', $koorkota->id)->get();
+        $labels = [];
+        $data = [];
+
+
+        if ($kecamatans) {
+            $koorDesas = KoorDesa::whereIn('koor_kecamatan_id', $kecamatans->pluck('id'))->pluck('id');
+
+
+            $desaDptCounts = Dpt::whereIn('desa_id', $koorDesas)
+                ->select('desa_id', DB::raw('count(*) as total_dpt'))
+                ->groupBy('desa_id')
+                ->orderBy('total_dpt', 'desc')
+                ->take(10)
+                ->get();
+
+
+            foreach ($desaDptCounts as $desaDptCount) {
+                $desa = KoorDesa::find($desaDptCount->desa_id);
+                if ($desa) {
+                    $labels[] = $desa->name;
+                    $data[] = $desaDptCount->total_dpt;
+                }
+            }
+
+
+            $top10Kecamatan = KoorKecamatan::withCount(['koorDesas as total_dpt' => function ($query) {
+                $query->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id');
+            }])
+                ->where('koor_kota_id', $koorkota->id)
+                ->orderBy('total_dpt', 'desc')
+                ->take(10)
+                ->pluck('total_dpt', 'name')
+                ->toArray();
+
+            $kecamatanLabels = array_keys($top10Kecamatan);
+            $kecamatanData = array_values($top10Kecamatan);
+        }
+
+
+        return view('general.grafik.kota.index', compact('labels', 'data', 'kecamatanLabels', 'kecamatanData'));
     }
 }

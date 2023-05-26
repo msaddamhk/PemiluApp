@@ -40,6 +40,7 @@ class TpsKoorTpsController extends Controller
         $koortps->update([
             "user_id" => $request->user,
             "name" => $request->name,
+            "total_dpt_by_tps" => $request->total_dpt_by_tps,
             'slug' => $slug,
             "updated_by" => auth()->user()->id,
         ]);

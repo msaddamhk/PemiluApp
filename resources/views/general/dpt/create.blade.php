@@ -4,10 +4,27 @@
     <section class="p-3">
         <form action="{{ route('dpt.store', [$koorkota, $koorkecamatan, $koordesa]) }}" method="POST">
             @csrf
-            <div class="mb-3">
+            <div class="mb-2">
                 <label class="form-label">Nama</label>
                 <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
             </div>
+
+            @if (env('SHOW_ADD_DATA_TPS', false))
+                <div class="mb-3">
+                    <label for="tps" class="col-form-label">Pilih TPS</label>
+                    <div>
+                        <select id="tps" class="form-control choices" name="tps" required>
+                            <option value="">Pilih Pengelola</option>
+                            @foreach ($koordesa->koortps()->get() as $data)
+                                <option value="{{ $data->id }}">
+                                    {{ $data->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
             <div class="mb-3">
                 <label class="form-label">No Identitas</label>
                 <input type="text" name="indentity_number" class="form-control" value="{{ old('indentity_number') }}">
@@ -49,26 +66,6 @@
                 @enderror
             </div>
 
-
-            <div class="form-group">
-                <label for="is_voters">Apakah terdaftar sebagai Pemilih?</label>
-                <div class="d-flex mt-1 mb-2">
-                    <div class="form-check me-5">
-                        <input class="form-check-input" type="radio" name="is_voters" id="is_voters_yes" value="1"
-                            {{ old('is_voters') == '1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_voters_yes">
-                            Memilih
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_voters" id="is_voters_no" value="0"
-                            {{ old('is_voters') == '0' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_voters_no">
-                            Tidak Memilih
-                        </label>
-                    </div>
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </section>

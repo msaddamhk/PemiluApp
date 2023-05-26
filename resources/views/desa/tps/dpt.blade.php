@@ -57,21 +57,6 @@
                                         class="btn btn-primary mb-2 mt-2 btn-sm">
                                         Update Data
                                     </a>
-
-                                    <div class="ms-3 my-auto">
-                                        <form
-                                            action="
-                                        {{ route('koor.desa.tps.dpt.update_voters', [$koordesa, $koortps, $item]) }}"
-                                            method="POST">
-                                            @csrf
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" name="is_voters"
-                                                    {{ $item->is_voters ? 'checked' : '' }} onchange="this.form.submit()">
-                                                <label class="form-check-label">
-                                                    {{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</label>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </td>
                             </tr>
                             @php

@@ -59,4 +59,9 @@ class KoorDesa extends Model
     {
         return $this->hasMany(KoorTps::class, 'koor_desa_id');
     }
+
+    public function quickCount()
+    {
+        return $this->hasMany(QuickCount::class);
+    }
 }

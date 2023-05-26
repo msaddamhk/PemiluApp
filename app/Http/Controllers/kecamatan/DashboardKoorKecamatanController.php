@@ -15,7 +15,10 @@ class DashboardKoorKecamatanController extends Controller
     {
         $kecamatan = KoorKecamatan::where('user_id', auth()->user()->id)->first();
         $koorDesas = KoorDesa::where('koor_kecamatan_id', $kecamatan->id)->pluck('id');
-        $jumlahDpt = Dpt::whereIn('desa_id', $koorDesas)->count();
+        $dpts = Dpt::whereIn('desa_id', $koorDesas)->get();
+        $jumlahDpt = $dpts->count();
+        $jumlahdptlaki = $dpts->where('gender', 'laki-laki')->count();
+        $jumlahdptperempuan = $jumlahDpt - $jumlahdptlaki;
 
         $desaDptCounts = Dpt::whereIn('desa_id', $koorDesas)
             ->select('desa_id', DB::raw('count(*) as total_dpt'))
@@ -35,13 +38,7 @@ class DashboardKoorKecamatanController extends Controller
             }
         }
 
-        $jumlahdptlaki = Dpt::whereIn('desa_id', $koorDesas)
-            ->where('gender', 'laki-laki')
-            ->count();
 
-        $jumlahdptperempuan = Dpt::whereIn('desa_id', $koorDesas)
-            ->where('gender', 'perempuan')
-            ->count();
 
         return view('kecamatan.dashboard.index', compact('kecamatan', 'labels', 'data', 'jumlahDpt', 'jumlahdptlaki', 'jumlahdptperempuan'));
     }

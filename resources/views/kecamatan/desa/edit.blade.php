@@ -5,9 +5,16 @@
         <form action="
         {{ route('koor.kecamatan.desa.update', [$koorkecamatan, $koordesa]) }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="name">Name:</label>
+
+            <div class="form-group mb-3">
+                <label for="name">Nama Desa</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $koordesa->name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Total DPT</label>
+                <input type="text" name="total_dpt" id="total_dpt" class="form-control"
+                    value="{{ $koordesa->total_dpt }}">
             </div>
 
             <div class="form-group mt-3">

@@ -6,12 +6,18 @@
         {{ route('koor.desa.update', [$koordesa]) }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Nama Desa</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $koordesa->name }}" required>
             </div>
 
+            <div class="form-group">
+                <label for="name">Total DPT</label>
+                <input type="text" name="total_dpt" id="total_dpt" class="form-control"
+                    value="{{ $koordesa->total_dpt }}" required>
+            </div>
+
             <div class="form-group mt-3">
-                <label for="user">User:</label>
+                <label for="user">User</label>
 
                 <select id="user" class="form-control choices @error('user') is-invalid @enderror" name="user">
                     <option value="">Pilih Pengelola</option>

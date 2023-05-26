@@ -3,7 +3,7 @@
 @section('content')
     <section class="p-3">
         <div class="d-flex justify-content-between">
-            <h2 class="fw-semibold">Kelola Pengguna</h2>
+            <h5 class="fw-semibold my-auto">Kelola Pengguna</h5>
             <a href="{{ route('users.create') }}" class="btn btn-primary mb-2 mt-2 btn-sm">
                 + Tambah Data
             </a>
@@ -15,7 +15,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Level Akses</th>
                     <th scope="col">Aksi</th>
                 </tr>
             </thead>

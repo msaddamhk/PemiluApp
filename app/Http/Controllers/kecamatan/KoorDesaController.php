@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\kecamatan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dpt;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
+use App\Models\KoorTps;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KoorDesaController extends Controller
 {
@@ -49,6 +52,7 @@ class KoorDesaController extends Controller
             "user_id" => $request->user,
             "koor_kecamatan_id" => $koorkecamatan->id,
             "name" => $request->name,
+            "total_dpt" => $request->total_dpt,
             'slug' => $slug,
             "created_by" => auth()->user()->id,
             "updated_by" => auth()->user()->id,
@@ -78,10 +82,36 @@ class KoorDesaController extends Controller
         $koordesa->update([
             "user_id" => $request->user,
             "name" => $request->name,
+            "total_dpt" => $request->total_dpt,
             'slug' => $slug,
             "updated_by" => auth()->user()->id,
         ]);
 
         return redirect()->route('koor.kecamatan.desa.index', [$koorkecamatan]);
+    }
+
+    public function grafik(Request $request, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
+    {
+        $koorTps = KoorTps::where('koor_desa_id', $koordesa->id)->pluck('id');
+
+        $tpsDptCounts = Dpt::whereIn('tps_id', $koorTps)
+            ->select('tps_id', DB::raw('count(*) as total_dpt'))
+            ->groupBy('tps_id')
+            ->orderBy('total_dpt', 'desc')
+            ->take(10)
+            ->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($tpsDptCounts as $tpsDptCount) {
+            $tps = KoorTps::find($tpsDptCount->tps_id);
+            if ($tps) {
+                $labels[] = $tps->name;
+                $data[] = $tpsDptCount->total_dpt;
+            }
+        }
+
+        return view('kecamatan.grafik.desa.index', compact('labels', 'data'));
     }
 }

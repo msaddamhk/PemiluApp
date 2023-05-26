@@ -13,6 +13,8 @@ class QuickCount extends Model
 
     protected $fillable = [
         'koor_tps_id',
+        'koor_desa_id',
+        'name_tps',
         'number_of_votes',
         'total_votes',
         'result_photo',

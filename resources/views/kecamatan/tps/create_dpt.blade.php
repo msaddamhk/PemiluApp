@@ -49,26 +49,6 @@
                 @enderror
             </div>
 
-
-            <div class="form-group">
-                <label for="is_voters">Apakah terdaftar sebagai Pemilih?</label>
-                <div class="d-flex mt-1 mb-2">
-                    <div class="form-check me-5">
-                        <input class="form-check-input" type="radio" name="is_voters" id="is_voters_yes" value="1"
-                            {{ old('is_voters') == '1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_voters_yes">
-                            Memilih
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_voters" id="is_voters_no" value="0"
-                            {{ old('is_voters') == '0' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_voters_no">
-                            Tidak Memilih
-                        </label>
-                    </div>
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </section>

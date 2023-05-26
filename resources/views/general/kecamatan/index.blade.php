@@ -53,13 +53,16 @@
                                         class="btn btn-primary btn-sm me-2">Lihat
                                         Desa</a>
                                     <a href="{{ route('kecamatan.edit', [$koorkota, $item]) }}"
-                                        class="btn btn-primary btn-sm">
+                                        class="btn btn-primary btn-sm me-2">
                                         Update Data</a>
+                                    <a href="{{ route('grafik.kecamatan.index', [$koorkota, $item]) }}"
+                                        class="btn btn-primary btn-sm">
+                                        Lihat Grafik</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" style="text-align: center;">Tidak ada Data</td>
+                                <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                             </tr>
                         @endforelse
                     </tbody>
