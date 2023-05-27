@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\KoorKecamatan;
 use App\Models\User;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -57,7 +57,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'phone_number' => 'required',
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'level' => 'required',
+            'level' => Rule::requiredIf(auth()->user()->level == 'GENERAL'),
             'is_active' => 'required|boolean',
             'password' => 'required|min:8|confirmed',
         ]);
@@ -121,7 +121,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'phone_number' => 'required',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:4048',
-            'level' => 'required',
+            'level' => Rule::requiredIf(auth()->user()->level == 'GENERAL'),
             'is_active' => 'required|boolean',
             'password' => 'nullable|min:8',
         ]);

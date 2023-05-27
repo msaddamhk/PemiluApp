@@ -4,11 +4,11 @@
     <section class="p-3">
 
         <div class="d-lg-flex justify-content-between">
-            <h5 class="fw-semibold">Quick Count</h5>
+            <h5 class="fw-semibold">Real Count</h5>
             @if ($quick_count->isEmpty())
                 <a href="{{ route('quick_count.create', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
-                    class="btn btn-primary mb-2 mt-2 btn-sm">
-                    + Tambah Data
+                    class="btn btn-success mb-2 mt-2 btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
                 </a>
             @endif
         </div>
@@ -50,8 +50,8 @@
                                 <td>
                                     <a href="
                                 {{ route('quick_count.edit', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
-                                        class="btn btn-primary btn-sm">
-                                        Update Data
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

@@ -2,7 +2,7 @@
   padding: 32px;
   background: #fff;
   min-height: 100vh;
-  margin-left: 260px;
+  margin-left: 223px;
   transition: all 0.5s ease;
   border-radius: 50px 0 0 50px;
 }
@@ -20,29 +20,30 @@ input[type="date"] {
 }
 
 td {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 th {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 label {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 a.btn {
-  font-size: 8px;
-  margin: 0;
+  font-size: 7px;
+  margin-left: 5px;
 }
 
 button.btn {
-  font-size: 8px;
+  font-size: 7px;
 }
 
 input::placeholder {
-  font-size: 12px;
+  font-size: 11px;
 }
+
 
 .search {
   /* width: 300px;
@@ -104,4 +105,14 @@ input::placeholder {
   margin: 0;
   color: #01030c;
   font-weight: 700;
+}
+
+
+@media (max-width: 480px) {
+  a.btn {
+    display: flow-root;
+    padding: 5;
+    font-size: 5px;
+    margin-bottom: 5px;
+  }
 }

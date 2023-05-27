@@ -5,8 +5,8 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Kecamatan di seluruh {{ $koorkota->name }}</h5>
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                + Tambah Data
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data
             </button>
         </div>
 
@@ -48,16 +48,18 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->jumlahDesa() }} Desa</td>
-                                <td class="d-flex">
-                                    <a href="{{ route('desa.index', [$koorkota, $item]) }}"
-                                        class="btn btn-primary btn-sm me-2">Lihat
-                                        Desa</a>
+                                <td>
+                                    <a href="{{ route('desa.index', [$koorkota, $item]) }}" class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Lihat Desa</a>
+
                                     <a href="{{ route('kecamatan.edit', [$koorkota, $item]) }}"
-                                        class="btn btn-primary btn-sm me-2">
-                                        Update Data</a>
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
+                                    </a>
+
                                     <a href="{{ route('grafik.kecamatan.index', [$koorkota, $item]) }}"
                                         class="btn btn-primary btn-sm">
-                                        Lihat Grafik</a>
+                                        <i class="bi bi-graph-up-arrow me-1"></i>Lihat Grafik</a>
                                 </td>
                             </tr>
                         @empty

@@ -6,14 +6,12 @@
             <h5 class="fw-semibold">Kabupaten/Kota</h5>
             <div>
                 @if (auth()->user()->level == 'GENERAL')
-                    <button type="button" class="btn btn-primary mt-lg-0" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        <small>+ Tambah Data</small>
+                    <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Manual</small>
                     </button>
 
-                    <button type="button" class="btn ms-2 btn-primary mt-lg-0" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal1">
-                        <small> + Tambah Data Otomatis</small>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Otomatis</small>
                     </button>
                 @endif
             </div>
@@ -65,13 +63,16 @@
                                     <small>{{ $item->jumlahKecamatan() }} Kecamatan</small>
                                 </td>
                                 <td>
-                                    <a href="{{ route('kecamatan.index', $item) }}" class="btn btn-primary btn-sm">Lihat
-                                        Kecamatan</a>
 
-                                    <a href="{{ route('kota.edit', $item) }}" class="btn btn-primary btn-sm">Update Data</a>
+                                    <a href="{{ route('kecamatan.index', $item) }}" class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Lihat Kecamatan</a>
 
-                                    <a href="{{ route('grafik.kota.index', $item) }}" class="btn btn-primary btn-sm">Lihat
-                                        Grafik</a>
+                                    <a href="{{ route('kota.edit', $item) }}" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data</a>
+
+                                    <a href="{{ route('grafik.kota.index', $item) }}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-graph-up-arrow me-1"></i>Lihat Grafik</a>
+
                                 </td>
                             </tr>
                         @endforeach
