@@ -26,17 +26,21 @@ class KotaController extends Controller
             return view('general.kota.index', compact('kota'));
         } elseif (request()->user()->can('isGeneral')) {
 
-            $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=11";
-            $data = json_decode(file_get_contents($url), true);
-            $api_kota = $data['kota_kabupaten'];
+            try {
+                $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=11";
+                $data = json_decode(file_get_contents($url), true);
+                $api_kota = $data['kota_kabupaten'];
 
-            $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
+                $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
 
-            $user = User::where('level', 'KOOR_KAB_KOTA')
-                ->whereDoesntHave('koorKota')
-                ->get();
+                $user = User::where('level', 'KOOR_KAB_KOTA')
+                    ->whereDoesntHave('koorKota')
+                    ->get();
 
-            return view('general.kota.index', compact('api_kota', 'kota', 'user'));
+                return view('general.kota.index', compact('api_kota', 'kota', 'user'));
+            } catch (\Exception $e) {
+                return response()->view('error.loss');
+            }
         } else {
             abort(403);
         }
@@ -164,7 +168,6 @@ class KotaController extends Controller
         if ($kecamatans) {
             $koorDesas = KoorDesa::whereIn('koor_kecamatan_id', $kecamatans->pluck('id'))->pluck('id');
 
-
             $desaDptCounts = Dpt::whereIn('desa_id', $koorDesas)
                 ->select('desa_id', DB::raw('count(*) as total_dpt'))
                 ->groupBy('desa_id')
@@ -180,7 +183,6 @@ class KotaController extends Controller
                     $data[] = $desaDptCount->total_dpt;
                 }
             }
-
 
             $top10Kecamatan = KoorKecamatan::withCount(['koorDesas as total_dpt' => function ($query) {
                 $query->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id');

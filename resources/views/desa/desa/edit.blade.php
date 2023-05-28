@@ -5,7 +5,7 @@
         <form action="
         {{ route('koor.desa.update', [$koordesa]) }}" method="POST">
             @csrf
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="name">Nama Desa</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $koordesa->name }}" required>
             </div>

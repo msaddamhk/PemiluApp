@@ -54,8 +54,8 @@
                                 <td>
                                     <a href="
                                 {{ route('koor.kecamatan.quick_count.edit', [$koorkecamatan, $koordesa, $koortps, $item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Update Data
+                                        class="btn btn-warning mb-2 mt-2 btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

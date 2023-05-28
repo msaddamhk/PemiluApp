@@ -5,8 +5,8 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data TPS di Desa {{ $koordesa->name }}</h5>
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                + Tambah Data
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data
             </button>
         </div>
 
@@ -25,9 +25,9 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama</th>
+                            <th scope="col">Pengelola</th>
                             <th scope="col">Total DPT</th>
                             <th scope="col">Total DPT Memilih</th>
-                            <th scope="col">Pengelola</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -45,21 +45,6 @@
                                 <th scope="row">{{ $counter }}</th>
                                 <td>{{ $item->name }}</td>
                                 <td>
-                                    @if ($item->total_dpt_by_tps == null)
-                                        -
-                                    @else
-                                        {{ $item->total_dpt_by_tps }} Orang
-                                    @endif
-                                </td>
-
-                                <td>
-                                    @if ($item->dpt_is_voters_count == 0)
-                                        -
-                                    @else
-                                        {{ $item->dpt_is_voters_count }} Orang
-                                    @endif
-                                </td>
-                                <td>
                                     @if ($item->user_id == null)
                                         <span class="badge text-bg-warning">
                                             <i class="bi bi-exclamation-circle"></i>
@@ -70,10 +55,18 @@
                                     @endif
                                 </td>
                                 <td>
+                                    {{ $item->total_dpt_by_tps ? $item->total_dpt_by_tps . ' Orang' : '-' }}
+                                </td>
+
+                                <td>
+                                    {{ $item->dpt_is_voters_count ? $item->dpt_is_voters_count . ' Orang' : '-' }}
+                                </td>
+
+                                <td>
                                     <a href="
                                     {{ route('koor.kecamatan.tps.dpt.index', [$koorkecamatan, $koordesa, $item->slug]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Kelola DPT
+                                        class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Kelola DPT
                                     </a>
 
                                     <a href="
@@ -84,8 +77,8 @@
 
                                     <a href="
                                     {{ route('koor.kecamatan.tps.edit', [$koorkecamatan, $koordesa, $item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Update Data
+                                        class="btn btn-warning mb-2 mt-2 btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

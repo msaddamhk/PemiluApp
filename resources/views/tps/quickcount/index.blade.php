@@ -8,8 +8,8 @@
             @if ($quick_count->isEmpty())
                 <a href="
                 {{ route('koor.tps.quick_count.create', [$koortps]) }}"
-                    class="btn btn-primary mb-2 mt-2 btn-sm">
-                    + Tambah Data
+                    class="btn btn-success mb-2 mt-2 btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
                 </a>
             @endif
         </div>
@@ -52,8 +52,8 @@
                                 <td>
                                     <a href="
                                 {{ route('koor.tps.quick_count.edit', [$koortps, $item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Update Data
+                                        class="btn btn-warning mb-2 mt-2 btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

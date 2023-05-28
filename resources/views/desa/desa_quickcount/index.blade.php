@@ -7,8 +7,8 @@
             <h5 class="fw-semibold">Real Count</h5>
             <a href="
                 {{ route('koor.desa.desa.quick_count.create', [$koordesa]) }}"
-                class="btn btn-primary mb-2 mt-2 btn-sm">
-                + Tambah Data
+                class="btn btn-success mb-2 mt-2 btn-sm">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data
             </a>
         </div>
 
@@ -51,8 +51,8 @@
                             <td>
                                 <a href="
                             {{ route('koor.desa.desa.quick_count.edit', [$koordesa, $item]) }}"
-                                    class="btn btn-primary mb-2 mt-2 btn-sm">
-                                    Update Data
+                                    class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square me-1"></i>Update Data
                                 </a>
                             </td>
                         </tr>

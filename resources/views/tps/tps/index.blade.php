@@ -67,18 +67,18 @@
                                 <td>
                                     <a href="
                                 {{ route('koor.tps.dpt.index', [$item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Kelola DPT
+                                        class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Kelola DPT
                                     </a>
                                     <a href="
                                     {{ route('koor.tps.quick_count.index', [$item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
+                                        class="btn btn-primary btn-sm">
                                         Real Count
                                     </a>
                                     <a href="
                                 {{ route('koor.tps.edit', [$item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Update Data
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

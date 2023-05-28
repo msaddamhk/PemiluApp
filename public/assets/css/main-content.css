@@ -28,7 +28,7 @@ th {
 }
 
 label {
-  font-size: 10px;
+  font-size: 14px;
 }
 
 a.btn {
@@ -37,7 +37,7 @@ a.btn {
 }
 
 button.btn {
-  font-size: 7px;
+  font-size: 8px;
 }
 
 input::placeholder {

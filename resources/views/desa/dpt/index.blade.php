@@ -5,8 +5,8 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di Desa {{ $koordesa->name }}</h5>
-            <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="btn btn-primary mb-2 mt-2 btn-sm">
-                + Tambah Data
+            <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="btn btn-success mb-2 mt-2 btn-sm">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data
             </a>
         </div>
 
@@ -60,8 +60,8 @@
                                 <td>{{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
                                 <td class="d-flex">
                                     <a href="{{ route('koor.desa.dpt.edit', [$koordesa, $item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        <small>Update Data</small>
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

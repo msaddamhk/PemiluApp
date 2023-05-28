@@ -5,8 +5,8 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di {{ $koortps->name }}</h5>
-            <a href="{{ route('koor.tps.dpt.create', [$koortps]) }}" class="btn btn-primary mb-2 mt-2 btn-sm">
-                + Tambah Data
+            <a href="{{ route('koor.tps.dpt.create', [$koortps]) }}" class="btn btn-success mb-2 mt-2 btn-sm">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data
             </a>
         </div>
 
@@ -55,8 +55,8 @@
                                 <td class="d-flex">
                                     <a href="
                                 {{ route('koor.tps.dpt.edit', [$koortps, $item]) }}"
-                                        class="btn btn-primary mb-2 mt-2 btn-sm">
-                                        Update Data
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
                                 </td>
                             </tr>

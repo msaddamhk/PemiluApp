@@ -4,8 +4,8 @@
     <section class="p-3">
         <div class="d-flex justify-content-between">
             <h5 class="fw-semibold">Seluruh Desa di {{ $koorkecamatan->name }}</h5>
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                + Tambah Data
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data
             </button>
         </div>
         <div class="card p-3 mt-3">
@@ -23,9 +23,9 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Desa</th>
+                            <th scope="col">Pengelola</th>
                             <th scope="col">Total DPT</th>
                             <th scope="col">Total DPT Memilih</th>
-                            <th scope="col">Pengelola</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -49,20 +49,6 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($item->total_dpt == null)
-                                        -
-                                    @else
-                                        {{ $item->total_dpt }} Orang
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($item->dpt_is_voters_count == 0)
-                                        -
-                                    @else
-                                        {{ $item->dpt_is_voters_count }} Orang
-                                    @endif
-                                </td>
-                                <td>
                                     @if ($item->user_id == null)
                                         <span class="badge text-bg-warning">
                                             <i class="bi bi-exclamation-circle"></i>
@@ -73,19 +59,37 @@
                                     @endif
                                 </td>
                                 <td>
+                                    {{ $item->total_dpt ? $item->total_dpt . ' Orang' : '-' }}
+                                </td>
+
+                                <td>
+                                    {{ $item->dpt_is_voters_count ? $item->dpt_is_voters_count . ' Orang' : '-' }}
+                                </td>
+
+                                <td>
                                     @if (env('SHOW_ADD_DATA_TPS', false))
                                         <a href="{{ route('koor.kecamatan.tps.index', [$koorkecamatan, $item]) }}"
-                                            class="btn btn-primary btn-sm">Kelola TPS</a>
+                                            class="btn btn-info btn-sm">
+                                            <i class="bi bi-eye-fill me-1"></i>Kelola TPS
+                                        </a>
+
                                         <a href="{{ route('grafik.koorkecamatan.desa.index', [$koorkecamatan, $item]) }}"
-                                            class="btn btn-primary btn-sm">Lihat Grafik</a>
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bi bi-graph-up-arrow me-1"></i>Lihat Grafik
+                                        </a>
                                     @else
                                         <a href="{{ route('koor.kecamatan.dpt.index', [$koorkecamatan, $item]) }}"
-                                            class="btn btn-primary btn-sm"><small>Kelola DPT</small></a>
+                                            class="btn btn-info btn-sm">
+                                            <i class="bi bi-eye-fill me-1"></i>Kelola DPT
+                                        </a>
+
                                         <a href="{{ route('koor.kecamatan.desa.quick_count.index', [$koorkecamatan, $item]) }}"
                                             class="btn btn-primary btn-sm"><small>Real Count</small></a>
                                     @endif
                                     <a href="{{ route('koor.kecamatan.desa.edit', [$koorkecamatan, $item]) }}"
-                                        class="btn btn-primary btn-sm">Update Data</a>
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
+                                    </a>
                                 </td>
                             </tr>
                             @php

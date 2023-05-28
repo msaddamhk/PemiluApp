@@ -66,7 +66,7 @@ class UserController extends Controller
 
         $level = '';
         switch (auth()->user()->level) {
-            case 'KOOR_KOTA':
+            case 'KOOR_KAB_KOTA':
                 $level = "KOOR_KECAMATAN";
                 break;
             case 'KOOR_KECAMATAN':
@@ -91,6 +91,8 @@ class UserController extends Controller
             'created_by' => auth()->user()->id,
             'updated_by' => auth()->user()->id,
         ]);
+
+
 
         return redirect()->route('users.index');
     }
@@ -140,22 +142,22 @@ class UserController extends Controller
         $user->is_active = $request->is_active;
         $user->updated_by = auth()->user()->id;
 
-        if ($user->level !== $request->level) {
+        if (!empty($request->level)) {
             $user->level = $request->level;
             if ($user->koorKota()->exists()) {
-                $user->koorKota->update(['user_id' => null]);
+                $user->koorKota()->update(['user_id' => null]);
             }
 
             if ($user->koorKecamatan()->exists()) {
-                $user->koorKecamatan->update(['user_id' => null]);
+                $user->koorKecamatan()->update(['user_id' => null]);
             }
 
             if ($user->koorDesa()->exists()) {
-                $user->koorDesa->update(['user_id' => null]);
+                $user->koorDesa()->update(['user_id' => null]);
             }
 
             if ($user->tps()->exists()) {
-                $user->tps->update(['user_id' => null]);
+                $user->tps()->update(['user_id' => null]);
             }
         }
 

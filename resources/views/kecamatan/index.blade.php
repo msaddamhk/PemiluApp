@@ -52,16 +52,17 @@
                                 </td>
                                 <td>{{ $item->jumlahDesa() }} Desa</td>
                                 <td>
-                                    <a href="{{ route('koor.kecamatan.desa.index', [$item]) }}"
-                                        class="btn btn-primary btn-sm">Lihat
-                                        Desa</a>
+                                    <a href="{{ route('koor.kecamatan.desa.index', [$item]) }}" class="btn btn-info btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Lihat Desa
+                                    </a>
 
-                                    <a href="{{ route('koor.kecamatan.edit', [$item]) }}"
-                                        class="btn btn-primary btn-sm">Update
-                                        Data</a>
+                                    <a href="{{ route('koor.kecamatan.edit', [$item]) }}" class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square me-1"></i>Update Data
+                                    </a>
 
                                     <a href="{{ route('grafik.koorkecamatan.index', [$item]) }}"
-                                        class="btn btn-primary btn-sm">Lihat Grafik
+                                        class="btn btn-primary btn-sm">
+                                        <i class="bi bi-graph-up-arrow me-1"></i>Lihat Grafik
                                     </a>
                                 </td>
                             </tr>
