@@ -59,11 +59,20 @@
                                 <td>{{ $item->indentity_number ?? '-' }}</td>
                                 <td>{{ $item->phone_number ?? '-' }}</td>
                                 <td>{{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
-                                <td class="d-flex">
+                                <td class="d-lg-flex">
                                     <a href="{{ route('dpt.edit', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
                                         class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
+                                    <form action="{{ route('dpt.delete', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @php

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
             $table->foreign('koor_kota_id')->references('id')->on('koor_kota')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL');

@@ -48,7 +48,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $item->jumlahDesa() }} Desa</td>
-                                <td>
+                                <td class="d-lg-flex">
                                     <a href="{{ route('desa.index', [$koorkota, $item]) }}" class="btn btn-info btn-sm">
                                         <i class="bi bi-eye-fill me-1"></i>Lihat Desa</a>
 
@@ -56,10 +56,18 @@
                                         class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
-
                                     <a href="{{ route('grafik.kecamatan.index', [$koorkota, $item]) }}"
                                         class="btn btn-primary btn-sm">
                                         <i class="bi bi-graph-up-arrow me-1"></i>Lihat Grafik</a>
+
+                                    <form action="{{ route('kecamatan.delete', [$koorkota, $item]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

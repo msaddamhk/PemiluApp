@@ -100,4 +100,10 @@ class DptController extends Controller
 
         return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
     }
+
+    public function delete(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, Dpt $dpt)
+    {
+        $dpt->delete();
+        return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
+    }
 }

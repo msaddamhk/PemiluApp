@@ -124,4 +124,10 @@ class KecamatanController extends Controller
 
         return view('general.grafik.kecamatan.index', compact('labels', 'data'));
     }
+
+    public function delete(KoorKota $koorkota, KoorKecamatan $koorkecamatan)
+    {
+        $koorkecamatan->delete();
+        return redirect()->route('kecamatan.index', $koorkota);
+    }
 }

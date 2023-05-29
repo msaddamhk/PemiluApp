@@ -70,7 +70,7 @@
                                     {{ $item->dpt_is_voters_count ? $item->dpt_is_voters_count . ' Orang' : '-' }}
                                 </td>
 
-                                <td>
+                                <td class="d-lg-flex">
                                     @if (env('SHOW_ADD_DATA_TPS', false))
                                         <a href="{{ route('tps.index', [$koorkota, $koorkecamatan, $item->slug]) }}"
                                             class="btn btn-info btn-sm">
@@ -95,6 +95,16 @@
                                         class="btn btn-warning btn-sm"><small>
                                             <i class="bi bi-pencil-square me-1"></i>Update Data</small>
                                     </a>
+
+                                    <form action="{{ route('desa.delete', [$koorkota, $koorkecamatan, $item]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @php

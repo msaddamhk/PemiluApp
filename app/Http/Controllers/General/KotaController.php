@@ -200,4 +200,10 @@ class KotaController extends Controller
 
         return view('general.grafik.kota.index', compact('labels', 'data', 'kecamatanLabels', 'kecamatanData'));
     }
+
+    public function delete(KoorKota $koorkota)
+    {
+        $koorkota->delete();
+        return redirect()->route('kota.index');
+    }
 }

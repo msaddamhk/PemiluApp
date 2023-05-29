@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/kabkota/{koorkota:slug}/edit', [KotaController::class, 'edit'])->name('kota.edit');
 
+    Route::delete('/kabkota/{koorkota:slug}/delete', [KotaController::class, 'delete'])->name('kota.delete');
+
     Route::get('/kabkota/{koorkota:slug}/grafik', [KotaController::class, 'grafik'])->name('grafik.kota.index');
 
     Route::post('/kabkota/{koorkota:slug}/edit/update', [KotaController::class, 'update'])->name('kota.update');
@@ -62,6 +64,11 @@ Route::middleware('auth')->group(function () {
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/edit',
         [KecamatanController::class, 'edit']
     )->name('kecamatan.edit');
+
+    Route::delete(
+        '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/delete',
+        [KecamatanController::class, 'delete']
+    )->name('kecamatan.delete');
 
     Route::get(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/grafik',
@@ -84,6 +91,11 @@ Route::middleware('auth')->group(function () {
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/edit',
         [DesaController::class, 'edit']
     )->name('desa.edit');
+
+    Route::delete(
+        '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/delete',
+        [DesaController::class, 'delete']
+    )->name('desa.delete');
 
     Route::get(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/grafik',
@@ -115,12 +127,16 @@ Route::middleware('auth')->group(function () {
         [DptController::class, 'edit']
     )->name('dpt.edit');
 
+    Route::delete(
+        '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt/{dpt}/delete',
+        [DptController::class, 'delete']
+    )->name('dpt.delete');
+
     Route::post(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa}/dpt/{dpt}/update',
         [DptController::class, 'update']
     )
         ->name('dpt.update');
-
 
     Route::get(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps',
@@ -137,6 +153,11 @@ Route::middleware('auth')->group(function () {
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit',
         [TpsController::class, 'edit']
     )->name('tps.edit');
+
+    Route::delete(
+        '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/delete',
+        [TpsController::class, 'delete']
+    )->name('tps.delete');
 
     Route::post(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit/update',
@@ -165,6 +186,11 @@ Route::middleware('auth')->group(function () {
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/dpt/{dpt}/edit',
         [DptTpsController::class, 'edit']
     )->name('tps.dpt.edit');
+
+    Route::delete(
+        '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/dpt/{dpt}/delete',
+        [DptTpsController::class, 'delete']
+    )->name('tps.dpt.delete');
 
 
     Route::post(

@@ -42,7 +42,7 @@
                     <tbody>
                         @if ($kota->isEmpty())
                             <tr>
-                                <td colspan="4" style="text-align: center;">Tidak ada Data</td>
+                                <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                             </tr>
                         @endif
                         @foreach ($kota as $item)
@@ -62,8 +62,7 @@
                                 <td>
                                     <small>{{ $item->jumlahKecamatan() }} Kecamatan</small>
                                 </td>
-                                <td>
-
+                                <td class="d-lg-flex">
                                     <a href="{{ route('kecamatan.index', $item) }}" class="btn btn-info btn-sm">
                                         <i class="bi bi-eye-fill me-1"></i>Lihat Kecamatan</a>
 
@@ -73,6 +72,14 @@
                                     <a href="{{ route('grafik.kota.index', $item) }}" class="btn btn-primary btn-sm">
                                         <i class="bi bi-graph-up-arrow me-1"></i>Lihat Grafik</a>
 
+                                    <form action="{{ route('kota.delete', $item) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

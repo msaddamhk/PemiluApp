@@ -64,7 +64,7 @@
                                     {{ $item->dpt_is_voters_count ? $item->dpt_is_voters_count . ' Orang' : '-' }}
                                 </td>
 
-                                <td>
+                                <td class="d-lg-flex">
                                     <a href="{{ route('tps.dpt.index', [$koorkota, $koorkecamatan, $koordesa, $item->slug]) }}"
                                         class="btn btn-info btn-sm">
                                         <i class="bi bi-eye-fill me-1"></i>Kelola DPT
@@ -79,6 +79,15 @@
                                         class="btn btn-warning btn-sm">
                                         <i class="bi bi-pencil-square me-1"></i>Update Data
                                     </a>
+                                    <form action="{{ route('tps.delete', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @php

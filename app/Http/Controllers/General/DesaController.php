@@ -120,4 +120,10 @@ class DesaController extends Controller
 
         return view('general.grafik.desa.index', compact('labels', 'data'));
     }
+
+    public function delete(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
+    {
+        $koordesa->delete();
+        return redirect()->route('desa.index', [$koorkota, $koorkecamatan]);
+    }
 }

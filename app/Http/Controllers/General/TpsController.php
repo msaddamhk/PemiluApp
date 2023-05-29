@@ -95,4 +95,10 @@ class TpsController extends Controller
 
         return redirect()->route('tps.index', [$koorkota, $koorkecamatan, $koordesa]);
     }
+
+    public function delete(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, KoorTps $koortps)
+    {
+        $koortps->delete();
+        return redirect()->route('tps.index', [$koorkota, $koorkecamatan, $koordesa]);
+    }
 }

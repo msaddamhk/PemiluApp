@@ -11,10 +11,10 @@
 
             @if (env('SHOW_ADD_DATA_TPS', false))
                 <div class="mb-3">
-                    <label for="tps" class="col-form-label">Pilih TPS</label>
+                    <label for="tps" class="col-form-label">TPS</label>
                     <div>
-                        <select id="tps" class="form-control choices" name="tps" required>
-                            <option value="">Pilih Pengelola</option>
+                        <select id="tps" class="form-control choices" name="tps">
+                            <option value="">Pilih TPS</option>
                             @foreach ($koordesa->koortps()->get() as $data)
                                 <option value="{{ $data->id }}">
                                     {{ $data->name }}
