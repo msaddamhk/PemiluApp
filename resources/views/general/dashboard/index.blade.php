@@ -30,7 +30,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Kota</h6>
-                                    <h3 class="fw-bold">5</h3>
+                                    <h3 class="fw-bold">{{ $kotaCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Kecamatan</h6>
-                                    <h3 class="fw-bold">50</h3>
+                                    <h3 class="fw-bold">{{ $kecamatanCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Desa</h6>
-                                    <h3 class="fw-bold">150</h3>
+                                    <h3 class="fw-bold">{{ $desaCount }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Memilih</h6>
-                                    <h3 class="fw-bold">2.000</h3>
+                                    <h3 class="fw-bold">{{ $dptCount }}</h3>
                                 </div>
                             </div>
                         </div>

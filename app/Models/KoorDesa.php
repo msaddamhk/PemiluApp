@@ -66,4 +66,9 @@ class KoorDesa extends Model
     {
         return $this->hasMany(QuickCount::class);
     }
+
+    public function getCountForGeneral()
+    {
+        return $this->count();
+    }
 }

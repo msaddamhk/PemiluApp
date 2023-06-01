@@ -43,4 +43,9 @@ class Dpt extends Model
     {
         return $this->belongsTo(KoorTps::class, 'tps_id');
     }
+
+    public function getCountDptForGeneral()
+    {
+        return $this->count();
+    }
 }
