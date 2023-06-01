@@ -122,6 +122,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/{koorkota}/{koorkecamatan}/{koordesa}/dpt/store', [DptController::class, 'store'])
         ->name('dpt.store');
 
+
+    Route::post('/{koorkota}/{koorkecamatan}/{koordesa}/dpt/import', [DptController::class, 'import'])
+        ->name('dpt.import');
+
     Route::get(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt/{dpt}/edit',
         [DptController::class, 'edit']

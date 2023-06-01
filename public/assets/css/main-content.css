@@ -33,12 +33,12 @@ label {
 
 a.btn {
   font-size: 7px;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .btn-delete {
   font-size: 7px;
-  margin-left: 5px;
+  margin-left: 10px;
   border: none;
   padding: 5px;
   background-color: #d80505;

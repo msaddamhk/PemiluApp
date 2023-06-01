@@ -8,8 +8,9 @@ use App\Models\Dpt;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class DptController extends Controller
 {
@@ -63,6 +64,46 @@ class DptController extends Controller
         ]);
 
 
+        return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
+    }
+
+    public function import(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
+    {
+        $file = $request->file('excel_file');
+
+        $importData = Excel::toArray([], $file)[0];
+
+        $request->validate([
+            'name' => 'required',
+            'phone_number' => 'nullable|numeric|unique:dpt,phone_number,',
+            'is_voters' => 'nullable',
+            'gender' => 'nullable',
+            'date_of_birth' => 'nullable|date',
+            'indentity_number' => 'nullable|numeric|unique:dpt,indentity_number,',
+        ], [
+            'indentity_number.unique' => 'No identitas sudah terdaftar.',
+            'phone_number.unique' => 'No HP sudah terdaftar.',
+            'phone_number.numeric' => 'No Hp Wajib Angka',
+            'date_of_birth.date' => 'Tanggal Lahir Format Tanggal',
+        ]);
+
+        foreach ($importData as $row) {
+
+            $dateOfBirth = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['3']);
+            $formattedDateOfBirth = $dateOfBirth->format('Y-m-d');
+
+            Dpt::create([
+                "desa_id" =>  $koordesa->id,
+                "name" => $row['0'],
+                "indentity_number" => $row['1'],
+                "phone_number" => $row['2'],
+                "is_voters" => "1",
+                "date_of_birth" => $formattedDateOfBirth,
+                "gender" => $row['4'],
+                "created_by" => auth()->user()->id,
+                "updated_by" => auth()->user()->id,
+            ]);
+        }
         return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
     }
 

@@ -16,7 +16,11 @@
                 @endif
             </div>
         </div>
-
+        @if (session('error'))
+            <div class="alert alert-danger mt-3" role="alert">
+                <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
+            </div>
+        @endif
         <div class="card p-3 mt-3">
             <form action="{{ route('kota.index') }}" method="GET">
                 <div class="d-flex me-2 mb-3 mt-2">
@@ -158,6 +162,11 @@
                     </div>
                     <form class="needs-validation" action="{{ route('kota.store.otomatis') }}" method="POST">
                         <div class="modal-body">
+                            @if ($isError)
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="bi bi-exclamation-triangle"></i> Internet connection required
+                                </div>
+                            @endif
                             @csrf
                             <section class="p-3">
                                 <div class="mb-3">
@@ -200,7 +209,7 @@
                             </section>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" @disabled($isError) class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -208,7 +217,7 @@
         </div>
     @endif
 
-    {{-- @if ($errors->any())
+    @if ($errors->any())
         <script>
             $(document).ready(function() {
                 @if ($errors->has('modal1'))
@@ -218,5 +227,5 @@
                 @endif
             });
         </script>
-    @endif --}}
+    @endif
 @endsection

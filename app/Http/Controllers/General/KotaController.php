@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateKotaJob;
 use App\Models\Dpt;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
@@ -25,22 +26,23 @@ class KotaController extends Controller
 
             return view('general.kota.index', compact('kota'));
         } elseif (request()->user()->can('isGeneral')) {
+            $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
+            $user = User::where('level', 'KOOR_KAB_KOTA')
+                ->whereDoesntHave('koorKota')
+                ->get();
 
+            $api_kota = [];
+            $isError = false;
             try {
                 $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=11";
                 $data = json_decode(file_get_contents($url), true);
                 $api_kota = $data['kota_kabupaten'];
-
-                $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
-
-                $user = User::where('level', 'KOOR_KAB_KOTA')
-                    ->whereDoesntHave('koorKota')
-                    ->get();
-
-                return view('general.kota.index', compact('api_kota', 'kota', 'user'));
             } catch (\Exception $e) {
-                return response()->view('error.loss');
+                $isError = true;
+                // return response()->view('error.loss');                
             }
+
+            return view('general.kota.index', compact('api_kota', 'kota', 'user', 'isError'));
         } else {
             abort(403);
         }
@@ -112,46 +114,51 @@ class KotaController extends Controller
             "updated_by" => auth()->user()->id,
         ]);
 
-        $url_kecamatan = "https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=" . $id;
-        $data_kecamatan = json_decode(file_get_contents($url_kecamatan), true);
-        $data_kecamatan = $data_kecamatan['kecamatan'];
+        CreateKotaJob::dispatch($id, $kota->id, auth()->id());
 
+        // try {
+        //     $url_kecamatan = "https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=" . $id;
+        //     $data_kecamatan = json_decode(file_get_contents($url_kecamatan), true);
+        //     $data_kecamatan = $data_kecamatan['kecamatan'];
+        // } catch (\Throwable $th) {
+        //     return back()->with('error', 'Internet Connection Required!');
+        // }
 
-        foreach ($data_kecamatan as $kecamatan) {
-            $slug = Str::slug($kecamatan['nama']);
-            $count = 2;
-            while (KoorKecamatan::where('slug', $slug)->first()) {
-                $slug = Str::slug($kecamatan['nama']) . '-' . $count;
-                $count++;
-            }
+        // foreach ($data_kecamatan as $kecamatan) {
+        //     $slug = Str::slug($kecamatan['nama']);
+        //     $count = 2;
+        //     while (KoorKecamatan::where('slug', $slug)->first()) {
+        //         $slug = Str::slug($kecamatan['nama']) . '-' . $count;
+        //         $count++;
+        //     }
 
-            $kecamatanModel = KoorKecamatan::create([
-                'name' => $kecamatan['nama'],
-                'koor_kota_id' => $kota->id,
-                'slug' => $slug,
-                "created_by" => auth()->user()->id,
-                "updated_by" => auth()->user()->id,
-            ]);
+        //     $kecamatanModel = KoorKecamatan::create([
+        //         'name' => $kecamatan['nama'],
+        //         'koor_kota_id' => $kota->id,
+        //         'slug' => $slug,
+        //         "created_by" => auth()->user()->id,
+        //         "updated_by" => auth()->user()->id,
+        //     ]);
 
-            $url_desa = "https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=" . $kecamatan['id'];
-            $data_desa = json_decode(file_get_contents($url_desa), true);
+        //     $url_desa = "https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=" . $kecamatan['id'];
+        //     $data_desa = json_decode(file_get_contents($url_desa), true);
 
-            foreach ($data_desa['kelurahan'] as $desa) {
-                $slug_desa = Str::slug($desa['nama']);
-                $count = 2;
-                while (KoorDesa::where('slug', $slug_desa)->first()) {
-                    $slug_desa = Str::slug($desa['nama']) . '-' . $count;
-                    $count++;
-                }
-                KoorDesa::create([
-                    'koor_kecamatan_id' => $kecamatanModel->id,
-                    'name' => $desa['nama'],
-                    'slug' => $slug_desa,
-                    "created_by" => auth()->user()->id,
-                    "updated_by" => auth()->user()->id,
-                ]);
-            }
-        }
+        //     foreach ($data_desa['kelurahan'] as $desa) {
+        //         $slug_desa = Str::slug($desa['nama']);
+        //         $count = 2;
+        //         while (KoorDesa::where('slug', $slug_desa)->first()) {
+        //             $slug_desa = Str::slug($desa['nama']) . '-' . $count;
+        //             $count++;
+        //         }
+        //         KoorDesa::create([
+        //             'koor_kecamatan_id' => $kecamatanModel->id,
+        //             'name' => $desa['nama'],
+        //             'slug' => $slug_desa,
+        //             "created_by" => auth()->user()->id,
+        //             "updated_by" => auth()->user()->id,
+        //         ]);
+        //     }
+        // }
 
         return redirect()->route('kota.index');
     }
@@ -184,10 +191,11 @@ class KotaController extends Controller
                 }
             }
 
-            $top10Kecamatan = KoorKecamatan::withCount(['koorDesas as total_dpt' => function ($query) {
-                $query->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id');
-            }])
-                ->where('koor_kota_id', $koorkota->id)
+            $top10Kecamatan = KoorKecamatan::where('koor_kota_id', $koorkota->id)
+                ->withCount(['koorDesas as total_dpt' => function ($query) {
+                    $query->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id')
+                        ->where('dpt.deleted_at', null);
+                }])
                 ->orderBy('total_dpt', 'desc')
                 ->take(10)
                 ->pluck('total_dpt', 'name')
@@ -196,7 +204,6 @@ class KotaController extends Controller
             $kecamatanLabels = array_keys($top10Kecamatan);
             $kecamatanData = array_values($top10Kecamatan);
         }
-
 
         return view('general.grafik.kota.index', compact('labels', 'data', 'kecamatanLabels', 'kecamatanData'));
     }
