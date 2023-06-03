@@ -50,4 +50,9 @@ class KoorKecamatan extends Model
     {
         return $this->koorDesas()->count();
     }
+
+    public function getCountKecamatanForGeneral()
+    {
+        return $this->count();
+    }
 }

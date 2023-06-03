@@ -45,4 +45,9 @@ class KoorKota extends Model
     {
         return $this->koorKecamatans()->count();
     }
+
+    public function getCountKotaForGeneral()
+    {
+        return $this->count();
+    }
 }
