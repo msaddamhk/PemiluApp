@@ -30,6 +30,7 @@ class KotaController extends Controller
             $user = User::where('level', 'KOOR_KAB_KOTA')
                 ->whereDoesntHave('koorKota')
                 ->get();
+                
 
             $api_kota = [];
             $isError = false;
