@@ -6,7 +6,7 @@
         <hr />
 
         <div class="">
-            <img src="{{ asset('d.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
+            <img src="{{ asset('bannerdefault.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
                 alt="" />
         </div>
 
