@@ -2,13 +2,38 @@
 
 @section('content')
     <section class="p-3">
-        <h3 class="fw-semibold">Dashboard</h3>
+        <h3 class="fw-semibold">Dashboarad</h3>
         <hr />
 
         <div class="">
             <img src="{{ asset('bannerdefault.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
                 alt="" />
         </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Kota</th>
+                    <th>Total DPT</th>
+                    <th>Total Penduduk</th>
+                    <th>Persentase</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($cityData as $data)
+                    <tr>
+                        <td>
+                            <a href="{{ route('kecamatan.index', $data['slug']) }}">
+                                {{ $data['kota'] }}
+                            </a>
+                        </td>
+                        <td>{{ $data['total_dpt'] }}</td>
+                        <td>{{ $data['total_penduduk'] }}</td>
+                        <td>{{ $data['persentase'] }}%</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
 
         <div class="row">
