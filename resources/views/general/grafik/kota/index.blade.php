@@ -33,7 +33,8 @@
 
     <script>
         var desa = "Desa";
-        var labels = {!! json_encode($labels) !!};
+        // var labels = {!! json_encode($labels) !!};
+        var labels = @json($labels);
 
         for (var i = 0; i < labels.length; i++) {
             labels[i] = desa + " " + labels[i];
