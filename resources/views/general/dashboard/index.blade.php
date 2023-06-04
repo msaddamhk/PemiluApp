@@ -6,7 +6,7 @@
         <hr />
 
         <div class="">
-            <img src="{{ asset('d.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
+            <img src="{{ asset('bannerdefault.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
                 alt="" />
         </div>
 
@@ -85,20 +85,45 @@
 
     <script>
         var data = {
-            labels: ["Banda Aceh", "Sabang", "Aceh Besar"],
+            labels: [],
             datasets: [{
-                data: [300, 50, 100],
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                data: [],
+                backgroundColor: [],
+                hoverBackgroundColor: []
             }]
         };
+    
+        @foreach($getDataDiagram as $item)
+            data.labels.push("{{ $item['name'] }}");
+            data.datasets[0].data.push({{ $item['count'] }});
+    
+            var color = random_color(); // Menghasilkan warna hexadesimal acak
+            data.datasets[0].backgroundColor.push(color);
+            data.datasets[0].hoverBackgroundColor.push(color);
+        @endforeach
+    
+        function random_color() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    
         var options = {
             responsive: true
         };
+    
         var myPieChart = new Chart(document.getElementById("myChart2"), {
             type: 'pie',
             data: data,
             options: options
         });
     </script>
+    
+    
+    
+    
+    
 @endsection

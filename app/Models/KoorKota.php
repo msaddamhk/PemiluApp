@@ -50,4 +50,23 @@ class KoorKota extends Model
     {
         return $this->count();
     }
+
+    public function getdataDiagram()
+    {
+        $dataDiagram = [];
+        
+        foreach ($this->get() as $koorKotaModel) {
+            $kotaId = $koorKotaModel->id;
+            $dptCount = (new Dpt())->whereHas('koorDesa.kecamatan.kota', function ($query) use ($kotaId) {
+                $query->where('id', $kotaId);
+            })->count();
+            
+            $dataDiagram[] = [
+                'name' => $koorKotaModel->name,
+                'count' => $dptCount,
+            ];
+        }
+        
+        return $dataDiagram;
+    }
 }

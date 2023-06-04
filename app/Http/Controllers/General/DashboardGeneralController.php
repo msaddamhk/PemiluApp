@@ -8,6 +8,7 @@ use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class DashboardGeneralController extends Controller
 {
@@ -16,12 +17,17 @@ class DashboardGeneralController extends Controller
     {
         $koorDesa = new KoorDesa();
         $desaCount = $koorDesa->getCountForGeneral();
+
         $koorKota = new KoorKota();
         $kotaCount = $koorKota->getCountKotaForGeneral();
-        $koorKecamatan =new KoorKecamatan();
+        $getDataDiagram = $koorKota->getdataDiagram();
+
+        $koorKecamatan = new KoorKecamatan();
         $kecamatanCount = $koorKecamatan->getCountKecamatanForGeneral();
+
         $dpt = new Dpt();
         $dptCount = $dpt->getCountDptForGeneral();
-        return view('general.dashboard.index', compact('desaCount', 'kotaCount', 'kecamatanCount', 'dptCount'));
+        
+        return view('general.dashboard.index', compact('desaCount', 'kotaCount', 'kecamatanCount', 'dptCount', 'getDataDiagram'));
     }
 }

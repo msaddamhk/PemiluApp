@@ -117,50 +117,6 @@ class KotaController extends Controller
 
         CreateKotaJob::dispatch($id, $kota->id, auth()->id());
 
-        // try {
-        //     $url_kecamatan = "https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=" . $id;
-        //     $data_kecamatan = json_decode(file_get_contents($url_kecamatan), true);
-        //     $data_kecamatan = $data_kecamatan['kecamatan'];
-        // } catch (\Throwable $th) {
-        //     return back()->with('error', 'Internet Connection Required!');
-        // }
-
-        // foreach ($data_kecamatan as $kecamatan) {
-        //     $slug = Str::slug($kecamatan['nama']);
-        //     $count = 2;
-        //     while (KoorKecamatan::where('slug', $slug)->first()) {
-        //         $slug = Str::slug($kecamatan['nama']) . '-' . $count;
-        //         $count++;
-        //     }
-
-        //     $kecamatanModel = KoorKecamatan::create([
-        //         'name' => $kecamatan['nama'],
-        //         'koor_kota_id' => $kota->id,
-        //         'slug' => $slug,
-        //         "created_by" => auth()->user()->id,
-        //         "updated_by" => auth()->user()->id,
-        //     ]);
-
-        //     $url_desa = "https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=" . $kecamatan['id'];
-        //     $data_desa = json_decode(file_get_contents($url_desa), true);
-
-        //     foreach ($data_desa['kelurahan'] as $desa) {
-        //         $slug_desa = Str::slug($desa['nama']);
-        //         $count = 2;
-        //         while (KoorDesa::where('slug', $slug_desa)->first()) {
-        //             $slug_desa = Str::slug($desa['nama']) . '-' . $count;
-        //             $count++;
-        //         }
-        //         KoorDesa::create([
-        //             'koor_kecamatan_id' => $kecamatanModel->id,
-        //             'name' => $desa['nama'],
-        //             'slug' => $slug_desa,
-        //             "created_by" => auth()->user()->id,
-        //             "updated_by" => auth()->user()->id,
-        //         ]);
-        //     }
-        // }
-
         return redirect()->route('kota.index');
     }
 
