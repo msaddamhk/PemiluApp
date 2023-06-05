@@ -58,7 +58,7 @@ class DesaQuickCountControler extends Controller
             'number_of_votes' => 'required',
             'total_votes' => 'required',
             'koor_tps_id' => 'nullable',
-            'name_tps' => 'nullable',
+            'name_tps' => 'nullable|unique:quick_count,name_tps,',
             'result_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -101,7 +101,7 @@ class DesaQuickCountControler extends Controller
         $request->validate([
             'number_of_votes' => 'required',
             'total_votes' => 'required',
-            'name_tps' => 'nullable',
+            'name_tps' => 'nullable|unique:quick_count,name_tps,' . $quickcount->id,
             'koor_tps_id' => 'nullable',
             'result_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);

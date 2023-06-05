@@ -13,7 +13,7 @@
                 <div class="mb-3">
                     <label for="tps" class="col-form-label">TPS</label>
                     <div>
-                        <select id="tps" class="form-control choices" name="tps" required>
+                        <select id="tps" class="form-control choices" name="tps">
                             <option value="">Pilih TPS</option>
                             @foreach ($koordesa->koortps as $data)
                                 <option value="{{ $data->id }}" @selected($data->id == $dpt->tps_id)>

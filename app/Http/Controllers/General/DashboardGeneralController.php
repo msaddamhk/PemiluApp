@@ -36,6 +36,7 @@ class DashboardGeneralController extends Controller
         $koorkotas = Koorkota::all();
 
         $cityData = $koorkotas->map(function ($koorkota) {
+
             $countDPT = DB::table('koor_desa')
                 ->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id')
                 ->whereIn('koor_desa.koor_kecamatan_id', function ($query) use ($koorkota) {
@@ -63,7 +64,6 @@ class DashboardGeneralController extends Controller
             ];
         });
 
-        return view('general.dashboard.index', compact('cityData', 'desaCount', 'kotaCount', 'kecamatanCount', 'dptCount','getDataDiagram'));
-
+        return view('general.dashboard.index', compact('cityData', 'desaCount', 'kotaCount', 'kecamatanCount', 'dptCount', 'getDataDiagram'));
     }
 }

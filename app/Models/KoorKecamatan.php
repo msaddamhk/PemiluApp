@@ -53,7 +53,7 @@ class KoorKecamatan extends Model
 
     public function jumlahPenduduk()
     {
-        $this->koorDesas()->sum('total_dpt');
+        $this->koorDesas->sum('total_dpt');
     }
 
     public function getCountKecamatanForGeneral()

@@ -147,7 +147,7 @@
 
                             <div>
                                 <label for="user" class="col-form-label">Pengelola</label>
-                                <div>
+                                <div class="mb-2">
                                     <select id="user" class="form-control choices @error('user') is-invalid @enderror"
                                         name="user">
                                         <option value="">Pilih Pengelola</option>
@@ -158,6 +158,10 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <small for="exampleInputEmail1" class="fst-italic fw-normal">*Belum ada Data Pengelola ?
+                                    <a href="{{ route('users.index') }}">Tambahkan
+                                        Sekarang </a>
+                                </small>
                             </div>
                         </section>
                     </div>
@@ -169,4 +173,14 @@
         </div>
     </div>
     </div>
+
+    @push('scripts')
+        @if ($errors->any())
+            <script>
+                $(document).ready(function() {
+                    $('#exampleModal').modal('show');
+                });
+            </script>
+        @endif
+    @endpush
 @endsection

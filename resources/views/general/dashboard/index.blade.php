@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="p-3">
-        <h3 class="fw-semibold">Dashboarad</h3>
+        <h5 class="fw-semibold">Dashboarad</h5>
         <hr />
 
         <div class="">
@@ -10,37 +10,11 @@
                 alt="" />
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nama Kota</th>
-                    <th>Total DPT</th>
-                    <th>Total Penduduk</th>
-                    <th>Persentase</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($cityData as $data)
-                    <tr>
-                        <td>
-                            <a href="{{ route('kecamatan.index', $data['slug']) }}">
-                                {{ $data['kota'] }}
-                            </a>
-                        </td>
-                        <td>{{ $data['total_dpt'] }}</td>
-                        <td>{{ $data['total_penduduk'] }}</td>
-                        <td>{{ $data['persentase'] }}%</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-
         <div class="row">
             <div class="col-sm-12 col-md-9">
                 <div class="row h-100">
                     <div class="col-sm-12 col-md-8 pb-3">
-                        <div class="card p-4 h-100" style="border-color: rgba(255, 159, 64, 1)">
+                        <div class="card p-4 h-100">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Countdown</h6>
@@ -51,7 +25,7 @@
                     </div>
 
                     <div class="col-sm-12 col-md-4 pb-3">
-                        <div class="card p-4 h-100 card-dpt" style="border-color: rgba(255, 99, 132, 1)">
+                        <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Kota</h6>
@@ -62,7 +36,7 @@
                     </div>
 
                     <div class="col-sm-12 col-md-4 pb-3">
-                        <div class="card p-4 h-100 card-dpt" style="border-color: rgba(54, 162, 235, 1)">
+                        <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Kecamatan</h6>
@@ -73,7 +47,7 @@
                     </div>
 
                     <div class="col-sm-12 col-md-4 pb-3">
-                        <div class="card p-4 h-100 card-dpt" style="border-color: rgba(255, 206, 86, 1)">
+                        <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Desa</h6>
@@ -84,7 +58,7 @@
                     </div>
 
                     <div class="col-sm-12 col-md-4 pb-3">
-                        <div class="card p-4 h-100 card-dpt" style="border-color: rgba(153, 102, 255, 1)">
+                        <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Memilih</h6>
@@ -95,8 +69,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-3 pb-3">
-                <div class="card" style="height: 300px">
+            <div class="col-sm-12 col-md-3 pb-3 mt-2 mt-lg-0">
+                <div class="card" style="min-height: 300px">
                     <div class="my-auto">
                         <div class="card-body">
                             <canvas id="myChart2"></canvas>
@@ -104,6 +78,37 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="mt-2 card py-4 px-3 card-dpt">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Nama Kota</th>
+                        <th>Total DPT</th>
+                        <th>Total Memilih</th>
+                        <th>Persentase</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($cityData as $data)
+                        <tr>
+                            <td class="my-auto">
+                                <a href="{{ route('kecamatan.index', $data['slug']) }}"
+                                    class="text-decoration-none text-black">
+                                    {{ $data['kota'] }}
+                                </a>
+                            </td>
+                            <td>{{ $data['total_penduduk'] }}</td>
+                            <td>{{ $data['total_dpt'] }}</td>
+                            <td>
+                                <h1 class="fw-bold fs-6 {{ $data['persentase'] < 50 ? 'text-warning' : 'text-success' }}">
+                                    {{ $data['persentase'] }}%
+                                </h1>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
     </section>
@@ -117,16 +122,16 @@
                 hoverBackgroundColor: []
             }]
         };
-    
-        @foreach($getDataDiagram as $item)
+
+        @foreach ($getDataDiagram as $item)
             data.labels.push("{{ $item['name'] }}");
             data.datasets[0].data.push({{ $item['count'] }});
-    
-            var color = random_color(); // Menghasilkan warna hexadesimal acak
+
+            var color = random_color();
             data.datasets[0].backgroundColor.push(color);
             data.datasets[0].hoverBackgroundColor.push(color);
         @endforeach
-    
+
         function random_color() {
             var letters = '0123456789ABCDEF';
             var color = '#';
@@ -135,20 +140,15 @@
             }
             return color;
         }
-    
+
         var options = {
             responsive: true
         };
-    
+
         var myPieChart = new Chart(document.getElementById("myChart2"), {
             type: 'pie',
             data: data,
             options: options
         });
     </script>
-    
-    
-    
-    
-    
 @endsection

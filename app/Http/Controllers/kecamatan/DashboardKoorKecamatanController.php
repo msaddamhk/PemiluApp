@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Dpt;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardKoorKecamatanController extends Controller
@@ -38,8 +37,10 @@ class DashboardKoorKecamatanController extends Controller
             }
         }
 
+        $desa = $kecamatan->koorDesas()->withCount(['dpts', 'dpts as dpt_is_voters_count' => function ($query) {
+            $query->where('is_voters', true);
+        }])->paginate(15);
 
-
-        return view('kecamatan.dashboard.index', compact('kecamatan', 'labels', 'data', 'jumlahDpt', 'jumlahdptlaki', 'jumlahdptperempuan'));
+        return view('kecamatan.dashboard.index', compact('desa', 'kecamatan', 'labels', 'data', 'jumlahDpt', 'jumlahdptlaki', 'jumlahdptperempuan'));
     }
 }

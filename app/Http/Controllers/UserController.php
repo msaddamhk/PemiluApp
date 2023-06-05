@@ -15,28 +15,13 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        // $userLevel = auth()->user()->level;
-        // switch ($userLevel) {
-        //     case 'KOOR_KOTA':
-        //         $users = User::all();
-        //         return view('admin.index', compact('users'));
-        //     case 'KOOR_KECAMATAN':
-        //         $kecamatan = KoorKecamatan::where('user_id', auth()->user()->id)->first();
-        //         $users = User::whereHas('koorDesa', function ($query) use ($kecamatan) {
-        //             $query->where('koor_kecamatan_id', $kecamatan->id);
-        //         })->orWhereHas('tps', function ($query) use ($kecamatan) {
-        //             $query->whereIn('koor_desa_id', function ($subQuery) use ($kecamatan) {
-        //                 $subQuery->select('id')->from('koor_desa')->where('koor_kecamatan_id', $kecamatan->id);
-        //             });
-        //         })->get();
-
-
-        //         return view('admin.index', compact('users'));
-        // }
-
-        $users = User::all();
-        return view('admin.index', compact('users'));
+        if (auth()->user()->level == "GENERAL") {
+            $users = User::all();
+            return view('admin.index', compact('users'));
+        } else {
+            $users = User::where('created_by', auth()->user()->id)->get();
+            return view('admin.index', compact('users'));
+        }
     }
 
     /**

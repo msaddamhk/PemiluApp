@@ -10,7 +10,8 @@
                         <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Manual</small>
                     </button>
 
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#modalTambahOtomatis">
                         <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Otomatis</small>
                     </button>
                 @endif
@@ -95,6 +96,7 @@
             @endif
         </div>
     </section>
+
     @if (auth()->user()->level == 'GENERAL')
         <div class="modal fade modal1" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -118,7 +120,7 @@
                                     @enderror
                                 </div>
 
-                                <div>
+                                <div class="mb-2">
                                     <label for="level" class="col-form-label">Pilih Pengelola</label>
                                     <div>
                                         <select id="user"
@@ -142,6 +144,10 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <small for="exampleInputEmail1" class="fst-italic">*Belum ada Data Pengelola ?
+                                    <a href="{{ route('users.index') }}">Tambahkan
+                                        Sekarang </a>
+                                </small>
                             </section>
                         </div>
                         <div class="modal-footer">
@@ -152,7 +158,7 @@
             </div>
         </div>
 
-        <div class="modal fade modal2" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="modalTambahOtomatis" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
@@ -169,10 +175,11 @@
                             @endif
                             @csrf
                             <section class="p-3">
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="level" class="col-form-label">Pengelola Kota</label>
-                                    <div>
-                                        <select id="user" class="form-control @error('user') is-invalid @enderror"
+                                    <div class="form-group">
+                                        <select id="user_otomatis"
+                                            class="form-control choices_user_kota_otomatis @error('user') is-invalid @enderror"
                                             name="user">
                                             <option value="" disabled selected>Pilih Pengelola</option>
                                             @foreach ($user as $data)
@@ -181,12 +188,6 @@
                                                 </option>
                                             @endforeach
                                         </select>
-
-                                        <label for="exampleInputEmail1" class="form-label">Belum ada Data ?
-                                            <a href="{{ route('users.index') }}">Tambahkan
-                                                Sekarang </a>
-                                        </label>
-
                                         @error('user')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -194,10 +195,16 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <small for="exampleInputEmail1" class="mb-4 fst-italic fw-normal">*Belum ada Data
+                                    Pengelola ?
+                                    <a href="{{ route('users.index') }}">Tambahkan
+                                        Sekarang </a>
+                                </small>
                                 <div>
                                     <label for="level" class="col-form-label">Kabupaten/Kota</label>
                                     <div>
-                                        <select id="api_kota" class="form-control" name="api_kota" required>
+                                        <select id="api_kota" class="form-control choices_kota" name="api_kota"
+                                            required>
                                             <option value="">Pilih Kab/Kota</option>
                                             @foreach ($api_kota as $item)
                                                 <option value="{{ $item['id'] }},{{ $item['nama'] }}">
@@ -217,15 +224,40 @@
         </div>
     @endif
 
-    @if ($errors->any())
-        <script>
-            $(document).ready(function() {
-                @if ($errors->has('modal1'))
-                    $('#exampleModal').modal('show');
-                @elseif ($errors->has('modal2'))
-                    $('#exampleModal1').modal('show');
-                @endif
-            });
-        </script>
-    @endif
 @endsection
+
+@push('scripts')
+    <script>
+        const choices_user_kota_otomatis = new Choices('#user_otomatis', {
+            searchEnabled: true,
+            searchChoices: true,
+            placeholder: true,
+            placeholderValue: 'Pilih pengelola',
+        });
+    </script>
+    <script>
+        const choices_kota = new Choices('#api_kota', {
+            searchEnabled: true,
+            searchChoices: true,
+            placeholder: true,
+            position: 'bottom',
+            placeholderValue: 'Pilih Kota',
+        });
+    </script>
+
+    @if ($errors->any())
+        @if ($errors->has('name_otomatis'))
+            <script>
+                $(document).ready(function() {
+                    $('#modalTambahOtomatis').modal('show');
+                });
+            </script>
+        @else
+            <script>
+                $(document).ready(function() {
+                    $('#exampleModal').modal('show');
+                });
+            </script>
+        @endif
+    @endif
+@endpush

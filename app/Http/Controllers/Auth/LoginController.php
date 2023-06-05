@@ -13,18 +13,24 @@ class LoginController extends Controller
 
     public function authenticated()
     {
-        $userLevel = auth()->user()->level;
-        switch ($userLevel) {
-            case 'GENERAL':
-                return redirect()->route('dashboard.general.index');
-            case 'KOOR_KAB_KOTA':
-                return redirect()->route('kota.index');
-            case 'KOOR_KECAMATAN':
-                return redirect()->route('dashboard.kecamatan.index');
-            case 'KOOR_DESA':
-                return redirect()->route('dashboard.desa.index');
-            case 'KOOR_TPS':
-                return redirect()->route('dashboard.tps.index');
+        if (auth()->user()->is_active == "1") {
+            switch (auth()->user()->level) {
+                case 'GENERAL':
+                    return redirect()->route('dashboard.general.index');
+                case 'KOOR_KAB_KOTA':
+                    return redirect()->route('kota.index');
+                case 'KOOR_KECAMATAN':
+                    return redirect()->route('dashboard.kecamatan.index');
+                case 'KOOR_DESA':
+                    return redirect()->route('koor.desa.index');
+                case 'KOOR_TPS':
+                    return redirect()->route('koor.tps.index');
+                default:
+                    return redirect()->back()->with('error', 'Level user tidak valid.');
+            }
+        } else {
+            Auth::logout();
+            return redirect()->back()->with('error', 'Akun Anda tidak aktif.');
         }
     }
 

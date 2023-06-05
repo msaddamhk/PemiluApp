@@ -27,6 +27,14 @@ th {
   font-size: 10px;
 }
 
+.table-hover.td {
+  font-size: 20px;
+}
+
+.table-hover.th {
+  font-size: 20px;
+}
+
 label {
   font-size: 14px;
 }

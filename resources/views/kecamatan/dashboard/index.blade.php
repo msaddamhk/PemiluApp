@@ -3,147 +3,116 @@
 
 @section('content')
     <section class="p-3">
-        <h3 class="fw-semibold">Dashboard</h3>
+        <h5 class="fw-semibold">Dashboard</h5>
         <hr />
 
         <div class="">
-            <img src="{{ asset('gelora1.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
+            <img src="{{ asset('bannerdefault.png') }}" width="100%" class="mt-2 mb-4 rounded-3" style="object-fit: cover;"
                 alt="" />
         </div>
-
 
         <div class="row">
             <div class="col-sm-12 col-md-9">
                 <div class="row h-100">
-                    <div class="col-sm-12 col-md-6 pb-3">
-                        <div class="card px-3 px-md-4 h-100 p-2 bg-light border-0">
+
+                    <div class="col-sm-12 col-md-12 pb-3">
+                        <div class="card p-4 h-100">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
-                                    <h4>Jumlah Desa</h4>
-                                    <h2 class="fw-bold mb-0">{{ $kecamatan->jumlahDesa() }} Desa</h2>
+                                    <h6>Countdown</h6>
+                                    <h5 id="countingDown" class="fw-bold"></h5>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-12 col-md-6 pb-3">
-                        <div class="card px-3 px-md-4 h-100 p-2 bg-light border-0">
+                        <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
-                                    <h4>Jumlah DPT</h4>
-                                    <h2 class="fw-bold mb-0">{{ $jumlahDpt }} Orang</h2>
+                                    <h6>Jumlah Desa</h6>
+                                    <h5 class="fw-bold"> {{ $kecamatan->jumlahDesa() }} Desa</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-sm-12 col-md-6 pb-3">
-                        <div class="card px-3 px-md-4 h-100 p-2 bg-light border-0">
+                        <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
-                                    <h4>Jumlah Desa</h4>
-                                    <h2 class="fw-bold mb-0">{{ $kecamatan->jumlahDesa() }} Desa</h2>
+                                    <h6>Jumlah Memilih</h6>
+                                    <h5 class="fw-bold">{{ $jumlahDpt }} Orang </h5>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6 pb-3">
-                        <div class="card px-3 px-md-4 h-100 p-2 bg-light border-0">123</div>
-                    </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-3 pb-3">
-                <div class="card bg-light border-0">
-                    <div class="card-body">
-                        <h5 class="card-title">Jumlah DPT</h5>
-                        <canvas id="myChart"></canvas>
+            <div class="col-sm-12 col-md-3 pb-3 mt-2 mt-lg-0">
+                <div class="card" style="min-height: 300px">
+                    <div class="my-auto">
+                        <div class="card-body">
+                            <canvas id="myChart2"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-9 mb-3">
-                <div class="card bg-light border-0">
-                    <div class="card-body">
-                        <h5>Desa</h5>
-                        <canvas id="myChartBar3"></canvas>
-                    </div>
-                </div>
-            </div>
+        <div class="mt-2 card py-4 px-3 card-dpt">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Nama Desa</th>
+                        <th>Total DPT</th>
+                        <th>Total Memilih</th>
+                        <th>Persentase</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($desa as $item)
+                        <tr>
+                            <td class="my-auto">
+                                <a href="{{ route('koor.kecamatan.dpt.index', [$kecamatan, $item]) }}"
+                                    class="text-decoration-none text-black">
+                                    {{ $item->name }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ $item->total_dpt ? $item->total_dpt . ' Orang' : '-' }}
+                            </td>
 
-            <div class="col-md-3 mb-lg-0">
-                <div class="card bg-light border-0">
-                    <div class="card-body">
-                        <h5 class="card-title">Usia</h5>
-                        <canvas id="myChart2"></canvas>
-                    </div>
-                </div>
-            </div>
+                            <td>
+                                {{ $item->dpt_is_voters_count ? $item->dpt_is_voters_count . ' Orang' : '-' }}
+                            </td>
+                            <td>
+                                @if ($item->total_dpt && $item->dpt_is_voters_count)
+                                    <h1
+                                        class="fs-6 fw-bold {{ $item->total_dpt && $item->dpt_is_voters_count && ($item->dpt_is_voters_count / $item->total_dpt) * 100 > 50 ? 'text-success' : 'text-warning' }}">
+                                        {{ round(($item->dpt_is_voters_count / $item->total_dpt) * 100, 2) }}%
+                                    </h1>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $desa->links() }}
         </div>
+
+
+
     </section>
 
     <script>
-        var labels = {!! json_encode($labels) !!};
-        var data = {!! json_encode($data) !!};
-
-        var ctx = document.getElementById('myChartBar3').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Total DPT',
-                    data: data,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 206, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)',
-                        'rgba(255, 159, 64, 0.8)',
-                        'rgba(106, 187, 170, 0.8)',
-                        'rgba(176, 102, 173, 0.8)',
-                        'rgba(241, 130, 141, 0.8)',
-                        'rgba(139, 125, 174, 0.8)'
-                    ],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-
         var data = {
-            labels: ["Perempuan", "Laki-Laki"],
+            labels: {!! json_encode($labels) !!},
             datasets: [{
-                data: [{{ $jumlahdptperempuan }}, {{ $jumlahdptlaki }}],
-                backgroundColor: ["#FF6384", "#36A2EB"],
-                hoverBackgroundColor: ["#FF6384", "#36A2EB"]
-            }]
-        };
-        var options = {
-            responsive: true
-        };
-        var myPieChart = new Chart(document.getElementById("myChart"), {
-            type: 'pie',
-            data: data,
-            options: options
-        });
-
-
-        var data = {
-            labels: ["Remaja", "Dewasa", "Lansia"],
-            datasets: [{
-                data: [300, 50, 100],
+                data: {!! json_encode($data) !!},
                 backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
                 hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
             }]

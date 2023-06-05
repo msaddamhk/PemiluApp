@@ -30,7 +30,7 @@ class KotaController extends Controller
             $user = User::where('level', 'KOOR_KAB_KOTA')
                 ->whereDoesntHave('koorKota')
                 ->get();
-                
+
 
             $api_kota = [];
             $isError = false;
@@ -100,11 +100,11 @@ class KotaController extends Controller
         list($id, $name) = explode(',', $value);
 
         $input = [
-            'name' =>  $name,
+            'name_otomatis' =>  $name,
         ];
 
         Validator::make($input, [
-            'name' => 'required|unique:koor_kota,name',
+            'name_otomatis' => 'required|unique:koor_kota,name',
         ])->validate();
 
         $kota = KoorKota::create([

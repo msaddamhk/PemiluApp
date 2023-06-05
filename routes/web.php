@@ -243,8 +243,6 @@ Route::middleware('auth')->group(function () {
     )
         ->name('desa.quick_count.update');
 
-
-
     Route::get(
         '/kabkota/{koorkota:slug}/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/real-count',
         [QuickCountController::class, 'index']
@@ -283,7 +281,7 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware('can:isKoorKecamatan')->group(function () {
 
-            Route::get('/dashboardkecamatan', [DashboardKoorKecamatanController::class, 'index'])->name('dashboard.kecamatan.index');
+            Route::get('/dashboard-kecamatan', [DashboardKoorKecamatanController::class, 'index'])->name('dashboard.kecamatan.index');
 
             Route::get('/kecamatan', [KoorKecamatanController::class, 'index'])
                 ->name('koor.kecamatan.index');
@@ -470,8 +468,6 @@ Route::middleware('auth')->group(function () {
         // desa
 
         Route::middleware('can:isKoorDesa')->group(function () {
-
-            Route::get('/dashboarddesa', [DashboardKoorDesaController::class, 'index'])->name('dashboard.desa.index');
 
             Route::get('/desa', [DesaKoorDesaController::class, 'index'])
                 ->name('koor.desa.index');

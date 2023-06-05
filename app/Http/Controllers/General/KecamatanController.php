@@ -24,9 +24,15 @@ class KecamatanController extends Controller
 
         $kecamatan = $koorkota->KoorKecamatans()->where('name', 'like', '%' . request('cari') . '%')->paginate(15);
 
-        $user = User::where('level', 'KOOR_KECAMATAN')
-            ->whereDoesntHave('koorKecamatan')
-            ->get();
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            $user = User::where('level', 'KOOR_KECAMATAN')->where('created_by', auth()->user()->id)
+                ->whereDoesntHave('koorKecamatan')
+                ->get();
+        } else {
+            $user = User::where('level', 'KOOR_KECAMATAN')
+                ->whereDoesntHave('koorKecamatan')
+                ->get();
+        }
 
         return view('general.kecamatan.index', compact('koorkota', 'kecamatan',  'user'));
     }

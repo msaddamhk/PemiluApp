@@ -19,9 +19,9 @@
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Nama Desa</th>
-                            <th scope="col">Pengelola</th>
                             <th scope="col">Total DPT</th>
                             <th scope="col">Total DPT Memilih</th>
+                            <th scope="col">Persentase</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -43,22 +43,24 @@
                                         {{ $item->name }}
                                     </a>
                                 </td>
-                                <td>
-                                    @if ($item->user_id == null)
-                                        <span class="badge text-bg-warning">
-                                            <i class="bi bi-exclamation-circle"></i>
-                                            Belum ada Pengelola
-                                        </span>
-                                    @else
-                                        {{ $item->user->name }}
-                                    @endif
-                                </td>
+
                                 <td>
                                     {{ $item->total_dpt ? $item->total_dpt . ' Orang' : '-' }}
                                 </td>
 
                                 <td>
                                     {{ $item->dpt_is_voters_count ? $item->dpt_is_voters_count . ' Orang' : '-' }}
+                                </td>
+
+                                <td>
+                                    @if ($item->total_dpt && $item->dpt_is_voters_count)
+                                        <h1
+                                            class="fs-6 fw-bold {{ $item->total_dpt && $item->dpt_is_voters_count && ($item->dpt_is_voters_count / $item->total_dpt) * 100 > 50 ? 'text-success' : 'text-warning' }}">
+                                            {{ round(($item->dpt_is_voters_count / $item->total_dpt) * 100, 2) }}%
+                                        </h1>
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
                                     @if (env('SHOW_ADD_DATA_TPS', false))

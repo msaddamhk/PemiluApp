@@ -8,6 +8,15 @@
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
                             <h3 class="mb-5">Sign in</h3>
+
+                            @if (session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                                    <strong> {{ session('error') }}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 

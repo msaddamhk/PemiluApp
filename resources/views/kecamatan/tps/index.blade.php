@@ -117,7 +117,7 @@
                             <input type="number" name="total_dpt_by_tps" class="form-control">
                         </div>
 
-                        <div>
+                        <div class="mb-2">
                             <label for="user" class="col-form-label">Pengelola</label>
                             <div>
                                 <select id="user" class="form-control choices @error('user') is-invalid @enderror"
@@ -137,6 +137,11 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <small for="exampleInputEmail1" class="fst-italic fw-normal">*Belum ada Data Pengelola ?
+                            <a href="{{ route('users.index') }}">Tambahkan
+                                Sekarang </a>
+                        </small>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -145,4 +150,14 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        @if ($errors->any())
+            <script>
+                $(document).ready(function() {
+                    $('#exampleModal').modal('show');
+                });
+            </script>
+        @endif
+    @endpush
 @endsection
