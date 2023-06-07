@@ -47,12 +47,24 @@
             <div class="menu p-0">
                 <p>Daily Use</p>
 
-                @if (Gate::any(['isKoorKota', 'isGeneral']))
+
+                @if (Gate::any(['isGeneral']))
                     ;
-                    <a href="{{ route('dashboard.general.index') }}" class="item-menu activ">
+                    <a href="{{ route('dashboard.general.index') }}" class="item-menu">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
+                @endif
+
+                @if (Gate::any(['isKoorKota']))
+                    ;
+                    <a href="{{ route('dashboard.kota.index') }}" class="item-menu">
+                        <i class="icon ic-stats"></i>
+                        Dashboard
+                    </a>
+                @endif
+
+                @if (Gate::any(['isKoorKota', 'isGeneral']))
                     <a href="{{ route('kota.index') }}" class="item-menu {{ Request::is('kabkota*') ? 'active' : '' }}">
                         <i class="icon ic-city"></i>
                         Kelola Data
@@ -63,6 +75,7 @@
                         Kelola Pengguna
                     </a>
                 @endif
+
                 @if (Gate::allows('isKoorKecamatan'))
                     <a href="{{ route('dashboard.kecamatan.index') }}" class="item-menu activ">
                         <i class="icon ic-stats"></i>

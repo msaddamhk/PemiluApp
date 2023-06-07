@@ -104,7 +104,6 @@ class DesaController extends Controller
             ->select('tps_id', DB::raw('count(*) as total_dpt'))
             ->groupBy('tps_id')
             ->orderBy('total_dpt', 'desc')
-            ->take(10)
             ->get();
 
         $labels = [];

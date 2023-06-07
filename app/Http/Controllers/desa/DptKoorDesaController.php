@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers\desa;
 
+use App\Exports\DptExport;
 use App\Http\Controllers\Controller;
+use App\Imports\DptImport;
 use App\Models\Dpt;
 use App\Models\KoorDesa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Jobs\QueuedImport;
+use Maatwebsite\Excel\Facades\Excel;
+
+use Maatwebsite\Excel\Jobs\PendingDispatch;
 
 class DptKoorDesaController extends Controller
 {
@@ -26,6 +33,7 @@ class DptKoorDesaController extends Controller
 
     public function store(Request $request, KoorDesa $koordesa)
     {
+
         $request->validate([
             'name' => 'required',
             'phone_number' => 'nullable|numeric|unique:dpt,phone_number,',
@@ -59,6 +67,29 @@ class DptKoorDesaController extends Controller
     public function edit(KoorDesa $koordesa, Dpt $dpt)
     {
         return view('desa.dpt.edit', compact('dpt', 'koordesa'));
+    }
+
+    public function import(Request $request, KoorDesa $koordesa)
+    {
+        $request->validate([
+            'excel_file' => 'required|mimes:xls,xlsx',
+        ]);
+
+        try {
+            $desaId = $koordesa->id;
+            $file = $request->file('excel_file');
+            $namefile = $file->getClientOriginalName();
+            $file->move('DptImport', $namefile);
+            Excel::import(new DptImport($desaId, Auth::user()), \public_path('/DptImport/' . $namefile));
+            return redirect()->back()->with('success', 'Data Berhasi di Impor');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data Tidak Berhasi Di Upload, perhatikan jika ada persamaan data');
+        }
+    }
+
+    public function export(Request $request, KoorDesa $koordesa)
+    {
+        return Excel::download(new DptExport, 'DataDpt.xlsx');
     }
 
     public function update(Request $request, KoorDesa $koordesa, Dpt $dpt)

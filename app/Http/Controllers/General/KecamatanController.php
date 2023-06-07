@@ -114,7 +114,6 @@ class KecamatanController extends Controller
             ->select('desa_id', DB::raw('count(*) as total_dpt'))
             ->groupBy('desa_id')
             ->orderBy('total_dpt', 'desc')
-            ->take(10)
             ->get();
 
         $labels = [];

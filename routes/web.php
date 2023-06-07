@@ -24,6 +24,7 @@ use App\Http\Controllers\kecamatan\KoorKecamatanController;
 use App\Http\Controllers\kecamatan\KoorKecamatanDesaQuickCountControler;
 use App\Http\Controllers\kecamatan\KoorKecamatanQuickCountController;
 use App\Http\Controllers\kecamatan\TpsKoorKecamatanController;
+use App\Http\Controllers\kota\DashboardKotaController;
 use App\Http\Controllers\tps\DashboardKoorTpsController;
 use App\Http\Controllers\tps\DptTpsKoorTpsController;
 use App\Http\Controllers\tps\KoorTpsQuickCountController;
@@ -38,7 +39,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('data-admin', \App\Http\Controllers\UserController::class)->names('users')->parameter('data-admin', 'user');
 
-    Route::get('/', [DashboardGeneralController::class, 'index'])->name('dashboard.general.index');
+    Route::middleware('can:isGeneral')->group(function () {
+        Route::get('/', [DashboardGeneralController::class, 'index'])->name('dashboard.general.index');
+    });
+
+    Route::middleware('can:isKoorKota')->group(function () {
+        Route::get('/dashboard-kota', [DashboardKotaController::class, 'index'])->name('dashboard.kota.index');
+    });
 
     Route::get('/kabkota', [KotaController::class, 'index'])->name('kota.index');
 
@@ -493,6 +500,16 @@ Route::middleware('auth')->group(function () {
             )
                 ->name('koor.desa.dpt.create');
 
+
+
+            Route::post('/desa/{koordesa:slug}/dpt/importdpt', [DptKoorDesaController::class, 'import'])
+                ->name('dpt.desa.import');
+
+            Route::get('/desa/{koordesa:slug}/dpt/importdpt', [DptKoorDesaController::class, 'export'])
+                ->name('dpt.desa.export');
+
+
+
             Route::post('/desa/{koordesa:slug}/dpt/tambah/store', [DptKoorDesaController::class, 'store'])
                 ->name('koor.desa.dpt.store');
 
@@ -507,6 +524,7 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/desa/{koordesa:slug}/tps', [TpsKoorDesaController::class, 'index'])
                 ->name('koor.desa.tps.index');
+
 
             Route::post('/desa/{koordesa:slug}/tps/store', [TpsKoorDesaController::class, 'store'])
                 ->name('koor.desa.tps.store');

@@ -5,12 +5,37 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di Desa {{ $koordesa->name }}</h5>
-            <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="btn btn-success mb-2 mt-2 btn-sm">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </a>
+            <div>
+                <a href="{{ route('dpt.desa.export', [$koordesa]) }}" class="btn btn-info d-inline-block mb-2 mt-2 me-2">
+                    <i class="bi bi-plus-circle me-1"></i>Export Dpt
+                </a>
+                <button type="button" class="btn btn-success btn-sm p-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-file-earmark-arrow-down me-1"></i>Import DPT
+                </button>
+                <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="btn btn-success d-inline-block">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                </a>
+            </div>
         </div>
 
+
         <div class="card p-3 mt-3">
+
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    <strong> {{ session('success') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                    <strong> {{ session('error') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <form action="{{ route('koor.desa.dpt.index', [$koordesa]) }}" method="GET">
                 <div class="d-flex me-2 mt-2 mb-2">
                     <input type="text" name="cari" placeholder="Cari DPT...."class="form-control me-2" />
@@ -73,6 +98,29 @@
                 </table>
             </div>
             {{ $dpt->links() }}
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('dpt.desa.import', [$koordesa]) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <input type="file" name="excel_file">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </section>
 @endsection

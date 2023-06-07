@@ -18,7 +18,7 @@ class LoginController extends Controller
                 case 'GENERAL':
                     return redirect()->route('dashboard.general.index');
                 case 'KOOR_KAB_KOTA':
-                    return redirect()->route('kota.index');
+                    return redirect()->route('dashboard.kota.index');
                 case 'KOOR_KECAMATAN':
                     return redirect()->route('dashboard.kecamatan.index');
                 case 'KOOR_DESA':
