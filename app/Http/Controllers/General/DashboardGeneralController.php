@@ -22,7 +22,7 @@ class DashboardGeneralController extends Controller
 
         $koorKota = new KoorKota();
         $kotaCount = $koorKota->getCountKotaForGeneral();
-        $cityData = $koorKota->getCityData();
+        $cityData = $koorKota->getDataTable();
         $getDataDiagram = $koorKota->getdataDiagram();
 
         $koorKecamatan = new KoorKecamatan();
