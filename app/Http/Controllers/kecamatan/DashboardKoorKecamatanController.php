@@ -16,8 +16,6 @@ class DashboardKoorKecamatanController extends Controller
         $koorDesas = KoorDesa::where('koor_kecamatan_id', $kecamatan->id)->pluck('id');
         $dpts = Dpt::whereIn('desa_id', $koorDesas)->get();
         $jumlahDpt = $dpts->count();
-        $jumlahdptlaki = $dpts->where('gender', 'laki-laki')->count();
-        $jumlahdptperempuan = $jumlahDpt - $jumlahdptlaki;
 
         $desaDptCounts = Dpt::whereIn('desa_id', $koorDesas)
             ->select('desa_id', DB::raw('count(*) as total_dpt'))
@@ -41,6 +39,6 @@ class DashboardKoorKecamatanController extends Controller
             $query->where('is_voters', true);
         }])->paginate(15);
 
-        return view('kecamatan.dashboard.index', compact('desa', 'kecamatan', 'labels', 'data', 'jumlahDpt', 'jumlahdptlaki', 'jumlahdptperempuan'));
+        return view('kecamatan.dashboard.index', compact('desa', 'kecamatan', 'labels', 'data', 'jumlahDpt'));
     }
 }

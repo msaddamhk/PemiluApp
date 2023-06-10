@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class QuickCount extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $table = 'quick_count';
 

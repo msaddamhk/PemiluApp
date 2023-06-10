@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class KoorTps extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         "user_id",

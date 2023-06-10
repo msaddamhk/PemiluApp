@@ -50,7 +50,8 @@
 
                 @if (Gate::any(['isGeneral']))
                     ;
-                    <a href="{{ route('dashboard.general.index') }}" class="item-menu">
+                    <a href="{{ route('dashboard.general.index') }}"
+                        class="item-menu {{ Request::is('/*') ? 'active' : '' }}">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -58,7 +59,8 @@
 
                 @if (Gate::any(['isKoorKota']))
                     ;
-                    <a href="{{ route('dashboard.kota.index') }}" class="item-menu">
+                    <a href="{{ route('dashboard.kota.index') }}"
+                        class="item-menu {{ Request::is('dashboard-kota*') ? 'active' : '' }}">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -77,7 +79,8 @@
                 @endif
 
                 @if (Gate::allows('isKoorKecamatan'))
-                    <a href="{{ route('dashboard.kecamatan.index') }}" class="item-menu activ">
+                    <a href="{{ route('dashboard.kecamatan.index') }}"
+                        class="item-menu {{ Request::is('koor/dashboard-kecamatan*') ? 'active' : '' }}">
                         <i class="icon ic-stats"></i>
                         Dashboard
                     </a>
@@ -105,10 +108,6 @@
                     </a>
                 @endif
                 @if (Gate::allows('isKoorTps'))
-                    <a href="{{ route('dashboard.tps.index') }}" class="item-menu">
-                        <i class="icon ic-stats"></i>
-                        Dashboard
-                    </a>
                     <a href="{{ route('koor.tps.index') }}"
                         class="item-menu {{ Request::routeis('koor*') ? 'active' : '' }}">
                         <i class="icon ic-city"></i>

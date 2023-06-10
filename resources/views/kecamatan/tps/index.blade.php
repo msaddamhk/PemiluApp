@@ -5,9 +5,6 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data TPS di Desa {{ $koordesa->name }}</h5>
-            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </button>
         </div>
 
         <div class="card p-3 mt-3">
@@ -75,11 +72,6 @@
                                         Real Count
                                     </a>
 
-                                    <a href="
-                                    {{ route('koor.kecamatan.tps.edit', [$koorkecamatan, $koordesa, $item]) }}"
-                                        class="btn btn-warning mb-2 mt-2 btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
                                 </td>
                             </tr>
                             @php
@@ -92,72 +84,4 @@
             {{ $tps->links() }}
         </div>
     </section>
-
-
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('koor.kecamatan.tps.store', [$koorkecamatan, $koordesa]) }}" method="POST">
-                    <div class="modal-body p-4">
-                        @csrf
-                        <div class="mb-2">
-                            <label class="form-label">Nama TPS</label>
-                            <input type="text" name="name" class="form-control" required>
-                            @error('name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="form-label">Jumlah DPT</label>
-                            <input type="number" name="total_dpt_by_tps" class="form-control">
-                        </div>
-
-                        <div class="mb-2">
-                            <label for="user" class="col-form-label">Pengelola</label>
-                            <div>
-                                <select id="user" class="form-control choices @error('user') is-invalid @enderror"
-                                    name="user">
-                                    <option value="">Pilih Pengelola</option>
-                                    @foreach ($user as $data)
-                                        <option value="{{ $data->id }}"
-                                            {{ old('user') == $data->id ? 'selected' : '' }}>
-                                            {{ $data->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('user')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <small for="exampleInputEmail1" class="fst-italic fw-normal">*Belum ada Data Pengelola ?
-                            <a href="{{ route('users.index') }}">Tambahkan
-                                Sekarang </a>
-                        </small>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    @push('scripts')
-        @if ($errors->any())
-            <script>
-                $(document).ready(function() {
-                    $('#exampleModal').modal('show');
-                });
-            </script>
-        @endif
-    @endpush
 @endsection

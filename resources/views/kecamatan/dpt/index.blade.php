@@ -5,10 +5,6 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di Desa {{ $koordesa->name }}</h5>
-            <a href="{{ route('koor.kecamatan.dpt.create', [$koorkecamatan, $koordesa]) }}"
-                class="btn btn-success mb-2 mt-2 btn-sm">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </a>
         </div>
 
         <div class="card p-3 mt-3">
@@ -34,7 +30,6 @@
                             <th scope="col">No Identitas</th>
                             <th scope="col">No Hp</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,12 +54,6 @@
                                 <td>{{ $item->indentity_number ?? '-' }}</td>
                                 <td>{{ $item->phone_number ?? '-' }}</td>
                                 <td>{{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
-                                <td class="d-flex">
-                                    <a href="{{ route('koor.kecamatan.dpt.edit', [$koorkecamatan, $koordesa, $item]) }}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
-                                </td>
                             </tr>
                             @php
                                 $counter++;

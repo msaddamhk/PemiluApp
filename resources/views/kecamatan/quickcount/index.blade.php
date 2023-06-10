@@ -5,13 +5,6 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data Pasca Pemilu</h5>
-            @if ($quick_count->isEmpty())
-                <a href="
-                {{ route('koor.kecamatan.quick_count.create', [$koorkecamatan, $koordesa, $koortps]) }}"
-                    class="btn btn-primary mb-2 mt-2 btn-sm">
-                    + Tambah Data
-                </a>
-            @endif
         </div>
 
         <div class="card p-3 mt-3">
@@ -51,13 +44,6 @@
                                 <th scope="row">{{ $counter }}</th>
                                 <td>{{ $item->number_of_votes }}</td>
                                 <td>{{ $item->total_votes }}</td>
-                                <td>
-                                    <a href="
-                                {{ route('koor.kecamatan.quick_count.edit', [$koorkecamatan, $koordesa, $koortps, $item]) }}"
-                                        class="btn btn-warning mb-2 mt-2 btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
-                                </td>
                             </tr>
                             @php
                                 $counter++;

@@ -5,11 +5,6 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Real Count</h5>
-            <a href="
-                {{ route('koor.kecamatan.desa.quick_count.create', [$koorkecamatan, $koordesa]) }}"
-                class="btn btn-success mb-2 mt-2 btn-sm">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </a>
         </div>
 
         <div class="card p-3 mt-3">
@@ -32,7 +27,6 @@
                             <th scope="col">Nama TPS</th>
                             <th scope="col">Number Vote</th>
                             <th scope="col">Total Vote</th>
-                            <th scope="col">Aksi</th>
 
                         </tr>
                     </thead>
@@ -51,13 +45,6 @@
                                 <td>{{ $item->name_tps }}</td>
                                 <td>{{ $item->number_of_votes }}</td>
                                 <td>{{ $item->total_votes }}</td>
-                                <td>
-                                    <a href="
-                                {{ route('koor.kecamatan.desa.quick_count.edit', [$koorkecamatan, $koordesa, $item]) }}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
-                                </td>
                             </tr>
                             @php
                                 $counter++;

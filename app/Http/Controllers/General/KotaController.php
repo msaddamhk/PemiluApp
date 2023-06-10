@@ -26,24 +26,31 @@ class KotaController extends Controller
 
             return view('general.kota.index', compact('kota'));
         } elseif (request()->user()->can('isGeneral')) {
+
             $kota = KoorKota::where('name', 'like', '%' . (request('cari') ?? '') . '%')->paginate(15);
             $user = User::where('level', 'KOOR_KAB_KOTA')
                 ->whereDoesntHave('koorKota')
                 ->get();
 
-
             $api_kota = [];
             $isError = false;
             try {
+
+                $envKota = env('NAMA_KOTA');
+                $envKotaArray = explode(',', $envKota);
+
                 $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=11";
                 $data = json_decode(file_get_contents($url), true);
                 $api_kota = $data['kota_kabupaten'];
+
+                $filteredData = array_filter($api_kota, function ($item) use ($envKotaArray) {
+                    return in_array($item['nama'], $envKotaArray);
+                });
             } catch (\Exception $e) {
                 $isError = true;
-                // return response()->view('error.loss');                
             }
 
-            return view('general.kota.index', compact('api_kota', 'kota', 'user', 'isError'));
+            return view('general.kota.index', compact('api_kota', 'kota', 'user', 'isError', 'filteredData'));
         } else {
             abort(403);
         }

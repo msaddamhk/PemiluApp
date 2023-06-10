@@ -5,11 +5,13 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Real Count</h5>
-            @if ($quick_count->isEmpty())
-                <a href="{{ route('quick_count.create', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
-                    class="btn btn-success mb-2 mt-2 btn-sm">
-                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
-                </a>
+            @if (auth()->user()->level == 'GENERAL')
+                @if ($quick_count->isEmpty())
+                    <a href="{{ route('quick_count.create', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
+                        class="btn btn-success mb-2 mt-2 btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                    </a>
+                @endif
             @endif
         </div>
 
@@ -29,8 +31,9 @@
                             <th scope="col">No</th>
                             <th scope="col">Number Vote</th>
                             <th scope="col">Total Vote</th>
-                            <th scope="col">Aksi</th>
-
+                            @if (auth()->user()->level == 'GENERAL')
+                                <th scope="col">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -47,13 +50,14 @@
                                 <th scope="row">{{ $counter }}</th>
                                 <td>{{ $item->number_of_votes }}</td>
                                 <td>{{ $item->total_votes }}</td>
-                                <td>
-                                    <a href="
-                                {{ route('quick_count.edit', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
-                                </td>
+                                @if (auth()->user()->level == 'GENERAL')
+                                    <td>
+                                        <a href="{{ route('quick_count.edit', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i>Update Data
+                                        </a>
+                                    </td>
+                                @endif
                             </tr>
                             @php
                                 $counter++;

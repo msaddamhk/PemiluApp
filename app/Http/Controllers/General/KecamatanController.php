@@ -75,9 +75,15 @@ class KecamatanController extends Controller
 
     public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan)
     {
-        $users = User::where('level', 'KOOR_KECAMATAN')
-            ->whereDoesntHave('koorKecamatan')
-            ->get();
+        if (auth()->user()->level == 'KOOR_KAB_KOTA') {
+            $users = User::where('level', 'KOOR_KECAMATAN')->where('created_by', auth()->user()->id)
+                ->whereDoesntHave('koorKecamatan')
+                ->get();
+        } else {
+            $users = User::where('level', 'KOOR_KECAMATAN')
+                ->whereDoesntHave('koorKecamatan')
+                ->get();
+        }
 
         return view('general.kecamatan.edit', compact('koorkecamatan', 'users', 'koorkota'));
     }

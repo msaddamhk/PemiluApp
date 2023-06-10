@@ -5,10 +5,14 @@
 
         <div class="d-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di {{ $koortps->name }}</h5>
-            <a href="{{ route('tps.dpt.create', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
-                class="btn btn-success mb-2 mt-2 btn-sm">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </a>
+
+            @if (auth()->user()->level == 'GENERAL')
+                <a href="{{ route('tps.dpt.create', [$koorkota, $koorkecamatan, $koordesa, $koortps]) }}"
+                    class="btn btn-success mb-2 mt-2 btn-sm">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                </a>
+            @endif
+
         </div>
 
         <div class="card p-3 mt-3">
@@ -31,7 +35,9 @@
                             <th scope="col">No Identitas</th>
                             <th scope="col">No Hp</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Aksi</th>
+                            @if (auth()->user()->level == 'GENERAL')
+                                <th scope="col">Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -53,23 +59,25 @@
                                 <td>{{ $item->indentity_number ?? '-' }}</td>
                                 <td>{{ $item->phone_number ?? '-' }}</td>
                                 <td>{{ $item->is_voters ? 'Memilih' : 'Tidak Memilih' }}</td>
-                                <td class="d-lg-flex">
-                                    <a href="
-                                {{ route('tps.dpt.edit', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
-                                    <form
-                                        action="{{ route('tps.dpt.delete', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-delete"
-                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
-                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
-                                        </button>
-                                    </form>
-                                </td>
+
+                                @if (auth()->user()->level == 'GENERAL')
+                                    <td class="d-lg-flex">
+                                        <a href="{{ route('tps.dpt.edit', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i>Update Data
+                                        </a>
+                                        <form
+                                            action="{{ route('tps.dpt.delete', [$koorkota, $koorkecamatan, $koordesa, $koortps, $item]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-delete"
+                                                onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                                <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                            </button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                             @php
                                 $counter++;

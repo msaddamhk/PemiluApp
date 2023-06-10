@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class KoorKota extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'koor_kota';
 
@@ -42,7 +42,7 @@ class KoorKota extends Model
         return $this->hasMany(KoorKecamatan::class);
     }
 
-    
+
 
     public function jumlahKecamatan()
     {
@@ -187,5 +187,4 @@ class KoorKota extends Model
 
         return $finalData;
     }
-
 }

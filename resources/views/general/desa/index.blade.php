@@ -5,9 +5,11 @@
 
         <div class="d-flex justify-content-between">
             <h5 class="fw-semibold">Seluruh Desa di {{ $koorkecamatan->name }}</h5>
-            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </button>
+            @if (auth()->user()->level == 'GENERAL')
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                </button>
+            @endif
         </div>
 
         <div class="card p-3 mt-3">
@@ -91,10 +93,13 @@
                                             class="btn btn-primary btn-sm"><small>Real Count</small></a>
                                     @endif
 
-                                    <a href="{{ route('desa.edit', [$koorkota, $koorkecamatan, $item]) }}"
-                                        class="btn btn-warning btn-sm"><small>
-                                            <i class="bi bi-pencil-square me-1"></i>Update Data</small>
-                                    </a>
+
+                                    @if (auth()->user()->level == 'GENERAL')
+                                        <a href="{{ route('desa.edit', [$koorkota, $koorkecamatan, $item]) }}"
+                                            class="btn btn-warning btn-sm"><small>
+                                                <i class="bi bi-pencil-square me-1"></i>Update Data</small>
+                                        </a>
+                                    @endif
 
                                     <form action="{{ route('desa.delete', [$koorkota, $koorkecamatan, $item]) }}"
                                         method="POST">

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\General;
 
 use App\Http\Controllers\Controller;
-
+use App\Imports\DptImport;
 use App\Models\Dpt;
 use App\Models\KoorDesa;
 use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DptController extends Controller
@@ -69,42 +69,20 @@ class DptController extends Controller
 
     public function import(Request $request, KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
-        $file = $request->file('excel_file');
-
-        $importData = Excel::toArray([], $file)[0];
-
         $request->validate([
-            'name' => 'required',
-            'phone_number' => 'nullable|numeric|unique:dpt,phone_number,',
-            'is_voters' => 'nullable',
-            'gender' => 'nullable',
-            'date_of_birth' => 'nullable|date',
-            'indentity_number' => 'nullable|numeric|unique:dpt,indentity_number,',
-        ], [
-            'indentity_number.unique' => 'No identitas sudah terdaftar.',
-            'phone_number.unique' => 'No HP sudah terdaftar.',
-            'phone_number.numeric' => 'No Hp Wajib Angka',
-            'date_of_birth.date' => 'Tanggal Lahir Format Tanggal',
+            'excel_file' => 'required|mimes:xls,xlsx',
         ]);
 
-        foreach ($importData as $row) {
-
-            $dateOfBirth = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['3']);
-            $formattedDateOfBirth = $dateOfBirth->format('Y-m-d');
-
-            Dpt::create([
-                "desa_id" =>  $koordesa->id,
-                "name" => $row['0'],
-                "indentity_number" => $row['1'],
-                "phone_number" => $row['2'],
-                "is_voters" => "1",
-                "date_of_birth" => $formattedDateOfBirth,
-                "gender" => $row['4'],
-                "created_by" => auth()->user()->id,
-                "updated_by" => auth()->user()->id,
-            ]);
+        try {
+            $desaId = $koordesa->id;
+            $file = $request->file('excel_file');
+            $namefile = $file->getClientOriginalName();
+            $file->move('DptImport', $namefile);
+            Excel::import(new DptImport($desaId, Auth::user()), \public_path('/DptImport/' . $namefile));
+            return redirect()->back()->with('success', 'Data Berhasi di Impor');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Data Tidak Berhasi Di Upload, perhatikan jika ada persamaan data');
         }
-        return redirect()->route('dpt.index', [$koorkota, $koorkecamatan, $koordesa]);
     }
 
     public function edit(KoorKota $koorkota, KoorKecamatan $koorkecamatan, KoorDesa $koordesa, Dpt $dpt)

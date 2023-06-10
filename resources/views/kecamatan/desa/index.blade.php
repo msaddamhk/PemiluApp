@@ -82,7 +82,6 @@
                                             class="btn btn-info btn-sm">
                                             <i class="bi bi-eye-fill me-1"></i>Kelola DPT
                                         </a>
-
                                         <a href="{{ route('koor.kecamatan.desa.quick_count.index', [$koorkecamatan, $item]) }}"
                                             class="btn btn-primary btn-sm"><small>Real Count</small></a>
                                     @endif

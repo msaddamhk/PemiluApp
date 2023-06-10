@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class KoorKecamatan extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $table = 'koor_kecamatan';
 
     protected $fillable = [

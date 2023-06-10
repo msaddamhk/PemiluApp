@@ -206,7 +206,7 @@
                                         <select id="api_kota" class="form-control choices_kota" name="api_kota"
                                             required>
                                             <option value="">Pilih Kab/Kota</option>
-                                            @foreach ($api_kota as $item)
+                                            @foreach ($filteredData as $item)
                                                 <option value="{{ $item['id'] }},{{ $item['nama'] }}">
                                                     {{ $item['nama'] }}</option>
                                             @endforeach

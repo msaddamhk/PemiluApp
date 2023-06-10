@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\desa\DashboardKoorDesaController;
 use App\Http\Controllers\desa\DptKoorDesaController;
 use App\Http\Controllers\desa\DptTpsKoorDesaController;
 use App\Http\Controllers\desa\KoorDesaController as DesaKoorDesaController;
@@ -25,7 +24,6 @@ use App\Http\Controllers\kecamatan\KoorKecamatanDesaQuickCountControler;
 use App\Http\Controllers\kecamatan\KoorKecamatanQuickCountController;
 use App\Http\Controllers\kecamatan\TpsKoorKecamatanController;
 use App\Http\Controllers\kota\DashboardKotaController;
-use App\Http\Controllers\tps\DashboardKoorTpsController;
 use App\Http\Controllers\tps\DptTpsKoorTpsController;
 use App\Http\Controllers\tps\KoorTpsQuickCountController;
 use App\Http\Controllers\tps\TpsKoorTpsController;
@@ -332,28 +330,7 @@ Route::middleware('auth')->group(function () {
                 [DptKoorKecamatanController::class, 'index']
             )
                 ->name('koor.kecamatan.dpt.index');
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt/tambah',
-                [DptKoorKecamatanController::class, 'create']
-            )
-                ->name('koor.kecamatan.dpt.create');
 
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt/tambah/store',
-                [DptKoorKecamatanController::class, 'store']
-            )
-                ->name('koor.kecamatan.dpt.store');
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt/{dpt}/edit',
-                [DptKoorKecamatanController::class, 'edit']
-            )->name('koor.kecamatan.dpt.edit');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/dpt/{dpt}/edit/update',
-                [DptKoorKecamatanController::class, 'update']
-            )
-                ->name('koor.kecamatan.dpt.update');
 
             Route::get(
                 '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps',
@@ -362,52 +339,11 @@ Route::middleware('auth')->group(function () {
                 ->name('koor.kecamatan.tps.index');
 
 
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/store',
-                [TpsKoorKecamatanController::class, 'store']
-            )
-                ->name('koor.kecamatan.tps.store');
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit',
-                [TpsKoorKecamatanController::class, 'edit']
-            )->name('koor.kecamatan.tps.edit');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/edit/update',
-                [TpsKoorKecamatanController::class, 'update']
-            )->name('koor.kecamatan.tps.update');
-
-
             Route::get(
                 '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/dpt',
                 [DptTpsKoorKecamatanController::class, 'index']
             )
                 ->name('koor.kecamatan.tps.dpt.index');
-
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/tambah',
-                [DptTpsKoorKecamatanController::class, 'create']
-            )
-                ->name('koor.kecamatan.tps.dpt.create');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/tambah/store',
-                [DptTpsKoorKecamatanController::class, 'store']
-            )
-                ->name('koor.kecamatan.tps.dpt.store');
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/dpt/{dpt}/edit',
-                [DptTpsKoorKecamatanController::class, 'edit']
-            )->name('koor.kecamatan.tps.dpt.edit');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/dpt/{dpt}/edit/update',
-                [DptTpsKoorKecamatanController::class, 'update']
-            )
-                ->name('koor.kecamatan.tps.dpt.update');
 
             Route::get(
                 '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/real-count',
@@ -416,58 +352,10 @@ Route::middleware('auth')->group(function () {
                 ->name('koor.kecamatan.desa.quick_count.index');
 
             Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/real-count/tambah',
-                [KoorKecamatanDesaQuickCountControler::class, 'create']
-            )
-                ->name('koor.kecamatan.desa.quick_count.create');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/real-count/tambah/store',
-                [KoorKecamatanDesaQuickCountControler::class, 'store']
-            )
-                ->name('koor.kecamatan.desa.quick_count.store');
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/real-count/{quickcount}/edit',
-                [KoorKecamatanDesaQuickCountControler::class, 'edit']
-            )
-                ->name('koor.kecamatan.desa.quick_count.edit');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/real-count/{quickcount}/edit/store',
-                [KoorKecamatanDesaQuickCountControler::class, 'update']
-            )
-                ->name('koor.kecamatan.desa.quick_count.update');
-
-            Route::get(
                 '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/real-count',
                 [KoorKecamatanQuickCountController::class, 'index']
             )
                 ->name('koor.kecamatan.quick_count.index');
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/real-count/tambah',
-                [KoorKecamatanQuickCountController::class, 'create']
-            )
-                ->name('koor.kecamatan.quick_count.create');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/real-count/tambah/store',
-                [KoorKecamatanQuickCountController::class, 'store']
-            )
-                ->name('koor.kecamatan.quick_count.store');
-
-            Route::get(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/real-count/{quickcount}/edit',
-                [KoorKecamatanQuickCountController::class, 'edit']
-            )
-                ->name('koor.kecamatan.quick_count.edit');
-
-            Route::post(
-                '/kecamatan/{koorkecamatan:slug}/desa/{koordesa:slug}/tps/{koortps:slug}/real-count/{quickcount}/edit/store',
-                [KoorKecamatanQuickCountController::class, 'update']
-            )
-                ->name('koor.kecamatan.quick_count.update');
         });
 
 
@@ -635,8 +523,6 @@ Route::middleware('auth')->group(function () {
         // tps
 
         Route::middleware('can:isKoorTps')->group(function () {
-
-            Route::get('/dashboardtps', [DashboardKoorTpsController::class, 'index'])->name('dashboard.tps.index');
 
             Route::get('/tps', [TpsKoorTpsController::class, 'index'])
                 ->name('koor.tps.index');

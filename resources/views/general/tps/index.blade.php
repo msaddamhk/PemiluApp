@@ -5,9 +5,13 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data TPS di Desa {{ $koordesa->name }}</h5>
-            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
-            </button>
+
+            @if (auth()->user()->level == 'GENERAL')
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                </button>
+            @endif
+
         </div>
 
         <div class="card p-3 mt-3">
@@ -75,19 +79,23 @@
                                         Real Count
                                     </a>
 
-                                    <a href="{{ route('tps.edit', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square me-1"></i>Update Data
-                                    </a>
-                                    <form action="{{ route('tps.delete', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-delete"
-                                            onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
-                                            <i class="bi bi-trash3 me-1"></i>Hapus Data
-                                        </button>
-                                    </form>
+                                    @if (auth()->user()->level == 'GENERAL')
+                                        <a href="{{ route('tps.edit', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="bi bi-pencil-square me-1"></i>Update Data
+                                        </a>
+                                        <form
+                                            action="{{ route('tps.delete', [$koorkota, $koorkecamatan, $koordesa, $item]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-delete"
+                                                onclick="return confirm('Apakah Anda yakin untuk menghapus?')">
+                                                <i class="bi bi-trash3 me-1"></i>Hapus Data
+                                            </button>
+                                        </form>
+                                    @endif
+
                                 </td>
                             </tr>
                             @php

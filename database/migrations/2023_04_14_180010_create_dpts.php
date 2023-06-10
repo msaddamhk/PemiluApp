@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('phone_number')->unique()->nullable();
             $table->boolean('is_voters')->default(false)->nullable();
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('desa_id')->references('id')->on('koor_desa')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('tps_id')->references('id')->on('koor_tps')->onUpdate('SET NULL')->onDelete('SET NULL');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL');

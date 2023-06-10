@@ -21,7 +21,11 @@ class KoorDesaController extends Controller
             abort(403);
         }
 
-        $user = User::where('level', 'KOOR_DESA')->get();
+        $user = User::where('level', 'KOOR_DESA')->where('created_by', auth()->user()->id)
+            ->where('is_active', 1)
+            ->whereDoesntHave('koorDesa')
+            ->get();
+
         $desa = $koorkecamatan->koorDesas()->where('name', 'like', '%' . request('cari') . '%')
             ->withCount(['dpts', 'dpts as dpt_is_voters_count' => function ($query) {
                 $query->where('is_voters', true);
@@ -62,7 +66,11 @@ class KoorDesaController extends Controller
 
     public function edit(KoorKecamatan $koorkecamatan, KoorDesa $koordesa)
     {
-        $users = User::where('level', 'KOOR_DESA')->get();
+        $users = User::where('level', 'KOOR_DESA')->where('created_by', auth()->user()->id)
+            ->where('is_active', 1)
+            ->whereDoesntHave('koorDesa')
+            ->get();
+
         return view('kecamatan.desa.edit', compact('koorkecamatan', 'users', 'koordesa'));
     }
 

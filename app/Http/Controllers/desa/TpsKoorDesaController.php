@@ -16,7 +16,12 @@ class TpsKoorDesaController extends Controller
         if ($koordesa->user_id !== auth()->id()) {
             abort(403);
         }
-        $user = User::where('level', 'KOOR_TPS')->get();
+
+        $user = User::where('level', 'KOOR_TPS')->where('created_by', auth()->user()->id)
+            ->where('is_active', 1)
+            ->whereDoesntHave('tps')
+            ->get();
+
         $tps = $koordesa->koortps()
             ->where('name', 'like', '%' . request('cari') . '%')
             ->withCount(['dpt', 'dptIsVoters' => function ($query) {
@@ -59,7 +64,11 @@ class TpsKoorDesaController extends Controller
 
     public function edit(KoorDesa $koordesa, KoorTps $koortps)
     {
-        $users = User::where('level', 'KOOR_TPS')->get();
+        $users = User::where('level', 'KOOR_TPS')->where('created_by', auth()->user()->id)
+            ->where('is_active', 1)
+            ->whereDoesntHave('tps')
+            ->get();
+
         return view('desa.tps.edit', compact('users', 'koordesa', 'koortps'));
     }
 

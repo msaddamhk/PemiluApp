@@ -18,13 +18,33 @@ class LoginController extends Controller
                 case 'GENERAL':
                     return redirect()->route('dashboard.general.index');
                 case 'KOOR_KAB_KOTA':
-                    return redirect()->route('dashboard.kota.index');
+                    if (auth()->user()->KoorKota) {
+                        return redirect()->route('dashboard.kota.index');
+                    } else {
+                        Auth::logout();
+                        return redirect()->back()->with('error', 'Anda Tidak Memiliki Data');
+                    }
                 case 'KOOR_KECAMATAN':
-                    return redirect()->route('dashboard.kecamatan.index');
+                    if (auth()->user()->KoorKecamatan) {
+                        return redirect()->route('dashboard.kecamatan.index');
+                    } else {
+                        Auth::logout();
+                        return redirect()->back()->with('error', 'Anda Tidak Memiliki Data');
+                    }
                 case 'KOOR_DESA':
-                    return redirect()->route('koor.desa.index');
+                    if (auth()->user()->KoorDesa) {
+                        return redirect()->route('koor.desa.index');
+                    } else {
+                        Auth::logout();
+                        return redirect()->back()->with('error', 'Anda Tidak Memiliki Data');
+                    }
                 case 'KOOR_TPS':
-                    return redirect()->route('koor.tps.index');
+                    if (auth()->user()->tps) {
+                        return redirect()->route('koor.tps.index');
+                    } else {
+                        Auth::logout();
+                        return redirect()->back()->with('error', 'Anda Tidak Memiliki Data');
+                    }
                 default:
                     return redirect()->back()->with('error', 'Level user tidak valid.');
             }
@@ -35,7 +55,6 @@ class LoginController extends Controller
     }
 
     protected $redirectTo = RouteServiceProvider::HOME;
-
 
     public function __construct()
     {

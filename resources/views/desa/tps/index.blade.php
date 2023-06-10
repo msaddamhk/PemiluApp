@@ -118,7 +118,7 @@
                             <label for="user" class="col-form-label">Pengelola</label>
                             <div>
                                 <select id="user" class="form-control choices @error('user') is-invalid @enderror"
-                                    name="user" required>
+                                    name="user">
                                     <option value="">Pilih Pengelola</option>
                                     @foreach ($user as $data)
                                         <option value="{{ $data->id }}"
