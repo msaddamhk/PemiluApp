@@ -29,7 +29,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Kecamatan</h6>
-                                    <h5 class="fw-bold">10 Kecamatan</h5>
+                                    <h5 class="fw-bold">{{ $getCountKecamatanForKota }} Kecamatan</h5>
                                 </div>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Desa</h6>
-                                    <h5 class="fw-bold">11 Desa</h5>
+                                    <h5 class="fw-bold">{{ $getCountDesaForKota }} Desa</h5>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Jumlah Memilih</h6>
-                                    <h5 class="fw-bold">100 Orang</h5>
+                                    <h5 class="fw-bold">{{ $getVotersForKota }} Orang</h5>
                                 </div>
                             </div>
                         </div>
@@ -69,41 +69,45 @@
             </div>
         </div>
 
-        {{-- <div class="mt-2 card py-4 px-3 card-dpt">
+        <div class="mt-2 card py-4 px-3 card-dpt">
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th>Nama Kota</th>
+                        <th>Nama Kecamatan</th>
                         <th>Total DPT</th>
                         <th>Total Memilih</th>
                         <th>Persentase</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cityData as $data)
+                    {{-- @foreach ($cityData as $data) --}}
                         <tr>
                             <td class="my-auto">
-                                <a href="{{ route('kecamatan.index', $data['slug']) }}"
+                                {{-- <a href="{{ route('kecamatan.index', $data['slug']) }}" --}}
                                     class="text-decoration-none text-black">
-                                    {{ $data['kota'] }}
+                                    {{-- {{ $data['kota'] }} --}}
                                 </a>
                             </td>
-                            <td>{{ $data['total_penduduk'] }}</td>
-                            <td>{{ $data['total_dpt'] }}</td>
                             <td>
-                                <h1 class="fw-bold fs-6 {{ $data['persentase'] < 50 ? 'text-warning' : 'text-success' }}">
-                                    {{ $data['persentase'] }}%
+                                {{-- {{ $data['total_penduduk'] }} --}}
+                            </td>
+                            <td>
+                                {{-- {{ $data['total_dpt'] }} --}}
+                            </td>
+                            <td>
+                                <h1 class="fw-bold fs-6 {{ 0 < 50 ? 'text-warning' : 'text-success' }}">
+                                    {{-- {{ $data['persentase'] }}% --}}
                                 </h1>
                             </td>
                         </tr>
-                    @endforeach
+                    {{-- @endforeach --}}
                 </tbody>
             </table>
-        </div> --}}
+        </div>
 
     </section>
 
-    {{-- <script>
+    <script>
         var data = {
             labels: [],
             datasets: [{
@@ -113,9 +117,9 @@
             }]
         };
 
-        @foreach ($getDataDiagram as $item)
+        @foreach ($getDataDiagramForKota as $item)
             data.labels.push("{{ $item['name'] }}");
-            data.datasets[0].data.push({{ $item['count'] }});
+            data.datasets[0].data.push({{ $item['jumlahMemilihPerkecamatan'] }});
 
             var color = random_color();
             data.datasets[0].backgroundColor.push(color);
@@ -140,5 +144,5 @@
             data: data,
             options: options
         });
-    </script> --}}
+    </script>
 @endsection
