@@ -33,10 +33,9 @@ class DashboardGeneralController extends Controller
         $dpt = new Dpt();
         $dptCount = $dpt->getCountDptForGeneral();
 
-        $koorkotas = Koorkota::all();
+        $koorkotas = $koorKota->all();
 
         $cityData = $koorkotas->map(function ($koorkota) {
-
             $countDPT = DB::table('koor_desa')
                 ->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id')
                 ->whereIn('koor_desa.koor_kecamatan_id', function ($query) use ($koorkota) {

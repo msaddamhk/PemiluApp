@@ -61,6 +61,7 @@ class KoorKecamatanQuickCountController extends Controller
         $request->result_photo?->store('public/img/quick_count');
 
         QuickCount::create([
+            "koor_desa_id" => $koordesa->id,
             "koor_tps_id" => $koortps->id,
             "number_of_votes" => $request->number_of_votes,
             "total_votes" => $request->total_votes,
