@@ -5,7 +5,7 @@
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di Tps {{ $koortps->name }}</h5>
             <a href="{{ route('koor.desa.tps.dpt.create', [$koordesa, $koortps]) }}" class="btn btn-success mb-2 mt-2 btn-sm">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data Dpt
             </a>
         </div>
 

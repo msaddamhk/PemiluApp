@@ -13,7 +13,7 @@
                     <i class="bi bi-file-earmark-arrow-down me-1"></i>Import DPT
                 </button>
                 <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="btn btn-success d-inline-block">
-                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data DPT
                 </a>
             </div>
         </div>

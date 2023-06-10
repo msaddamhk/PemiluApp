@@ -3,33 +3,19 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Menarra Finance Dashboard Page" />
-    <meta name="keywords" content="HTML, CSS, JavaScript, Bootstrap, Chart JS" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Pemilu App</title>
 
-    <!-- Scrollbar Custom CSS -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css" />
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
-
-    <!-- External CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }} " type="text/css" media="screen" />
 
-    <!-- CDN Fontawesome -->
-    <script src=" {{ asset('https://kit.fontawesome.com/32f82e1dca.js') }}" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css" />
-
 
     <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
 </head>
 
 <body>
@@ -37,7 +23,7 @@
         <div class="d-flex justify-content-end m-3 d-block d-md-none">
             <button aria-label="Close" data-bs-dismiss="offcanvas" data-bs-target=".sidebar"
                 class="btn p-0 border-0 fs-4">
-                <i class="fas fa-close"></i>
+                <i class="bi bi-x-lg"></i>
             </button>
         </div>
         <div class="d-flex justify-content-center mt-md-5 mb-2">
@@ -46,7 +32,6 @@
         <div class="pt-2 d-flex flex-column gap-5">
             <div class="menu p-0">
                 <p>Daily Use</p>
-
 
                 @if (Gate::any(['isGeneral']))
                     ;
@@ -95,6 +80,7 @@
                         Kelola Pengguna
                     </a>
                 @endif
+
                 @if (Gate::allows('isKoorDesa'))
                     <a href="{{ route('koor.desa.index') }}"
                         class="item-menu {{ Request::routeis('koor*') ? 'active' : '' }}">
@@ -107,6 +93,7 @@
                         Kelola Pengguna
                     </a>
                 @endif
+
                 @if (Gate::allows('isKoorTps'))
                     <a href="{{ route('koor.tps.index') }}"
                         class="item-menu {{ Request::routeis('koor*') ? 'active' : '' }}">
@@ -118,7 +105,6 @@
 
             <div class="menu">
                 <p>Others</p>
-
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
                     @csrf
                     <button class="item-menu bg-transparent border-0">
@@ -139,26 +125,28 @@
 
                     <button class="sidebarCollapseDefault bg-transparent p-0 border-0 d-none d-md-block"
                         aria-label="Hamburger Button">
-                        <i class="fa-solid fa-bars"></i>
+                        <i class="bi bi-list"></i>
                     </button>
 
                     <button data-bs-toggle="offcanvas" data-bs-target=".sidebar" aria-controls="sidebar"
                         aria-label="Hamburger Button" class="sidebarCollapseMobile btn p-0 border-0 d-block d-md-none">
-                        <i class="fa-solid fa-bars"></i>
+                        <i class="bi bi-list fw-1"></i>
                     </button>
 
                 </div>
-                <div class="d-flex align-items-center justify-content-end gap-4">
+                <div class="d-flex align-items-center gap-3">
 
-                    <small class="fw-semibold">Admin</small>
+                    <div style="text-align: end">
+                        <p class="fw-semibold m-0 text-end p-0" style="font-size: 12px">{{ auth()->user()->name }}</p>
+                        <small class="m-0 text-end" style="font-size: 11px">{{ auth()->user()->level }}</small>
+                    </div>
 
                     <a href="{{ route('users.edit', auth()->user()->id) }}">
                         <img src="{{ asset('storage/img/users/' . auth()->user()->photo) }}" alt="Photo Profile"
                             class="avatar" />
                     </a>
 
-
-                    <i class="bi bi-fullscreen" id="myButton"></i>
+                    <i class="bi bi-fullscreen d-none d-md-block" id="myButton"></i>
 
                 </div>
             </div>
@@ -204,24 +192,6 @@
             placeholder: true,
             placeholderValue: 'Pilih pengelola',
         });
-    </script>
-
-    <script type="text/javascript">
-        var countDownDate = new Date("May 14, 2024 23:10:00").getTime();
-        var x = setInterval(function() {
-            var now = new Date().getTime();
-            var distance = countDownDate - now;
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("countingDown").innerHTML = days + " Hari " + hours +
-                " Jam " + minutes + " Menit " + seconds + " Detik";
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countingDown").innerHTML = "Daftar Sekarang";
-            }
-        }, 1000);
     </script>
 </body>
 

@@ -8,7 +8,7 @@
 
             @if (auth()->user()->level == 'GENERAL')
                 <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                    <i class="bi bi-plus-circle me-1"></i>Tambah Data Tps
                 </button>
             @endif
 

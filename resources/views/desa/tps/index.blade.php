@@ -6,7 +6,7 @@
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data TPS di Desa {{ $koordesa->name }}</h5>
             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                <i class="bi bi-plus-circle me-1"></i>Tambah Data Tps
             </button>
         </div>
 

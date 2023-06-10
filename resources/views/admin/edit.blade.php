@@ -156,9 +156,6 @@
                 <button type="submit" class="btn btn-primary">
                     Simpan
                 </button>
-                <a href="{{ route('users.index') }}" class="btn btn-secondary">
-                    Batal
-                </a>
             </div>
 
         </form>

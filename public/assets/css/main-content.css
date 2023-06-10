@@ -44,6 +44,10 @@ a.btn {
   margin-left: 10px;
 }
 
+.sidebarCollapseMobile.btn {
+  font-size: 15px;
+}
+
 .btn-delete {
   font-size: 7px;
   margin-left: 10px;

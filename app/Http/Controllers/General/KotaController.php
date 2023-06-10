@@ -10,7 +10,6 @@ use App\Models\KoorKecamatan;
 use App\Models\KoorKota;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -156,8 +155,7 @@ class KotaController extends Controller
 
             $top10Kecamatan = KoorKecamatan::where('koor_kota_id', $koorkota->id)
                 ->withCount(['koorDesas as total_dpt' => function ($query) {
-                    $query->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id')
-                        ->where('dpt.deleted_at', null);
+                    $query->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id');
                 }])
                 ->orderBy('total_dpt', 'desc')
                 ->pluck('total_dpt', 'name')

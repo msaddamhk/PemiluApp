@@ -11,7 +11,7 @@
                     </button>
                     <a href="{{ route('dpt.create', [$koorkota, $koorkecamatan, $koordesa]) }}"
                         class="btn btn-success mb-2 mt-2 btn-sm">
-                        <i class="bi bi-plus-circle me-1"></i>Tambah Data
+                        <i class="bi bi-plus-circle me-1"></i>Tambah Data DPT
                     </a>
                 @endif
             </div>
