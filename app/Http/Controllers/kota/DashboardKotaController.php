@@ -19,8 +19,8 @@ class DashboardKotaController extends Controller
         $getCountKecamatanForKota = $koorKota->getCountKecamatanForKota($getIdUser);
         $getCountDesaForKota = $koorKota->getCountDesaForKota($getIdUser);
         $getVotersForKota = $koorKota->getTotalVoterKota($getIdUser);
-        $getDataDiagramForKota = $koorKota->getdataDiagramForKota($getIdUser);
-        $getDataTableForKota = $koorKota->getDataTableForKota($getIdUser);
+        $getDataDiagramForKota = $koorKota->getdataDiagram($getIdUser);
+        $getDataTableForKota = $koorKota->getDataTable($getIdUser);
 
         // dd($getDataTableForKota);
 

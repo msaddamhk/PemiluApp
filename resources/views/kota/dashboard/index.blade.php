@@ -53,6 +53,10 @@
                                     <h6>Jumlah Memilih</h6>
                                     <h5 class="fw-bold">{{ $getVotersForKota }} Orang</h5>
                                 </div>
+                                <div>
+                                    <h6>Jumlah DPT Perkota</h6>
+                                    <h5 class="fw-bold">{{ $getDataTableForKota->totalDptPerkota }} Orang</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +84,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($getDataTableForKota as $data)
+                    @foreach ($getDataTableForKota->dataTable as $data)
                         <tr>
                             <td class="my-auto">
                                 <a href="{{ route('desa.index', [$data['slugKota'], $data['slugKecamatan']]) }}"

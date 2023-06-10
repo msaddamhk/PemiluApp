@@ -42,6 +42,8 @@ class KoorKota extends Model
         return $this->hasMany(KoorKecamatan::class);
     }
 
+    
+
     public function jumlahKecamatan()
     {
         return $this->koorKecamatans()->count();
@@ -50,25 +52,6 @@ class KoorKota extends Model
     public function getCountKotaForGeneral()
     {
         return $this->count();
-    }
-
-    public function getdataDiagram()
-    {
-        $dataDiagram = [];
-
-        foreach ($this->get() as $koorKotaModel) {
-            $kotaId = $koorKotaModel->id;
-            $dptCount = (new Dpt())->whereHas('koorDesa.kecamatan.kota', function ($query) use ($kotaId) {
-                $query->where('id', $kotaId);
-            })->count();
-
-            $dataDiagram[] = [
-                'name' => $koorKotaModel->name,
-                'count' => $dptCount,
-            ];
-        }
-
-        return $dataDiagram;
     }
 
     public function getCountKecamatanForKota($id)
@@ -98,100 +81,111 @@ class KoorKota extends Model
         return $numVoters;
     }
 
-    public function getdataDiagramForKota($id)
+    public function getdataDiagram($id = null)
     {
-        $findKota = $this->where('user_id', $id)->first();
         $dataDiagram = [];
 
-        foreach ($findKota->koorKecamatans as $kecamatan) {
-            $jumlahPemilihPerkecamatan = $kecamatan->koorDesas->flatMap(function ($desa) {
-                return $desa->dpts;
-            })->count();
+        if ($id != null) {
+            $findKota = $this->where('user_id', $id)->first();
+            foreach ($findKota->koorKecamatans as $kecamatan) {
+                $jumlahPemilihPerkecamatan = $kecamatan->koorDesas->flatMap(function ($desa) {
+                    return $desa->dpts;
+                })->count();
 
-            if ($jumlahPemilihPerkecamatan > 0) {
+                if ($jumlahPemilihPerkecamatan > 0) {
+                    $dataDiagram[] = [
+                        'name' => $kecamatan->name,
+                        'jumlahMemilihPerkecamatan' => $jumlahPemilihPerkecamatan
+                    ];
+                }
+            }
+        } else {
+            foreach ($this->get() as $koorKotaModel) {
+                $kotaId = $koorKotaModel->id;
+                $dptCount = (new Dpt())->whereHas('koorDesa.kecamatan.kota', function ($query) use ($kotaId) {
+                    $query->where('id', $kotaId);
+                })->count();
+
                 $dataDiagram[] = [
-                    'name' => $kecamatan->name,
-                    'jumlahMemilihPerkecamatan' => $jumlahPemilihPerkecamatan
+                    'name' => $koorKotaModel->name,
+                    'count' => $dptCount,
                 ];
             }
         }
-
         return $dataDiagram;
     }
 
-    public function getDataTableForKota($id)
+    public function getDataTable($id = null)
     {
-        $findKota = $this->where('user_id', $id)->first();
-        $dataTable = [];
+        if ($id != null) {
+            $findKota = $this->where('user_id', $id)->first();
+            $dataTable = [];
+            $totalDptPerkota = 0;
 
-        foreach ($findKota->koorKecamatans as $kecamatan) {
+            foreach ($findKota->koorKecamatans as $kecamatan) {
 
-            // $jumlahDptPerKota = 0;
+                $jumlahDptPerkecamatan = $kecamatan->koorDesas->sum(function ($desa) {
+                    return $desa->total_dpt ?? 0;
+                });
 
-            // $arrayDataperKota = [];
+                $jumlahPemilihPerkecamatan = $kecamatan->koorDesas->flatMap(function ($desa) {
+                    return $desa->dpts;
+                })->count();
 
-            $jumlahDptPerkecamatan = $kecamatan->koorDesas->sum(function ($desa) {
-                // $arrayDataperKota[] += $desa->total_dpt;
-                return $desa->total_dpt ?? 0;
-            });
+                $dataPersen = ($jumlahPemilihPerkecamatan > 0) ? number_format(($jumlahPemilihPerkecamatan / $jumlahDptPerkecamatan) * 100, 2) : 0;
 
-            $jumlahPemilihPerkecamatan = $kecamatan->koorDesas->flatMap(function ($desa) {
-                return $desa->dpts;
-            })->count();
+                if ($jumlahPemilihPerkecamatan > 0) {
+                    $dataTable[] = [
+                        'name' => $kecamatan->name,
+                        'slugKota' => $findKota->slug,
+                        'slugKecamatan' => $kecamatan->slug,
+                        'jumlahDptPerkecamatan' => $jumlahDptPerkecamatan,
+                        'jumlahMemilih' => $jumlahPemilihPerkecamatan,
+                        'dataPersen' => $dataPersen
+                    ];
+                }
 
-            $dataPersen = ($jumlahPemilihPerkecamatan > 0) ? number_format(($jumlahPemilihPerkecamatan / $jumlahDptPerkecamatan) * 100, 2) : 0;
-
-
-
-
-            if ($jumlahPemilihPerkecamatan > 0) {
-                $dataTable[] = [
-                    'name' => $kecamatan->name,
-                    'slugKota' => $findKota->slug,
-                    'slugKecamatan' => $kecamatan->slug,
-                    'jumlahDptPerkecamatan' => $jumlahDptPerkecamatan,
-                    // 'jumlahDptPerKota' => 
-                    'jumlahMemilih' => $jumlahPemilihPerkecamatan,
-                    'dataPersen' => $dataPersen
-                ];
+                $totalDptPerkota += $jumlahDptPerkecamatan;
             }
-        }
 
-        return $dataTable;
-    }
+            $finalData = (object) [
+                'dataTable' => $dataTable,
+                'totalDptPerkota' => $totalDptPerkota
+            ];
+        } else {
+            $getAllKota = $this->all();
 
-    public function getCityData()
-    {
-        $getAllKota = $this->all();
+            $finalData = $getAllKota->map(function ($koorkota) {
+                $countDPT = DB::table('koor_desa')
+                    ->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id')
+                    ->whereIn('koor_desa.koor_kecamatan_id', function ($query) use ($koorkota) {
+                        $query->select('id')
+                            ->from('koor_kecamatan')
+                            ->where('koor_kecamatan.koor_kota_id', $koorkota->id);
+                    })
+                    ->count();
 
-        $cityData = $getAllKota->map(function ($koorkota) {
-            $countDPT = DB::table('koor_desa')
-                ->join('dpt', 'koor_desa.id', '=', 'dpt.desa_id')
-                ->whereIn('koor_desa.koor_kecamatan_id', function ($query) use ($koorkota) {
+                $totalPopulation = KoorDesa::whereIn('koor_kecamatan_id', function ($query) use ($koorkota) {
                     $query->select('id')
                         ->from('koor_kecamatan')
                         ->where('koor_kecamatan.koor_kota_id', $koorkota->id);
                 })
-                ->count();
+                    ->sum('total_dpt');
 
-            $totalPopulation = KoorDesa::whereIn('koor_kecamatan_id', function ($query) use ($koorkota) {
-                $query->select('id')
-                    ->from('koor_kecamatan')
-                    ->where('koor_kecamatan.koor_kota_id', $koorkota->id);
-            })
-                ->sum('total_dpt');
+                $percentage = $totalPopulation > 0 ? number_format(($countDPT / $totalPopulation) * 100, 2) : 0;
 
-            $percentage = $totalPopulation > 0 ? number_format(($countDPT / $totalPopulation) * 100, 2) : 0;
+                return [
+                    'kota' => $koorkota->name,
+                    'slug' => $koorkota->slug,
+                    'total_dpt' => $countDPT,
+                    'total_penduduk' => $totalPopulation,
+                    'persentase' => $percentage,
+                ];
+            });
+        }
 
-            return [
-                'kota' => $koorkota->name,
-                'slug' => $koorkota->slug,
-                'total_dpt' => $countDPT,
-                'total_penduduk' => $totalPopulation,
-                'persentase' => $percentage,
-            ];
-        });
 
-        return $cityData;
+        return $finalData;
     }
+
 }
