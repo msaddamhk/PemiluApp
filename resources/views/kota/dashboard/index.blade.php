@@ -80,27 +80,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($cityData as $data) --}}
+                    @foreach ($getDataTableForKota as $data)
                         <tr>
                             <td class="my-auto">
-                                {{-- <a href="{{ route('kecamatan.index', $data['slug']) }}" --}}
+                                <a href="{{ route('desa.index', [$data['slugKota'], $data['slugKecamatan']]) }}"
                                     class="text-decoration-none text-black">
-                                    {{-- {{ $data['kota'] }} --}}
+                                    {{ $data['name'] }}
                                 </a>
                             </td>
                             <td>
-                                {{-- {{ $data['total_penduduk'] }} --}}
+                                {{ $data['jumlahDptPerkecamatan'] }}
                             </td>
                             <td>
-                                {{-- {{ $data['total_dpt'] }} --}}
+                                {{ $data['jumlahMemilih'] }}
                             </td>
                             <td>
                                 <h1 class="fw-bold fs-6 {{ 0 < 50 ? 'text-warning' : 'text-success' }}">
-                                    {{-- {{ $data['persentase'] }}% --}}
+                                    {{ $data['dataPersen'] }}%
                                 </h1>
                             </td>
                         </tr>
-                    {{-- @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>

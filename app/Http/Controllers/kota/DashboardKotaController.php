@@ -24,6 +24,6 @@ class DashboardKotaController extends Controller
 
         // dd($getDataTableForKota);
 
-        return view('kota.dashboard.index', compact(['getCountKecamatanForKota', 'getCountDesaForKota', 'getVotersForKota', 'getDataDiagramForKota']));
+        return view('kota.dashboard.index', compact(['getCountKecamatanForKota', 'getCountDesaForKota', 'getVotersForKota', 'getDataDiagramForKota', 'getDataTableForKota']));
     }
 }

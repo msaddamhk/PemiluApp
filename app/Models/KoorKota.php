@@ -131,11 +131,16 @@ class KoorKota extends Model
                 return $desa->dpts;
             })->count();
 
+            $dataPersen = ($jumlahPemilihPerkecamatan > 0 ) ? number_format(($jumlahDptPerkecamatan / $jumlahPemilihPerkecamatan) * 100, 2) : 0 ;
+
             if ($jumlahPemilihPerkecamatan > 0) {
                 $dataTable[] = [
                     'name' => $kecamatan->name,
+                    'slugKota' => $findKota->slug,
+                    'slugKecamatan' => $kecamatan->slug,
                     'jumlahDptPerkecamatan' => $jumlahDptPerkecamatan,
-                    'jumlahMemilih' => $jumlahPemilihPerkecamatan
+                    'jumlahMemilih' => $jumlahPemilihPerkecamatan,
+                    'dataPersen' => $dataPersen
                 ];
             }
         }
