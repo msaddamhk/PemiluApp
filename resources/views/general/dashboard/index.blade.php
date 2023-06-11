@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="p-3">
-        <h5 class="fw-semibold">Dashboarad</h5>
+        <h5 class="fw-semibold">Dashboard</h5>
         <hr />
 
         <div class="">

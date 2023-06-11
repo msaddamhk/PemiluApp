@@ -34,22 +34,14 @@ class KotaController extends Controller
             $api_kota = [];
             $isError = false;
             try {
-
-                $envKota = env('NAMA_KOTA');
-                $envKotaArray = explode(',', $envKota);
-
                 $url = "https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=11";
                 $data = json_decode(file_get_contents($url), true);
                 $api_kota = $data['kota_kabupaten'];
-
-                $filteredData = array_filter($api_kota, function ($item) use ($envKotaArray) {
-                    return in_array($item['nama'], $envKotaArray);
-                });
             } catch (\Exception $e) {
                 $isError = true;
             }
 
-            return view('general.kota.index', compact('api_kota', 'kota', 'user', 'isError', 'filteredData'));
+            return view('general.kota.index', compact('api_kota', 'kota', 'user', 'isError'));
         } else {
             abort(403);
         }
