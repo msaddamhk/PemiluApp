@@ -7,12 +7,12 @@
             <div>
                 @if (auth()->user()->level == 'GENERAL')
                     <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Manual</small>
+                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Kota Manual</small>
                     </button>
 
                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#modalTambahOtomatis">
-                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Otomatis</small>
+                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Kota Otomatis</small>
                     </button>
                 @endif
             </div>

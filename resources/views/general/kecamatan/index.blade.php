@@ -20,6 +20,7 @@
                     </button>
                 </div>
             </form>
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -27,6 +28,9 @@
                             <th scope="col">No</th>
                             <th scope="col">Nama Kecamatan</th>
                             <th scope="col">Pengelola</th>
+                            <th scope="col">Jumlah DPT</th>
+                            <th scope="col">Jumlah Memilih</th>
+                            <th scope="col">Persentase</th>
                             <th scope="col">Jumlah Desa</th>
                             <th scope="col">Aksi</th>
 
@@ -34,6 +38,18 @@
                     </thead>
                     <tbody>
                         @forelse ($kecamatan as $item)
+                            @php
+                                $jumlah_dpt = $item->koorDesas->reduce(function ($total, $item) {
+                                    return $total + (int) $item->total_dpt;
+                                }, 0);
+                                
+                                $jumlah_memilih = $item->koorDesas->reduce(function ($total, $item) {
+                                    return $total + $item->dpts()->count();
+                                }, 0);
+                                
+                                $percentage = $jumlah_dpt != 0 ? number_format(($jumlah_memilih / $jumlah_dpt) * 100, 2) : 0;
+                                
+                            @endphp
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
@@ -47,6 +63,14 @@
                                         {{ $item->user->name }}
                                     @endif
                                 </td>
+                                <td>{{ $jumlah_dpt }}</td>
+                                <td>{{ $jumlah_memilih }}</td>
+                                <td>
+                                    <h1 class="fw-bold fs-6 {{ $percentage < 50 ? 'text-warning' : 'text-success' }}">
+                                        {{ $percentage }} %
+                                    </h1>
+                                </td>
+
                                 <td>{{ $item->jumlahDesa() }} Desa</td>
                                 <td class="d-lg-flex">
                                     <a href="{{ route('desa.index', [$koorkota, $item]) }}" class="btn btn-info btn-sm">
@@ -72,7 +96,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                                <td colspan="8\" style="text-align: center;">Tidak ada Data</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -118,7 +142,6 @@
                                     Sekarang </a>
                             </small>
                         </section>
-
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>

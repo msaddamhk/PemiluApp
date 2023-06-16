@@ -43,7 +43,6 @@ class KoorKota extends Model
     }
 
 
-
     public function jumlahKecamatan()
     {
         return $this->koorKecamatans()->count();

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
 
-    <title>Pemilu App</title>
+    <title>Voters APP</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }} " type="text/css" media="screen" />
 
@@ -107,7 +107,8 @@
                 <p>Others</p>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="">
                     @csrf
-                    <button class="item-menu bg-transparent border-0">
+                    <button class="item-menu bg-transparent border-0"
+                        onclick="return confirm('Apakah Anda yakin ingin keluar?')">
                         <i class="icon ic-logout"></i>
                         Logout
                     </button>

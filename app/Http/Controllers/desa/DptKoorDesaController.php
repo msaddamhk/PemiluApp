@@ -83,7 +83,7 @@ class DptKoorDesaController extends Controller
             Excel::import(new DptImport($desaId, Auth::user()), \public_path('/DptImport/' . $namefile));
             return redirect()->back()->with('success', 'Data Berhasi di Impor');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data Tidak Berhasi Di Upload, perhatikan jika ada persamaan data');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

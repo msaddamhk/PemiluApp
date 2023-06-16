@@ -17,7 +17,8 @@ class KecamatanController extends Controller
     public function index(Request $request, KoorKota $koorkota)
     {
 
-        $kecamatan = $koorkota->KoorKecamatans()->where('name', 'like', '%' . request('cari') . '%')->paginate(15);
+        $kecamatan = $koorkota->KoorKecamatans()
+            ->where('name', 'like', '%' . request('cari') . '%')->paginate(15);
 
         if (auth()->user()->level == 'KOOR_KAB_KOTA') {
             if ($koorkota->user_id !== auth()->id()) {
