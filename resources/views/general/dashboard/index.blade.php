@@ -13,12 +13,23 @@
         <div class="row">
             <div class="col-sm-12 col-md-9">
                 <div class="row h-100">
-                    <div class="col-sm-12 col-md-8 pb-3">
+                    <div class="col-sm-12 col-md-4 pb-3">
                         <div class="card p-4 h-100">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
                                     <h6>Countdown</h6>
                                     <h5 id="countingDown" class="fw-bold"></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-4 pb-3">
+                        <div class="card p-4 h-100 card-dpt">
+                            <div class="d-flex align-items-center justify-content-start h-100">
+                                <div>
+                                    <h6>Real Count</h6>
+                                    <h5 class="fw-bold">100 Orang</h5>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +72,7 @@
                         <div class="card p-4 h-100 card-dpt">
                             <div class="d-flex align-items-center justify-content-start h-100">
                                 <div>
-                                    <h6>Jumlah Memilih</h6>
+                                    <h6>Jumlah DPT Memilih</h6>
                                     <h3 class="fw-bold">{{ $dptCount }}</h3>
                                 </div>
                             </div>

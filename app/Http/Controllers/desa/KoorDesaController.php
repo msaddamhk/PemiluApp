@@ -24,8 +24,7 @@ class KoorDesaController extends Controller
 
     public function edit(KoorDesa $koordesa)
     {
-        $users = User::where('level', 'KOOR_DESA')->get();
-        return view('desa.desa.edit', compact('users', 'koordesa'));
+        return view('desa.desa.edit', compact('koordesa'));
     }
 
     public function update(Request $request, KoorDesa $koordesa)
@@ -42,7 +41,6 @@ class KoorDesaController extends Controller
         }
 
         $koordesa->update([
-            "user_id" => $request->user,
             "name" => $request->name,
             "total_dpt" => $request->total_dpt,
             'slug' => $slug,

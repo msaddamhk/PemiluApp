@@ -26,8 +26,7 @@ class KoorKecamatanController extends Controller
 
     public function edit(KoorKecamatan $koorkecamatan)
     {
-        $users = User::where('level', 'KOOR_KECAMATAN')->get();
-        return view('kecamatan.edit', compact('koorkecamatan', 'users'));
+        return view('kecamatan.edit', compact('koorkecamatan'));
     }
 
     public function update(Request $request, KoorKecamatan $koorkecamatan)
@@ -44,7 +43,6 @@ class KoorKecamatanController extends Controller
         }
 
         $koorkecamatan->update([
-            "user_id" => $request->user,
             "name" => $request->name,
             'slug' => $slug,
             "updated_by" => auth()->user()->id,

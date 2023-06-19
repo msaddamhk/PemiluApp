@@ -31,7 +31,7 @@
                         @endphp
                         @if ($desa->isEmpty())
                             <tr>
-                                <td colspan="5" style="text-align: center;">Tidak ada Data</td>
+                                <td colspan="6" style="text-align: center;">Tidak ada Data</td>
                             </tr>
                         @endif
 

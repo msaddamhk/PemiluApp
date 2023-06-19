@@ -5,16 +5,28 @@
 
         <div class="d-lg-flex justify-content-between">
             <h5 class="fw-semibold">Data pemilih Tetap di Desa {{ $koordesa->name }}</h5>
-            <div>
-                <a href="{{ route('dpt.desa.export', [$koordesa]) }}" class="btn btn-info d-inline-block mb-2 mt-2 me-2">
-                    <i class="bi bi-plus-circle me-1"></i>Export Dpt
-                </a>
-                <button type="button" class="btn btn-success btn-sm p-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="bi bi-file-earmark-arrow-down me-1"></i>Import DPT
+
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Aksi
                 </button>
-                <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="btn btn-success d-inline-block">
-                    <i class="bi bi-plus-circle me-1"></i>Tambah Data DPT
-                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('koor.desa.dpt.create', [$koordesa]) }}" class="dropdown-item">
+                            </i>Tambah Data DPT
+                        </a>
+                    </li>
+                    <li>
+                        <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Import DPT
+                        </button>
+                    </li>
+                    {{-- <li>
+                        <a href="{{ route('dpt.desa.export', [$koordesa]) }}" class="dropdown-item">
+                            </i>Export Dpt
+                        </a>
+                    </li> --}}
+                </ul>
             </div>
         </div>
 

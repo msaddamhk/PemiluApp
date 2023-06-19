@@ -6,14 +6,17 @@
             <h5 class="fw-semibold">Kabupaten/Kota</h5>
             <div>
                 @if (auth()->user()->level == 'GENERAL')
-                    <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Kota Manual</small>
-                    </button>
+                    <div class="d-flex">
+                        <button type="button" class="btn btn-success me-2" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <small><i class="bi bi-plus-circle me-1"></i>Tambah Kota Manual</small>
+                        </button>
 
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#modalTambahOtomatis">
-                        <small><i class="bi bi-plus-circle me-1"></i>Tambah Data Kota Otomatis</small>
-                    </button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#modalTambahOtomatis">
+                            <small><i class="bi bi-plus-circle me-1"></i>Tambah Kota Otomatis</small>
+                        </button>
+                    </div>
                 @endif
             </div>
         </div>

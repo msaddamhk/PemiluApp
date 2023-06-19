@@ -39,7 +39,7 @@
                     @endphp
                     @if ($quick_count->isEmpty())
                         <tr>
-                            <td colspan="4" style="text-align: center;">Tidak ada Data</td>
+                            <td colspan="5" style="text-align: center;">Tidak ada Data</td>
                         </tr>
                     @endif
                     @foreach ($quick_count as $item)

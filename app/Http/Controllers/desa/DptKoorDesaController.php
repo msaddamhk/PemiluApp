@@ -87,7 +87,7 @@ class DptKoorDesaController extends Controller
         }
     }
 
-    public function export(Request $request, KoorDesa $koordesa)
+    public function export(KoorDesa $koordesa)
     {
         return Excel::download(new DptExport, 'DataDpt.xlsx');
     }
